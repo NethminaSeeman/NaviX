@@ -1,2 +1,11 @@
+# NaviX Worker secrets for local dev (wrangler dev reads this automatically).
+# Copy to .dev.vars and fill in your real values. Do NOT commit .dev.vars.
+
+# Primary LLM: OpenAI (gpt-4o-mini). Recommended.
+OPENAI_API_KEY=
+
+# Fallback LLM: Google Gemini (gemini-1.5-flash). Used if OPENAI_API_KEY is missing.
 GEMINI_API_KEY=
+
+# Optional: OpenWeatherMap key. If absent, weather endpoint returns mock data.
 WEATHER_API_KEY=
