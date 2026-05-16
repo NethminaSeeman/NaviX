@@ -1,5 +1,6 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useMemo, useState } from "react";
 import { ceygoApi } from "@/services/ceygoApi";
+import { useLocation } from "@/context/LocationContext";
 
 const ChatContext = createContext(null);
 
@@ -14,40 +15,55 @@ export const ChatProvider = ({ children }) => {
   const [messages, setMessages] = useState([initialMessage]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const { location } = useLocation();
 
-  const sendMessage = async (text, context) => {
-    const cleanedText = `${text || ""}`.trim();
-    if (!cleanedText) return;
+  const sendMessage = useCallback(
+    async (text, context) => {
+      const cleanedText = `${text || ""}`.trim();
+      if (!cleanedText) return;
 
-    const userMessage = {
-      id: `u-${Date.now()}`,
-      role: "user",
-      text: cleanedText,
-      timestamp: new Date().toISOString(),
-    };
-    setMessages((prev) => [...prev, userMessage]);
-    setLoading(true);
-    setError("");
-
-    try {
-      const result = await ceygoApi.chat({ prompt: cleanedText, context });
-      const assistantMessage = {
-        id: `a-${Date.now()}`,
-        role: "assistant",
-        text: result.answer,
+      const userMessage = {
+        id: `u-${Date.now()}`,
+        role: "user",
+        text: cleanedText,
         timestamp: new Date().toISOString(),
       };
-      setMessages((prev) => [...prev, assistantMessage]);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+      setMessages((prev) => [...prev, userMessage]);
+      setLoading(true);
+      setError("");
+
+      try {
+        const result = await ceygoApi.chat({
+          prompt: cleanedText,
+          location,
+          context,
+        });
+        const assistantMessage = {
+          id: `a-${Date.now()}`,
+          role: "assistant",
+          text: result.answer,
+          timestamp: new Date().toISOString(),
+          meta: {
+            intent: result.intent,
+            weather: result.weather,
+            nearby: result.nearby,
+          },
+        };
+        setMessages((prev) => [...prev, assistantMessage]);
+      } catch (err) {
+        setError(err.message || "Could not reach NaviX assistant.");
+      } finally {
+        setLoading(false);
+      }
+    },
+    [location]
+  );
+
+  const clearError = useCallback(() => setError(""), []);
 
   const value = useMemo(
-    () => ({ messages, loading, error, sendMessage }),
-    [messages, loading, error]
+    () => ({ messages, loading, error, sendMessage, clearError }),
+    [messages, loading, error, sendMessage, clearError]
   );
 
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;
