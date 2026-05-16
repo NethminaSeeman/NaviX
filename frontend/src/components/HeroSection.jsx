@@ -17,7 +17,7 @@ const HeroSection = ({ listening, onVoiceStart, onVoiceStop }) => (
         Discover Sri Lanka with voice-first AI guidance.
       </h1>
       <p className="mb-6 text-sm text-slate-700 dark:text-slate-200 md:text-base">
-        CeyGo combines live maps, smart itineraries, weather-aware
+        NaviX combines live maps, smart itineraries, weather-aware
         recommendations, and conversational AI to make every day of your trip
         effortless.
       </p>
