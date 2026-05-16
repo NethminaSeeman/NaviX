@@ -58,12 +58,18 @@ const LiveMapPage = () => {
       setLoading(true);
       setFetchError("");
       try {
-        let places = await ceygoApi.nearby({
-          lat: SRI_LANKA_CENTER.lat,
-          lng: SRI_LANKA_CENTER.lng,
-          radius: 1000000,
-          limit: 500,
-        });
+        let places = [];
+        try {
+          places = await ceygoApi.nearby({
+            lat: SRI_LANKA_CENTER.lat,
+            lng: SRI_LANKA_CENTER.lng,
+            radius: 1000000,
+            limit: 500,
+          });
+        } catch {
+          // Continue to static fallback instead of failing the whole page.
+          places = [];
+        }
         // Hard fallback: if backend returns an incomplete subset, load bundled 206 dataset.
         if (!Array.isArray(places) || places.length < 150) {
           const fallbackRes = await window.fetch("/production_srilanka_db.json", {
@@ -165,13 +171,15 @@ const LiveMapPage = () => {
         </button>
       </div>
 
-      {permissionState === "denied" && (
+      {permissionState === "denied" && allPlaces.length === 0 && (
         <p className="rounded-xl bg-amber-100 px-3 py-2 text-sm text-amber-800 dark:bg-amber-500/10 dark:text-amber-200">
           GPS permission denied. Location-aware features are disabled.
         </p>
       )}
-      {locating && <LoadingSpinner text="Detecting your location..." />}
-      {error && <p className="text-sm text-red-500">{error}</p>}
+      {locating && allPlaces.length === 0 && (
+        <LoadingSpinner text="Detecting your location..." />
+      )}
+      {error && allPlaces.length === 0 && <p className="text-sm text-red-500">{error}</p>}
       {fetchError && <p className="text-sm text-red-500">{fetchError}</p>}
 
       {/* Map — shows filtered locations as pins */}
