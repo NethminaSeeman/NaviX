@@ -8,12 +8,8 @@ import {
 import { getWeather } from "./weather";
 
 export interface Env {
+  DB?: D1Database;
   GEMINI_API_KEY: string;
-  MONGODB_URI?: string;
-  MONGODB_DATA_API_URL?: string;
-  MONGODB_DATA_API_KEY?: string;
-  MONGODB_DATA_SOURCE?: string;
-  MONGODB_DATABASE?: string;
   WEATHER_API_KEY?: string;
 }
 
@@ -149,7 +145,7 @@ export default {
           status: "ok",
           services: {
             worker: true,
-            mongodb: Boolean(env.MONGODB_DATA_API_URL && env.MONGODB_DATA_API_KEY),
+            d1: Boolean(env.DB),
           },
         });
       }

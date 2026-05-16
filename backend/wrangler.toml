@@ -7,7 +7,9 @@ account_id = "72f7f49f94fd223a4d11c28588c23266"
 [observability]
 enabled = true
 
-# Non-secret defaults (secrets via `wrangler secret put` or Dashboard)
-[vars]
-MONGODB_DATA_SOURCE = "Cluster0"
-MONGODB_DATABASE = "navix"
+[[d1_databases]]
+binding = "DB"
+database_name = "navix-db"
+database_id = "602c8e40-01ac-4445-82ab-dfac888a5192"
+preview_database_id = "602c8e40-01ac-4445-82ab-dfac888a5192"
+migrations_dir = "migrations"
