@@ -23,7 +23,7 @@ const Sidebar = () => (
             className={({ isActive }) =>
               `flex items-center gap-3 rounded-xl px-3 py-2 text-sm transition ${
                 isActive
-                  ? "bg-ceygo-primary text-white"
+                  ? "bg-gradient-to-r from-ceygo-primary to-ceygo-secondary text-white shadow"
                   : "text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
               }`
             }
