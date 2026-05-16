@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import {
   GoogleMap,
   InfoWindow,
@@ -52,6 +52,20 @@ const MapContainer = ({ userLocation, places = [], weather }) => {
   }, [placesInSriLanka, userLocation]);
   const userInSriLanka = isWithinSriLankaBounds(userLocation);
   const mapCenter = userInSriLanka ? userLocation : defaultCenter;
+  const defaultZoom = userInSriLanka ? 9 : 7;
+
+  const handleMapLoad = useCallback(
+    (map) => {
+      if (userInSriLanka || !window.google?.maps?.LatLngBounds) return;
+
+      const bounds = new window.google.maps.LatLngBounds(
+        { lat: sriLankaBounds.south, lng: sriLankaBounds.west },
+        { lat: sriLankaBounds.north, lng: sriLankaBounds.east }
+      );
+      map.fitBounds(bounds);
+    },
+    [userInSriLanka]
+  );
 
   if (!MAPS_API_KEY) {
     return (
@@ -83,7 +97,8 @@ const MapContainer = ({ userLocation, places = [], weather }) => {
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         center={mapCenter}
-        zoom={userInSriLanka ? 10 : 8}
+        zoom={defaultZoom}
+        onLoad={handleMapLoad}
         options={{
           disableDefaultUI: false,
           zoomControl: true,
@@ -93,7 +108,7 @@ const MapContainer = ({ userLocation, places = [], weather }) => {
             latLngBounds: sriLankaBounds,
             strictBounds: true,
           },
-          minZoom: 7,
+          minZoom: 6,
         }}
       >
         {userInSriLanka && (
