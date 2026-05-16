@@ -10,14 +10,18 @@ class NearbyPlacesAgent:
         self.location_service = location_service
         self.agent_store = agent_store
 
-    def run(self, lat: float, lon: float) -> list[NearbyPlace]:
+    def run(
+        self, lat: float, lon: float, limit: int = 5, radius_km: float | None = None
+    ) -> list[NearbyPlace]:
         try:
-            results = self.location_service.nearest_places(lat, lon, limit=5)
+            results = self.location_service.nearest_places(
+                lat, lon, limit=limit, radius_km=radius_km
+            )
             if self.agent_store:
                 self.agent_store.log(
                     "nearby_agent",
                     None,
-                    {"lat": lat, "lon": lon, "limit": 5},
+                    {"lat": lat, "lon": lon, "limit": limit, "radius_km": radius_km},
                     [item.model_dump() for item in results],
                     status="success",
                 )
@@ -27,7 +31,7 @@ class NearbyPlacesAgent:
                 self.agent_store.log(
                     "nearby_agent",
                     None,
-                    {"lat": lat, "lon": lon, "limit": 5},
+                    {"lat": lat, "lon": lon, "limit": limit, "radius_km": radius_km},
                     [],
                     status="error",
                     error_text=str(exc),

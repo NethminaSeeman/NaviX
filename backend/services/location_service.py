@@ -17,11 +17,19 @@ class LocationService:
         lng, lat = location.get("coordinates", {}).get("coordinates", [None, None])
         return {"lat": float(lat), "lng": float(lng)}
 
-    def nearest_places(self, lat: float, lon: float, limit: int = 5) -> list[NearbyPlace]:
+    def nearest_places(
+        self,
+        lat: float,
+        lon: float,
+        limit: int = 5,
+        radius_km: float | None = None,
+    ) -> list[NearbyPlace]:
         ranked = []
         for location in self.locations:
             coords = self._coordinates(location)
             distance = haversine_km(lat, lon, coords["lat"], coords["lng"])
+            if radius_km is not None and distance > radius_km:
+                continue
             ranked.append((distance, location, coords))
 
         ranked.sort(key=lambda item: item[0])
