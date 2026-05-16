@@ -1,8 +1,8 @@
-import sigiriyaImage from "@/assets/destinations/sigiriya.jpg";
-import ellaImage from "@/assets/destinations/ella.jpg";
-import galleImage from "@/assets/destinations/galle.jpg";
-import kandyImage from "@/assets/destinations/kandy.jpg";
-import nuwaraEliyaImage from "@/assets/destinations/nuwara-eliya.jpg";
+import sigiriyaImage from "@/assets/destinations/sigiriya.png";
+import ellaImage from "@/assets/destinations/ella.png";
+import galleImage from "@/assets/destinations/galle.png";
+import kandyImage from "@/assets/destinations/kandy.png";
+import nuwaraEliyaImage from "@/assets/destinations/nuwara-eliya.png";
 
 export const featuredDestinations = [
   {
