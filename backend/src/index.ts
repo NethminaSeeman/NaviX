@@ -93,10 +93,8 @@ export default {
           return json(await healthHandler(env));
         case "/weather":
           return json(await weatherHandler(env, url));
-        case "/nearby": {
-          await requireActiveAccess(env, request);
+        case "/nearby":
           return json(await nearbyHandler(env, url));
-        }
         case "/chat": {
           if (request.method !== "POST") {
             throw new HttpError(405, "Use POST for /chat.");
@@ -147,6 +145,32 @@ async function weatherHandler(env: Env, url: URL): Promise<WeatherResponse> {
   const lat = requireFloat(url.searchParams.get("lat"), "lat");
   const lon = requireFloat(url.searchParams.get("lon"), "lon");
   return getWeather(env, lat, lon);
+}
+
+function parseNearbyRadiusMeters(url: URL): number {
+  const radiusRaw = (url.searchParams.get("radius") ?? "").trim().toLowerCase();
+  const unit = (url.searchParams.get("unit") ?? "").trim().toLowerCase();
+
+  if (!radiusRaw) {
+    throw new HttpError(400, "radius is required");
+  }
+
+  const kmSuffix = radiusRaw.endsWith("km");
+  const mSuffix = radiusRaw.endsWith("m");
+  const numericPart = radiusRaw.replace(/km$|m$/g, "");
+  const numeric = Number(numericPart);
+
+  if (!Number.isFinite(numeric) || numeric <= 0) {
+    throw new HttpError(400, "radius must be a positive number");
+  }
+
+  if (kmSuffix || unit === "km") return numeric * 1000;
+  if (mSuffix || unit === "m" || unit === "meter" || unit === "meters") {
+    return numeric;
+  }
+
+  // No explicit unit: small values interpreted as km, larger as meters.
+  return numeric <= 100 ? numeric * 1000 : numeric;
 }
 
 async function nearbyHandler(env: Env, url: URL) {
