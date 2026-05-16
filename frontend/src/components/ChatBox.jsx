@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FiAlertTriangle, FiSend, FiVolume2, FiX } from "react-icons/fi";
 import MessageBubble from "@/components/MessageBubble";
@@ -37,10 +38,19 @@ const classifyError = (message = "") => {
 
 const ChatBox = () => {
   const { messages, loading, error, sendMessage, clearError } = useChat();
+  const [searchParams] = useSearchParams();
   const [input, setInput] = useState("");
   const listRef = useRef(null);
   const speech = useSpeechRecognition();
   const tts = useSpeechSynthesis();
+  const appliedPrompt = useRef(false);
+
+  useEffect(() => {
+    const raw = searchParams.get("prompt");
+    if (!raw || appliedPrompt.current) return;
+    appliedPrompt.current = true;
+    setInput((prev) => (prev ? prev : raw));
+  }, [searchParams]);
 
   useEffect(() => {
     if (speech.transcript) setInput(speech.transcript);
