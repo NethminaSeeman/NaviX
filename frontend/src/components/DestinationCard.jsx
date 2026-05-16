@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import fallbackImage from "@/assets/destinations/fallback.jpg";
 
 const DestinationCard = ({ destination }) => (
   <motion.article
@@ -11,6 +12,10 @@ const DestinationCard = ({ destination }) => (
       src={destination.image}
       alt={destination.name}
       className="h-44 w-full object-cover"
+      onError={(event) => {
+        event.currentTarget.onerror = null;
+        event.currentTarget.src = fallbackImage;
+      }}
     />
     <div className="space-y-2 p-4">
       <div className="flex items-center justify-between gap-2">
