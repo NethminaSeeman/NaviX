@@ -6,10 +6,13 @@ $backend = Resolve-Path (Join-Path $PSScriptRoot "..")
 
 Push-Location $backend
 try {
-    Write-Host "1/2 Syncing secrets from .dev.vars..."
+    Write-Host "1/3 Syncing secrets from .dev.vars..."
     & "$PSScriptRoot\sync-secrets.ps1"
 
-    Write-Host "2/2 Deploying Worker (navix-api)..."
+    Write-Host "2/3 Applying D1 migrations (remote)..."
+    npm run d1:migrate:remote
+
+    Write-Host "3/3 Deploying Worker (navix-api)..."
     npm run deploy
 
     Write-Host ""
