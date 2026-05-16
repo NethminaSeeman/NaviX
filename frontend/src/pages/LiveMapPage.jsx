@@ -39,7 +39,7 @@ const LiveMapPage = () => {
 
   return (
     <section className="space-y-4">
-      <div className="flex flex-wrap items-center justify-between gap-3">
+      <div className="tech-panel flex flex-wrap items-center justify-between gap-3 px-4 py-4 md:px-5">
         <div>
           <h1 className="section-title">Live Map Explorer</h1>
           <p className="text-sm text-slate-600 dark:text-slate-300">
@@ -49,7 +49,7 @@ const LiveMapPage = () => {
         <button
           type="button"
           onClick={getCurrentLocation}
-          className="rounded-full bg-ceygo-secondary px-4 py-2 text-sm font-semibold text-white"
+          className="tech-button"
         >
           Refresh GPS
         </button>
@@ -69,8 +69,10 @@ const LiveMapPage = () => {
       {loadingPlaces ? (
         <LoadingSpinner text="Finding nearby places..." />
       ) : (
-        <div className="glass-card p-4">
-          <h3 className="mb-2 font-semibold">Nearest Attractions</h3>
+        <div className="tech-panel p-4">
+          <h3 className="mono-label mb-2 text-[11px] text-slate-500 dark:text-cyan-300/80">
+            Nearest Attractions
+          </h3>
           <ul className="space-y-1 text-sm text-slate-600 dark:text-slate-200">
             {places.slice(0, 5).map((place) => (
               <li key={place.id}>
