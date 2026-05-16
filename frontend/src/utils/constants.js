@@ -10,7 +10,10 @@ export const API_BASE_URL =
   (isLocalHost ? "http://localhost:8000" : PROD_WORKER_URL);
 
 export const MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || "";
-export const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || "";
+export const GOOGLE_CLIENT_ID =
+  import.meta.env.VITE_GOOGLE_CLIENT_ID ||
+  import.meta.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ||
+  "";
 export const SRI_LANKA_CENTER = { lat: 7.8731, lng: 80.7718 };
 export const APP_NAME = "NaviX";
 
