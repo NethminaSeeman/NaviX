@@ -34,8 +34,8 @@ const MapContainer = ({ userLocation, places = [], weather }) => {
   if (!MAPS_API_KEY) {
     return (
       <div className="glass-card flex h-[440px] items-center justify-center p-6 text-center text-sm text-slate-600 dark:text-slate-300">
-        Add `VITE_GOOGLE_MAPS_API_KEY` in your environment file to enable live
-        map rendering.
+        Add `VITE_GOOGLE_MAPS_API_KEY` to `frontend/.env.local` and restart
+        the Vite server to enable live map rendering.
       </div>
     );
   }
