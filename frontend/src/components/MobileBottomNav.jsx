@@ -18,8 +18,10 @@ const MobileBottomNav = () => (
             key={item.to}
             to={item.to}
             className={({ isActive }) =>
-              `flex flex-col items-center gap-1 rounded-lg px-3 py-1 text-xs ${
-                isActive ? "text-ceygo-primary" : "text-slate-500"
+              `flex flex-col items-center gap-1 rounded-lg px-3 py-1 text-xs transition ${
+                isActive
+                  ? "bg-ceygo-primary/10 text-ceygo-primary"
+                  : "text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800"
               }`
             }
           >
