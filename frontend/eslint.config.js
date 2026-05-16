@@ -16,6 +16,9 @@ export default [
         navigator: "readonly",
         localStorage: "readonly",
         SpeechSynthesisUtterance: "readonly",
+        URLSearchParams: "readonly",
+        setTimeout: "readonly",
+        clearTimeout: "readonly",
       },
       parserOptions: {
         ecmaFeatures: {
