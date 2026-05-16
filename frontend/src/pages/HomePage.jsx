@@ -1,19 +1,23 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import HeroSection from "@/components/HeroSection";
+import { FiGrid, FiMap } from "react-icons/fi";
+import ImmersiveHero from "@/components/ImmersiveHero";
 import SearchBar from "@/components/SearchBar";
 import DestinationCard from "@/components/DestinationCard";
+import JourneyMapExplorer from "@/components/JourneyMapExplorer";
 import WeatherCard from "@/components/WeatherCard";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { featuredDestinations } from "@/utils/mockData";
 import { useWeather } from "@/context/WeatherContext";
 import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
 import { ceygoApi } from "@/services/ceygoApi";
+import { vibrateLight } from "@/utils/haptics";
 
 const HomePage = () => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
+  const [viewMode, setViewMode] = useState("cards");
   const [destinations, setDestinations] = useState(featuredDestinations);
   const [loadingDestinations, setLoadingDestinations] = useState(false);
   const { weather, loading } = useWeather();
@@ -44,7 +48,7 @@ const HomePage = () => {
 
   return (
     <div className="space-y-8">
-      <HeroSection
+      <ImmersiveHero
         listening={speech.listening}
         onVoiceStart={speech.startListening}
         onVoiceStop={speech.stopListening}
@@ -53,36 +57,78 @@ const HomePage = () => {
         value={search}
         onChange={setSearch}
         onSubmit={(event) => event.preventDefault()}
+        suggestions={destinations}
       />
 
-      <section className="space-y-3">
-        <div className="flex flex-wrap items-end justify-between gap-3">
-          <h2 className="section-title">Featured Destinations</h2>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            className="mono-label text-[11px] text-slate-500 dark:text-cyan-300/80"
+      <section className="space-y-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between">
+          <div>
+            <h2 className="section-title">Featured Destinations</h2>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6 }}
+              className="mono-label mt-1 text-[11px] text-slate-500 dark:text-cyan-300/80"
+            >
+              AI-curated places across Sri Lanka
+            </motion.p>
+          </div>
+          <div
+            className="flex rounded-xl border border-slate-200/90 bg-white/70 p-1 shadow-inner dark:border-cyan-500/20 dark:bg-slate-900/60"
+            role="tablist"
+            aria-label="Choose destination layout"
           >
-            AI-curated places across Sri Lanka
-          </motion.p>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={viewMode === "cards"}
+              onClick={() => {
+                vibrateLight(6);
+                setViewMode("cards");
+              }}
+              className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold transition ${
+                viewMode === "cards"
+                  ? "bg-gradient-to-r from-cyan-500 to-teal-500 text-slate-950 shadow-md"
+                  : "text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800/80"
+              }`}
+            >
+              <FiGrid />
+              Cards
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={viewMode === "map"}
+              onClick={() => {
+                vibrateLight(6);
+                setViewMode("map");
+              }}
+              className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold transition ${
+                viewMode === "map"
+                  ? "bg-gradient-to-r from-cyan-500 to-teal-500 text-slate-950 shadow-md"
+                  : "text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800/80"
+              }`}
+            >
+              <FiMap />
+              Journey Map
+            </button>
+          </div>
         </div>
+
         {loadingDestinations ? (
           <LoadingSpinner text="Loading destination highlights..." />
-        ) : (
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-            {filteredDestinations.map((destination, index) => (
-              <motion.div
-                key={destination.id}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.08 }}
-              >
-                <DestinationCard destination={destination} />
-              </motion.div>
+        ) : viewMode === "cards" ? (
+          <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+            {filteredDestinations.map((destination) => (
+              <DestinationCard key={destination.id} destination={destination} />
             ))}
           </div>
+        ) : filteredDestinations.length > 0 ? (
+          <JourneyMapExplorer destinations={filteredDestinations} />
+        ) : (
+          <p className="rounded-xl border border-dashed border-slate-300 p-6 text-center text-sm text-slate-500 dark:border-cyan-500/20 dark:text-slate-400">
+            No destinations match your search — clear the filter to see the Journey Map.
+          </p>
         )}
       </section>
 
@@ -99,13 +145,15 @@ const HomePage = () => {
         <div>
           <h3 className="text-lg font-semibold">Ready for a guided trip plan?</h3>
           <p className="text-sm text-slate-500">
-            Ask NaviX for live route advice, weather-safe schedules, and hidden
-            gems.
+            Ask NaviX for live route advice, weather-safe schedules, and hidden gems.
           </p>
         </div>
         <button
           type="button"
-          onClick={() => navigate("/chat")}
+          onClick={() => {
+            vibrateLight(12);
+            navigate("/chat");
+          }}
           className="tech-button"
         >
           Open Assistant
