@@ -13,6 +13,22 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 const mapContainerStyle = { width: "100%", height: "100%" };
 
 const defaultCenter = { lat: 7.8731, lng: 80.7718 };
+const sriLankaBounds = {
+  north: 9.95,
+  south: 5.7,
+  east: 82.1,
+  west: 79.4,
+};
+
+const isWithinSriLankaBounds = (point) => {
+  if (!point) return false;
+  return (
+    point.lat >= sriLankaBounds.south &&
+    point.lat <= sriLankaBounds.north &&
+    point.lng >= sriLankaBounds.west &&
+    point.lng <= sriLankaBounds.east
+  );
+};
 
 const MapContainer = ({ userLocation, places = [], weather }) => {
   const [activePlace, setActivePlace] = useState(null);
@@ -20,16 +36,22 @@ const MapContainer = ({ userLocation, places = [], weather }) => {
     id: "ceygo-map",
     googleMapsApiKey: MAPS_API_KEY,
   });
+  const placesInSriLanka = useMemo(
+    () => places.filter((place) => isWithinSriLankaBounds(place.coordinates)),
+    [places]
+  );
 
   const nearestPlace = useMemo(() => {
-    if (!userLocation || places.length === 0) return null;
-    return [...places]
+    if (!userLocation || placesInSriLanka.length === 0) return null;
+    return [...placesInSriLanka]
       .map((place) => ({
         ...place,
         dist: distanceKm(userLocation, place.coordinates),
       }))
       .sort((a, b) => a.dist - b.dist)[0];
-  }, [places, userLocation]);
+  }, [placesInSriLanka, userLocation]);
+  const userInSriLanka = isWithinSriLankaBounds(userLocation);
+  const mapCenter = userInSriLanka ? userLocation : defaultCenter;
 
   if (!MAPS_API_KEY) {
     return (
@@ -60,16 +82,21 @@ const MapContainer = ({ userLocation, places = [], weather }) => {
     <div className="glass-card h-[440px] overflow-hidden md:h-[520px]">
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
-        center={userLocation || defaultCenter}
-        zoom={userLocation ? 10 : 7}
+        center={mapCenter}
+        zoom={userInSriLanka ? 10 : 8}
         options={{
           disableDefaultUI: false,
           zoomControl: true,
           streetViewControl: false,
           mapTypeControl: false,
+          restriction: {
+            latLngBounds: sriLankaBounds,
+            strictBounds: true,
+          },
+          minZoom: 7,
         }}
       >
-        {userLocation && (
+        {userInSriLanka && (
           <MarkerF
             position={userLocation}
             label={{ text: "You", color: "#ffffff" }}
@@ -84,7 +111,7 @@ const MapContainer = ({ userLocation, places = [], weather }) => {
           />
         )}
 
-        {places.map((place) => (
+        {placesInSriLanka.map((place) => (
           <MarkerF
             key={place.id}
             position={place.coordinates}
@@ -92,7 +119,7 @@ const MapContainer = ({ userLocation, places = [], weather }) => {
           />
         ))}
 
-        {userLocation && nearestPlace && (
+        {userInSriLanka && nearestPlace && (
           <PolylineF
             path={[userLocation, nearestPlace.coordinates]}
             options={{ strokeColor: "#00A99D", strokeOpacity: 0.9, strokeWeight: 4 }}
@@ -107,7 +134,7 @@ const MapContainer = ({ userLocation, places = [], weather }) => {
             <div className="max-w-52 space-y-1 text-sm">
               <p className="font-semibold">{activePlace.name}</p>
               <p>{activePlace.district}</p>
-              {userLocation && (
+              {userInSriLanka && (
                 <p>
                   {distanceKm(userLocation, activePlace.coordinates)} km away from
                   your location
