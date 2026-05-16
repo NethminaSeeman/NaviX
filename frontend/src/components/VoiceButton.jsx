@@ -10,14 +10,14 @@ const VoiceButton = ({
 }) => (
   <motion.button
     type="button"
-    whileTap={{ scale: 0.96 }}
+    whileTap={{ scale: 0.95 }}
     whileHover={{ y: -1 }}
     onClick={listening ? onStop : onStart}
     disabled={disabled}
-    className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition ${
+    className={`inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition ${
       listening
         ? "bg-red-500 text-white shadow-lg shadow-red-500/30"
-        : "bg-gradient-to-r from-ceygo-primary to-ceygo-secondary text-white shadow-md hover:opacity-95"
+        : "border border-cyan-500/40 bg-gradient-to-r from-cyan-500 to-teal-500 text-slate-950 shadow-[0_6px_16px_rgba(45,212,191,0.35)] hover:opacity-95"
     } disabled:cursor-not-allowed disabled:opacity-50`}
   >
     <motion.span

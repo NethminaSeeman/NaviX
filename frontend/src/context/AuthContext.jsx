@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
   });
 
   const loginAsGuest = () =>
-    setUser((prev) => ({ ...prev, isAuthenticated: true, name: "CeyGo Explorer" }));
+    setUser((prev) => ({ ...prev, isAuthenticated: true, name: "NaviX Explorer" }));
 
   const value = useMemo(() => ({ user, setUser, loginAsGuest }), [user]);
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

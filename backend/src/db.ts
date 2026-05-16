@@ -1,6 +1,7 @@
 import type { Env } from "./index";
 
 export type PlaceDocument = {
+  id?: number;
   name?: string;
   nearest_site?: string;
   district?: string;
@@ -18,47 +19,57 @@ export type HeritageContext = {
   cultural_rules: string;
 };
 
-const PLACES_COLLECTION = "places";
+type PlaceRow = {
+  id: number;
+  name: string;
+  nearest_site: string | null;
+  district: string | null;
+  verified_history: string | null;
+  cultural_rules: string | null;
+  lat: number;
+  lng: number;
+};
 
-async function dataApiRequest(
-  env: Env,
-  action: string,
-  payload: Record<string, unknown>
-): Promise<Record<string, unknown> | null> {
-  const baseUrl = env.MONGODB_DATA_API_URL;
-  const apiKey = env.MONGODB_DATA_API_KEY;
-  if (!baseUrl || !apiKey) return null;
-
-  const res = await fetch(`${baseUrl.replace(/\/$/, "")}/action/${action}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "api-key": apiKey,
-    },
-    body: JSON.stringify({
-      dataSource: env.MONGODB_DATA_SOURCE || "Cluster0",
-      database: env.MONGODB_DATABASE || "navix",
-      ...payload,
-    }),
-  });
-
-  if (!res.ok) {
-    throw new Error(`MongoDB Data API error: ${res.status}`);
+function parseCulturalRules(rules: string | null): string | string[] {
+  if (!rules) return "";
+  try {
+    const parsed = JSON.parse(rules) as unknown;
+    if (Array.isArray(parsed)) {
+      return parsed.filter((item): item is string => typeof item === "string");
+    }
+  } catch {
+    // Keep original string value when not JSON.
   }
+  return rules;
+}
 
-  return (await res.json()) as Record<string, unknown>;
+function mapRowToPlace(row: PlaceRow): PlaceDocument {
+  const parsedRules = parseCulturalRules(row.cultural_rules);
+  return {
+    id: row.id,
+    name: row.name,
+    nearest_site: row.nearest_site ?? row.name,
+    district: row.district ?? "Unknown",
+    verified_history: row.verified_history ?? "",
+    cultural_rules: parsedRules,
+    coordinates: { lat: row.lat, lng: row.lng },
+    location: { type: "Point", coordinates: [row.lng, row.lat] },
+  };
 }
 
 export async function findPlaces(env: Env): Promise<PlaceDocument[]> {
-  const result = await dataApiRequest(env, "find", {
-    collection: PLACES_COLLECTION,
-    filter: {},
-    limit: 100,
-  });
+  if (!env.DB) return [];
 
-  if (!result) return [];
-  const documents = result.documents;
-  return Array.isArray(documents) ? (documents as PlaceDocument[]) : [];
+  const result = await env.DB.prepare(
+    `
+      SELECT id, name, nearest_site, district, verified_history, cultural_rules, lat, lng
+      FROM places
+      ORDER BY id ASC
+      LIMIT 100
+    `
+  ).all<PlaceRow>();
+
+  return (result.results ?? []).map(mapRowToPlace);
 }
 
 export async function findNearestHeritage(
@@ -66,39 +77,51 @@ export async function findNearestHeritage(
   lat: number,
   lng: number
 ): Promise<HeritageContext | null> {
-  const result = await dataApiRequest(env, "aggregate", {
-    collection: PLACES_COLLECTION,
-    pipeline: [
-      {
-        $geoNear: {
-          near: { type: "Point", coordinates: [lng, lat] },
-          distanceField: "distance_meters",
-          maxDistance: 100000,
-          spherical: true,
-        },
-      },
-      { $limit: 1 },
-    ],
-  });
+  if (!env.DB) return null;
 
-  if (!result) return null;
+  const maxDistanceMeters = 100000;
+  const earthMetersPerDegree = 111320;
+  const latDelta = maxDistanceMeters / earthMetersPerDegree;
+  const cosLat = Math.cos((lat * Math.PI) / 180);
+  const lngDelta =
+    maxDistanceMeters / (earthMetersPerDegree * Math.max(Math.abs(cosLat), 0.1));
 
-  const documents = result.documents;
-  if (!Array.isArray(documents) || documents.length === 0) return null;
+  const candidatesResult = await env.DB.prepare(
+    `
+      SELECT p.id, p.name, p.nearest_site, p.district, p.verified_history, p.cultural_rules, p.lat, p.lng
+      FROM places p
+      WHERE p.lat BETWEEN ?1 AND ?2
+        AND p.lng BETWEEN ?3 AND ?4
+      LIMIT 250
+    `
+  )
+    .bind(lat - latDelta, lat + latDelta, lng - lngDelta, lng + lngDelta)
+    .all<PlaceRow>();
 
-  const doc = documents[0] as PlaceDocument & { distance_meters?: number };
-  const rules = doc.cultural_rules;
+  const candidates = candidatesResult.results ?? [];
+  if (candidates.length === 0) return null;
+
+  let nearest: (PlaceRow & { distance_meters: number }) | null = null;
+  for (const row of candidates) {
+    const distanceMeters = Math.round(haversineKm(lat, lng, row.lat, row.lng) * 1000);
+    if (distanceMeters > maxDistanceMeters) continue;
+    if (!nearest || distanceMeters < nearest.distance_meters) {
+      nearest = { ...row, distance_meters: distanceMeters };
+    }
+  }
+
+  if (!nearest) return null;
+
+  const rules = parseCulturalRules(nearest.cultural_rules);
   const culturalRules = Array.isArray(rules)
     ? rules.join(" ")
-    : typeof rules === "string"
-      ? rules
-      : "";
+    : rules;
 
   return {
-    nearest_site: doc.nearest_site || doc.name || "Unknown",
-    district: doc.district || "Unknown",
-    distance_meters: Math.round(doc.distance_meters ?? 0),
-    verified_history: doc.verified_history || "",
+    nearest_site: nearest.nearest_site || nearest.name || "Unknown",
+    district: nearest.district || "Unknown",
+    distance_meters: nearest.distance_meters,
+    verified_history: nearest.verified_history || "",
     cultural_rules: culturalRules,
   };
 }

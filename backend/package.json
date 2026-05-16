@@ -6,6 +6,9 @@
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
     "types": "wrangler types",
+    "d1:migrate:local": "wrangler d1 migrations apply navix-db --local",
+    "d1:migrate:remote": "wrangler d1 migrations apply navix-db --remote",
+    "d1:seed:generate": "node ./scripts/mongo-to-d1-seed.mjs ../data/mongodb/places.sample.json ./migrations/0002_seed_places.sql",
     "cf:login": "wrangler login",
     "cf:whoami": "wrangler whoami",
     "cf:secrets": "powershell -ExecutionPolicy Bypass -File ./scripts/sync-secrets.ps1",
@@ -15,6 +18,6 @@
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240512.0",
     "typescript": "^5.4.0",
-    "wrangler": "^3.57.0"
+    "wrangler": "^4.86.0"
   }
 }
