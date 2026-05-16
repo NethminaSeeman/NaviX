@@ -1,8 +1,8 @@
 import { askGemini, runNaviXPipeline } from "./ai";
 import {
+  findNearbyLocations,
   findNearestHeritage,
   findPlaces,
-  toNearbyResponse,
   type HeritageContext,
 } from "./db";
 import { getWeather } from "./weather";
@@ -28,6 +28,34 @@ const FALLBACK_HERITAGE: HeritageContext = {
   cultural_rules:
     "No graffiti allowed. Moderate climbing stamina required. Keep hold of loose personal belongings due to high winds and local wildlife.",
 };
+
+function parseNearbyRadiusMeters(url: URL): number {
+  const radiusRaw = (url.searchParams.get("radius") ?? "").trim().toLowerCase();
+  const unit = (url.searchParams.get("unit") ?? "").trim().toLowerCase();
+
+  if (!radiusRaw) {
+    throw new Error("radius is required");
+  }
+
+  const kmSuffix = radiusRaw.endsWith("km");
+  const mSuffix = radiusRaw.endsWith("m");
+  const numericPart = radiusRaw.replace(/km$|m$/g, "");
+  const numeric = Number(numericPart);
+
+  if (!Number.isFinite(numeric) || numeric <= 0) {
+    throw new Error("radius must be a positive number");
+  }
+
+  if (kmSuffix || unit === "km") {
+    return numeric * 1000;
+  }
+  if (mSuffix || unit === "m" || unit === "meter" || unit === "meters") {
+    return numeric;
+  }
+
+  // If no unit provided, treat small values as km and larger values as meters.
+  return numeric <= 100 ? numeric * 1000 : numeric;
+}
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
@@ -70,8 +98,35 @@ export default {
         const lng = Number(
           url.searchParams.get("lng") ?? url.searchParams.get("lon")
         );
-        const places = await findPlaces(env);
-        return json(toNearbyResponse(places, lat, lng));
+        if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
+          return json({ error: "lat and lng are required numbers" }, 400);
+        }
+
+        let radiusMeters: number;
+        try {
+          radiusMeters = parseNearbyRadiusMeters(url);
+        } catch (err) {
+          return json(
+            { error: err instanceof Error ? err.message : "invalid radius" },
+            400
+          );
+        }
+
+        const limitRaw = Number(url.searchParams.get("limit") ?? "50");
+        const limit = Number.isFinite(limitRaw) ? limitRaw : 50;
+
+        const rows = await findNearbyLocations(
+          env,
+          lat,
+          lng,
+          radiusMeters,
+          limit
+        );
+        return json({
+          count: rows.length,
+          radius_meters: radiusMeters,
+          data: rows,
+        });
       }
 
       if (
