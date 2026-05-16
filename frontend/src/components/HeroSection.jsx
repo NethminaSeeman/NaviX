@@ -1,9 +1,17 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import VoiceButton from "@/components/VoiceButton";
+import heroTourismImage from "@/assets/destinations/tourism-collage.png";
 
 const HeroSection = ({ listening, onVoiceStart, onVoiceStop }) => (
   <section className="tech-panel relative overflow-hidden p-6 md:p-10">
+    <img
+      src={heroTourismImage}
+      alt=""
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-30 saturate-125 md:opacity-35 dark:opacity-25"
+    />
+    <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-white/95 via-white/75 to-white/25 dark:from-zinc-950/95 dark:via-zinc-950/78 dark:to-zinc-950/35" />
     <motion.div
       className="pointer-events-none absolute -right-12 -top-16 h-40 w-40 rounded-full bg-cyan-400/20 blur-3xl"
       animate={{ y: [0, 12, 0] }}
