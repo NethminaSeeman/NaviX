@@ -38,6 +38,19 @@ const AppRoutes = () => {
           />
           <Route path="/about" element={<PageTransition><AboutPage /></PageTransition>} />
           <Route path="/contact" element={<PageTransition><ContactPage /></PageTransition>} />
+          <Route
+            path="*"
+            element={
+              <PageTransition>
+                <div className="glass-card p-8 text-center">
+                  <h1 className="section-title">Page Not Found</h1>
+                  <p className="mt-2 text-sm text-slate-500">
+                    The page you are looking for does not exist.
+                  </p>
+                </div>
+              </PageTransition>
+            }
+          />
         </Route>
       </Routes>
     </AnimatePresence>
