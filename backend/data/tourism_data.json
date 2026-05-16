@@ -407,5 +407,645 @@
       "pronunciation_guide": "Payd Palm Rohp Swing",
       "key_facts_short": "Modern tourist attraction, recreational activity, popular photo spot, uses natural materials, contributes to local tourism"
     }
+  },
+  {
+    "location_id": "lk_navix_sigiriya",
+    "name": "Sigiriya Rock Fortress",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [80.7603, 7.9570]
+    },
+    "category": "archaeological_site",
+    "era": "5th Century AD",
+    "deep_history": {
+      "summary": "Sigiriya, the Lion Rock, is a UNESCO World Heritage Site and one of Sri Lanka's most iconic landmarks. Built by King Kashyapa I (477–495 AD) as a fortified palace atop a 200-meter granite monolith, it stands as one of the most remarkable urban planning feats of the ancient world. After Kashyapa's defeat, it served as a Buddhist monastery until the 14th century.",
+      "architectural_details": "The fortress features a series of elaborate water gardens at its base, midway rock shelters, mirror wall, ancient frescoes depicting celestial maidens (Apsaras), and the iconic Lion's Paw gateway carved from the rock face. The summit plateau held a palace with sophisticated cisterns, audience halls, and gardens engineered with remarkable hydraulic precision.",
+      "cultural_significance": "Sigiriya represents the pinnacle of ancient Sri Lankan art, architecture, and urban planning. The mirror wall inscriptions dating to the 8th century are among the earliest examples of Sinhalese poetry. The frescoes, painted with mineral-based paints, are living evidence of advanced artistic traditions. It is often called the Eighth Wonder of the Ancient World."
+    },
+    "tags": ["historical-monument", "UNESCO", "Heritage", "Archaeological", "Cultural Triangle"],
+    "tts_hints": {
+      "pronunciation_guide": "Si-gi-ri-ya Rock For-tress",
+      "key_facts_short": "5th century rock citadel, King Kashyapa, lion gateway, UNESCO World Heritage, ancient frescoes"
+    }
+  },
+  {
+    "location_id": "lk_navix_pidurangala",
+    "name": "Pidurangala Rock",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [80.7567, 7.9633]
+    },
+    "category": "attraction",
+    "era": "5th Century AD",
+    "deep_history": {
+      "summary": "Pidurangala Rock stands just 1.5 km north of Sigiriya and offers one of the best panoramic views of the iconic Lion Rock. The rock houses ancient Buddhist cave temples believed to have been established by King Kashyapa to house the monks displaced from Sigiriya when he converted it to a palace fortress.",
+      "architectural_details": "At the base of Pidurangala lies a cave temple with a large reclining Buddha statue carved from white plaster over a natural rock formation. The cave interiors preserve ancient murals and inscriptions. The summit is a boulder scramble rewarded with 360-degree views spanning the Cultural Triangle.",
+      "cultural_significance": "Pidurangala holds dual significance as both an active Buddhist place of worship and a premier trekking destination. Its monastery at the base is still used by monks today, offering a living connection to the ancient Sinhalese Buddhist monastic tradition that flourished under royal patronage."
+    },
+    "tags": ["religious-temple", "Heritage", "Trekking", "Cultural Triangle", "Buddhist"],
+    "tts_hints": {
+      "pronunciation_guide": "Pi-du-ran-ga-la Rock",
+      "key_facts_short": "Buddhist cave temple, panoramic views of Sigiriya, ancient murals, trekking destination, 5th century origins"
+    }
+  },
+  {
+    "location_id": "lk_navix_dambulla",
+    "name": "Dambulla Cave Temple",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [80.6491, 7.8568]
+    },
+    "category": "religious_site",
+    "era": "1st Century BC",
+    "deep_history": {
+      "summary": "The Dambulla Cave Temple, also known as the Golden Temple of Dambulla, is Sri Lanka's largest and best-preserved cave temple complex. King Valagamba (Vattagamani Abhaya) took refuge here around 100 BC while exiled, and upon reclaiming his throne, transformed the natural caves into magnificent royal rock temples as an act of gratitude.",
+      "architectural_details": "The complex comprises five interconnected caves cut into a 160-meter-high rock outcrop. They house over 150 Buddha statues, three statues of Sri Lankan kings, and four statues of deities including Vishnu and Ganesh. The cave ceilings are entirely covered with an unbroken sweep of paintings spanning 2,100 square meters — the largest area of cave paintings in the world.",
+      "cultural_significance": "Dambulla has been a place of continuous Buddhist worship for over 22 centuries, receiving royal patronage from successive kingdoms. It was listed as a UNESCO World Heritage Site in 1991. The giant white Buddha statue at its base and the golden roof visible from miles away make it a beacon of Sri Lankan Buddhist identity."
+    },
+    "tags": ["religious-temple", "UNESCO", "Buddhist", "Heritage", "Cultural Triangle"],
+    "tts_hints": {
+      "pronunciation_guide": "Dam-bul-la Cave Tem-ple",
+      "key_facts_short": "UNESCO cave temple, 1st century BC, 150 Buddha statues, largest cave paintings in world, Golden Temple"
+    }
+  },
+  {
+    "location_id": "lk_navix_polonnaruwa",
+    "name": "Polonnaruwa Ancient City",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [81.0003, 7.9403]
+    },
+    "category": "archaeological_site",
+    "era": "10th–13th Century AD",
+    "deep_history": {
+      "summary": "Polonnaruwa served as the second capital of Sri Lanka after Anuradhapura was abandoned in the 10th century. It flourished as a magnificent royal city under Chola invaders and later under Sinhalese kings, especially Parakramabahu I (1153–1186 AD), who united the entire island under one rule and undertook massive irrigation and construction projects.",
+      "architectural_details": "The ancient city contains royal palace ruins, the Gal Vihara rock sculptures (four magnificent Buddha figures carved from a single granite face), Rankot Vihara stupa, the Lankatilaka image house with its towering brick walls, Vatadage (circular relic house), and the Parakrama Samudraya — a vast artificial reservoir covering 2,400 hectares.",
+      "cultural_significance": "Polonnaruwa represents the zenith of medieval Sri Lankan civilization. The Gal Vihara Buddhas are considered masterpieces of ancient sculpture. King Parakramabahu's philosophy that 'not a drop of water should reach the sea without being made use of by man' drove irrigation innovation that still benefits farmers today."
+    },
+    "tags": ["historical-monument", "UNESCO", "Archaeological", "Heritage", "Cultural Triangle"],
+    "tts_hints": {
+      "pronunciation_guide": "Po-lon-na-ru-wa An-cient Ci-ty",
+      "key_facts_short": "UNESCO World Heritage, medieval capital, Gal Vihara rock sculptures, Parakramabahu I, 12th century golden age"
+    }
+  },
+  {
+    "location_id": "lk_navix_anuradhapura",
+    "name": "Anuradhapura Sacred City",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [80.3718, 8.3114]
+    },
+    "category": "archaeological_site",
+    "era": "4th Century BC – 10th Century AD",
+    "deep_history": {
+      "summary": "Anuradhapura was the first and longest-reigning capital of Sri Lanka, governing for over 1,300 years. Founded by King Pandukabhaya in 377 BC, it became one of the ancient world's greatest cities with a population exceeding 100,000. It was a center of Theravada Buddhism and Sinhalese civilization, maintaining diplomatic ties with India, China, and the Mediterranean world.",
+      "architectural_details": "The sacred city contains the Sri Maha Bodhi (the oldest recorded tree in history, planted from a cutting of the original Bodhi tree under which Buddha attained enlightenment in 288 BC), three colossal stupas — Ruwanwelisaya, Jetavanaramaya (once the third tallest structure in the ancient world), and Thuparamaya. The Abhayagiri and Jetavana monasteries each housed thousands of monks.",
+      "cultural_significance": "Anuradhapura is one of the holiest cities in Buddhism. The Sri Maha Bodhi draws millions of pilgrims annually. The city demonstrates that ancient Sri Lanka possessed sophisticated urban planning with hydraulic systems, hospitals, and organized city layouts rivaling contemporary Roman cities."
+    },
+    "tags": ["religious-temple", "UNESCO", "Archaeological", "Buddhist", "Heritage"],
+    "tts_hints": {
+      "pronunciation_guide": "A-nu-rad-ha-pu-ra Sa-cred Ci-ty",
+      "key_facts_short": "UNESCO heritage, ancient capital 1300 years, Sri Maha Bodhi sacred tree, giant stupas, Theravada Buddhist heartland"
+    }
+  },
+  {
+    "location_id": "lk_navix_minneriya",
+    "name": "Minneriya National Park",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [80.8995, 8.0340]
+    },
+    "category": "national_park",
+    "era": "Ancient to Present",
+    "deep_history": {
+      "summary": "Minneriya National Park is built around the ancient Minneriya Tank, one of the largest man-made reservoirs in Sri Lanka, constructed by King Mahasena in the 3rd century AD. The park is world-famous for hosting 'The Gathering' — the largest congregation of Asian elephants on Earth, with 200–400 wild elephants assembling around the reservoir each dry season.",
+      "architectural_details": "The Minneriya Tank bund (dam), an engineering marvel of ancient Sri Lanka, spans several kilometers and still functions as an active irrigation system after 1,700 years. The surrounding park landscape transitions from scrub forest to grasslands, with the reservoir serving as the ecological anchor for extraordinary wildlife.",
+      "cultural_significance": "Beyond its ecological significance, Minneriya embodies Sri Lanka's ancient water management wisdom. King Mahasena's 16 reservoirs transformed the Dry Zone into a rice-producing civilization. The elephant gathering is now one of the greatest wildlife spectacles in Asia, attracting naturalists and photographers worldwide."
+    },
+    "tags": ["urban-park", "Wildlife", "Nature", "Elephant", "Safari"],
+    "tts_hints": {
+      "pronunciation_guide": "Min-ner-i-ya Na-tion-al Park",
+      "key_facts_short": "World's largest elephant gathering, 3rd century ancient tank, 400 wild elephants, UNESCO tentative list, dry zone safari"
+    }
+  },
+  {
+    "location_id": "lk_navix_kandy_tooth",
+    "name": "Temple of the Tooth Relic",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [80.6418, 7.2936]
+    },
+    "category": "religious_site",
+    "era": "16th Century (current structure)",
+    "deep_history": {
+      "summary": "The Temple of the Sacred Tooth Relic (Sri Dalada Maligawa) in Kandy is the most sacred Buddhist site in Sri Lanka and one of the holiest in Asia. It houses the left canine tooth of the Buddha, brought to Sri Lanka in the 4th century AD hidden in the hair of an Orissan princess. Whoever possessed the tooth relic was believed to hold the right to rule the island.",
+      "architectural_details": "The current temple complex was largely built during the Kandyan Kingdom era (17th–18th centuries). It features the signature Kandyan architectural style with whitewashed walls, ornate moat (Diyawadana Nilame), gilded canopy over the inner shrine, intricate wood carvings, and the octagonal Patthirippuwa tower built by King Sri Vikrama Rajasinha. The golden roof was added by President Premadasa in 1987.",
+      "cultural_significance": "The Esala Perahera festival held here each July–August is one of the grandest Buddhist pageants in the world, featuring 100 elaborately decorated elephants, Kandyan dancers, fire performers, and royal standard bearers processing through Kandy over ten nights. The temple attracts over 3 million visitors annually and is a UNESCO World Heritage Site."
+    },
+    "tags": ["religious-temple", "UNESCO", "Buddhist", "Heritage", "Hill Country"],
+    "tts_hints": {
+      "pronunciation_guide": "Tem-ple of the Tooth Re-lic, Sri Da-la-da Ma-li-ga-wa",
+      "key_facts_short": "Sacred Buddha tooth relic, UNESCO World Heritage, Esala Perahera festival, Kandyan architecture, 4th century AD relic"
+    }
+  },
+  {
+    "location_id": "lk_navix_nuwara_eliya",
+    "name": "Nuwara Eliya",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [80.7718, 6.9497]
+    },
+    "category": "attraction",
+    "era": "British Colonial",
+    "deep_history": {
+      "summary": "Nuwara Eliya, known as 'Little England,' sits at 1,868 meters above sea level in Sri Lanka's central highlands. Discovered by British explorer John Davy in 1819 and developed as a hill station by Governor Sir Edward Barnes, it became the leisure retreat for British colonial administrators escaping Colombo's heat. The surrounding hills produce some of the world's finest high-grown Ceylon tea.",
+      "architectural_details": "The town retains remarkable British colonial architecture including the Hill Club (1876, with original Tudor-style interiors), the Grand Hotel (1891, former residence of Governor Sir Edward Barnes), Victoria Park, a Victorian post office, and the Nuwara Eliya Golf Club — the oldest golf club in Asia (1889). The landscape features English-style gardens, hedgerows, and manicured estates.",
+      "cultural_significance": "Nuwara Eliya represents an extraordinary preservation of British colonial culture transplanted to a tropical highland. The surrounding tea estates, established from the 1860s onwards, transformed the region's landscape and economy. Today it hosts the Sri Lanka April Season — a carnival of horse racing, automobile rallying, and social events that preserves Victorian traditions."
+    },
+    "tags": ["historical-monument", "Heritage", "Tea Country", "Hill Country", "Colonial"],
+    "tts_hints": {
+      "pronunciation_guide": "Nu-wa-ra E-li-ya, Little England",
+      "key_facts_short": "British colonial hill station, 1868 meters altitude, world-class Ceylon tea, Victorian architecture, April Season festival"
+    }
+  },
+  {
+    "location_id": "lk_navix_ella_bridge",
+    "name": "Ella Nine Arch Bridge",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [81.0465, 6.8754]
+    },
+    "category": "attraction",
+    "era": "British Colonial (1921)",
+    "deep_history": {
+      "summary": "The Nine Arch Bridge in Ella, also called the Bridge in the Sky, is one of the most iconic railway viaducts in Asia. Built in 1921 during British colonial rule, it was constructed entirely without steel — using only stone, brick, and cement — because metal was diverted to the war effort during World War I. It spans a dramatic valley surrounded by lush jungle.",
+      "architectural_details": "The bridge stands 24 meters high and spans 91 meters through nine arched spans, each 20 meters wide, built from local stone and brick. Its construction required brilliant engineering given the steep terrain and the prohibition on steel. The bridge carries the Colombo–Badulla main line, one of the most scenic railway routes in the world.",
+      "cultural_significance": "The Nine Arch Bridge has become one of Sri Lanka's most photographed landmarks and is emblematic of the colonial-era engineering ambition that transformed the highlands. Watching a blue-painted train thunder across the arches above a tea valley is considered one of Asia's great travel experiences. The surrounding area hosts excellent hiking trails through tea estates."
+    },
+    "tags": ["historical-monument", "Heritage", "Hill Country", "Railway", "Architecture"],
+    "tts_hints": {
+      "pronunciation_guide": "El-la Nine Arch Bridge, Bridge in the Sky",
+      "key_facts_short": "1921 colonial railway bridge, built without steel, nine arches, 24 meters high, iconic tea country landmark"
+    }
+  },
+  {
+    "location_id": "lk_navix_adams_peak",
+    "name": "Adam's Peak (Sri Pada)",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [80.4994, 6.8096]
+    },
+    "category": "religious_site",
+    "era": "Ancient (pre-history to present)",
+    "deep_history": {
+      "summary": "Adam's Peak, known as Sri Pada in Sinhala meaning 'Sacred Footprint,' rises 2,243 meters and is one of the most sacred mountains in Asia. The footprint-shaped depression at its summit (1.8 meters long) is venerated by four religions: Buddhists believe it is the Buddha's footprint, Hindus attribute it to Shiva, Muslims believe Adam rested here after expulsion from Eden, and Christians associated it with St. Thomas.",
+      "architectural_details": "The summit houses a small temple containing the sacred footprint covered by a gilded roof supported by ornate pillars. Thousands of steps built into the mountainside by devotees over centuries lead to the summit. The most dramatic feature is the triangular shadow the peak casts at sunrise — a phenomenon of atmospheric optics that has awed pilgrims for millennia.",
+      "cultural_significance": "The pilgrimage season runs from December to May, with hundreds of thousands ascending each year. The trek, illuminated by chains of lights, takes 3–7 hours and is one of the most atmospheric religious experiences in Asia. Ibn Battuta, the 14th-century Islamic explorer, described his pilgrimage here in detail, confirming the mountain's ancient global significance."
+    },
+    "tags": ["religious-temple", "Heritage", "Pilgrimage", "Trekking", "Hill Country"],
+    "tts_hints": {
+      "pronunciation_guide": "A-dams Peak, Sri Pa-da, Sacred Foot-print",
+      "key_facts_short": "Sacred to 4 religions, 2243 meters altitude, sacred footprint, pilgrimage season December to May, triangular shadow sunrise"
+    }
+  },
+  {
+    "location_id": "lk_navix_horton_plains",
+    "name": "Horton Plains National Park",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [80.8020, 6.8018]
+    },
+    "category": "national_park",
+    "era": "Natural Heritage",
+    "deep_history": {
+      "summary": "Horton Plains is a UNESCO World Heritage Site and one of Asia's most biodiverse highland ecosystems, situated at 2,100–2,300 meters in Sri Lanka's central highlands. Named after Sir Robert Wilmot-Horton, a British governor, it is a cloud forest plateau sheltering endemic wildlife and spectacular geological formations, most famously World's End — a sheer escarpment dropping 880 meters.",
+      "architectural_details": "The plains feature rolling montane grasslands, dense cloud forests, and the dramatic Baker's Falls waterfall. World's End cliff provides a sheer vertical drop with views extending to the southern coast on clear days. The landscape also includes Mini World's End and numerous streams feeding Sri Lanka's major rivers.",
+      "cultural_significance": "Horton Plains forms part of the Central Highlands UNESCO World Heritage Site (2010) and is classified as one of the world's 25 biodiversity hotspots. It shelters 24 endemic bird species, the Sri Lanka leopard, sambar deer, and hundreds of endemic plant species. The park is the source of three of Sri Lanka's major rivers and is critical to the island's water security."
+    },
+    "tags": ["urban-park", "UNESCO", "Wildlife", "Nature", "Trekking"],
+    "tts_hints": {
+      "pronunciation_guide": "Hor-ton Plains Na-tion-al Park, Worlds End",
+      "key_facts_short": "UNESCO heritage, World's End 880 meter cliff, cloud forest, endemic wildlife, source of major rivers"
+    }
+  },
+  {
+    "location_id": "lk_navix_galle_fort",
+    "name": "Galle Fort",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [80.2170, 6.0270]
+    },
+    "category": "archaeological_site",
+    "era": "Portuguese (1588) / Dutch (1663)",
+    "deep_history": {
+      "summary": "Galle Fort is the best-preserved colonial fortification in Asia and a UNESCO World Heritage Site. Originally built by the Portuguese in 1588, it was massively expanded and fortified by the Dutch East India Company (VOC) beginning in 1663. The fort served as the main trading hub of the Indian Ocean for 200 years, controlling the spice and gem trade.",
+      "architectural_details": "The 36-hectare fort is encircled by massive coral and granite walls up to 3 meters thick. Within its 90 bastions and 3 gates lie Dutch colonial streets laid out in a grid, featuring Dutch Reformed Church (1754), the National Museum (a converted Dutch warehouse), the Lighthouse (1938), 17th-century merchants' townhouses, and the Groote Kerk. The architecture fuses European baroque with South Asian tropical building traditions.",
+      "cultural_significance": "Galle Fort remains a living city — Sri Lanka's most intact colonial urban ensemble, housing residents, boutique hotels, restaurants, and shops alongside museums and churches. Its 2004 tsunami survival (the fort walls stopped the wave) reinforced its symbolic status as an enduring protector. It was designated a UNESCO World Heritage Site in 1988."
+    },
+    "tags": ["historical-monument", "UNESCO", "Heritage", "Colonial", "South Coast"],
+    "tts_hints": {
+      "pronunciation_guide": "Gal-le Fort",
+      "key_facts_short": "UNESCO World Heritage, Dutch colonial, 36 hectares, 1663, best-preserved colonial fort in Asia"
+    }
+  },
+  {
+    "location_id": "lk_navix_mirissa",
+    "name": "Mirissa Beach",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [80.4546, 5.9453]
+    },
+    "category": "beach",
+    "era": "Contemporary",
+    "deep_history": {
+      "summary": "Mirissa is a small coastal town on Sri Lanka's southern tip that has evolved from a quiet fishing village into one of Asia's premier whale-watching destinations and beach resorts. The bay's crescent shape, framed by Parrot Rock, creates a naturally sheltered swimming environment. Between November and April, blue whales — the largest animals on Earth — pass remarkably close to shore.",
+      "architectural_details": "Mirissa's beach infrastructure is characterized by casual bamboo-and-thatch restaurants and beachside boutique guesthouses rather than large resort developments, preserving the intimate village atmosphere. The iconic Parrot Rock promontory at the western end of the bay is accessible at low tide and offers panoramic views of the Indian Ocean.",
+      "cultural_significance": "Mirissa is Sri Lanka's premier whale and dolphin watching destination, with blue whales, sperm whales, and spinner dolphins sighted year-round. The local fishing community that has worked these waters for generations continues to operate alongside tourism. Mirissa also serves as a hub for stilt fishing, an iconic Sri Lankan tradition of balanced fishing poles set in shallow reef waters."
+    },
+    "tags": ["beach", "Wildlife", "South Coast", "Whale Watching", "Swimming"],
+    "tts_hints": {
+      "pronunciation_guide": "Mi-ris-sa Beach",
+      "key_facts_short": "Blue whale watching, crescent bay, November to April season, stilt fishing, southern Sri Lanka"
+    }
+  },
+  {
+    "location_id": "lk_navix_unawatuna",
+    "name": "Unawatuna Beach",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [80.2494, 6.0107]
+    },
+    "category": "beach",
+    "era": "Contemporary",
+    "deep_history": {
+      "summary": "Unawatuna is one of Sri Lanka's most celebrated beaches, located 5 km southeast of Galle Fort. Its horseshoe-shaped bay, protected by a coral reef and headlands, creates calm turquoise waters ideal for year-round swimming. The bay was consistently rated among the world's best beaches by travel publications through the early 2000s.",
+      "architectural_details": "The bay is flanked on one end by Jungle Beach (accessible via a rocky path) and on the other by the historic Rumassala headland, which Buddhist legend holds was the hill Hanuman dropped from the Himalayas carrying medicinal herbs for Rama. The beachfront is lined with colorful restaurants and guesthouses built in a casual tropical style.",
+      "cultural_significance": "Rumassala, the hill above Unawatuna, is botanically exceptional — it contains plant species found nowhere else in the lowland Sri Lankan jungle, which local legend attributes to Hanuman dropping Himalayan medicinal herbs here. The area also contains two Japanese Peace Pagodas and a centuries-old temple, layering spiritual significance onto its natural beauty."
+    },
+    "tags": ["beach", "Heritage", "South Coast", "Swimming", "Snorkeling"],
+    "tts_hints": {
+      "pronunciation_guide": "U-na-wa-tu-na Beach",
+      "key_facts_short": "Protected horseshoe bay, coral reef, near Galle Fort, Rumassala hill, Japanese Peace Pagoda"
+    }
+  },
+  {
+    "location_id": "lk_navix_weligama",
+    "name": "Weligama Bay",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [80.4292, 5.9740]
+    },
+    "category": "beach",
+    "era": "Ancient to Contemporary",
+    "deep_history": {
+      "summary": "Weligama, meaning 'sandy village,' is a crescent-shaped bay on Sri Lanka's south coast renowned as one of the world's best learn-to-surf locations. The shallow, flat-breaking waves make it ideal for beginners. The bay is also famous for its stilt fishermen — men who perch on wooden crosses anchored in the shallow reef, casting lines into the sea in a technique unique to Sri Lanka.",
+      "architectural_details": "The centerpiece of the bay is the small island of Taprobane, connected to shore at low tide, featuring a 1920s colonial villa built by a French count and used as a residence by various artists and writers. The stilt fishing platforms are rudimentary wooden crosses sunk into the reef, yet they represent an ingenious, centuries-old fishing technique.",
+      "cultural_significance": "Stilt fishing at Weligama has become one of the most photographed images of Sri Lanka. While the practice dates back centuries as a practical necessity on the coral reefs where boats could not anchor, it now forms a significant part of the cultural identity and tourist economy of the south coast. The Taprobane Island villa has hosted Paul Bowles and other notable literary figures."
+    },
+    "tags": ["beach", "Heritage", "South Coast", "Surfing", "Fishing"],
+    "tts_hints": {
+      "pronunciation_guide": "We-li-ga-ma Bay",
+      "key_facts_short": "Learn-to-surf bay, stilt fishermen, Taprobane Island villa, sandy village, south coast surfing hub"
+    }
+  },
+  {
+    "location_id": "lk_navix_tangalle",
+    "name": "Tangalle",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [80.7946, 6.0243]
+    },
+    "category": "beach",
+    "era": "Ancient to Contemporary",
+    "deep_history": {
+      "summary": "Tangalle is a charming, relatively undeveloped coastal town at the eastern end of Sri Lanka's southern tourist circuit. Its lagoon, dramatic rock promontories, and series of wide, wild beaches attract visitors seeking a quieter alternative to busier resorts. It is one of Sri Lanka's most important nesting sites for leatherback and loggerhead sea turtles.",
+      "architectural_details": "Tangalle's harbor is dominated by a Dutch fort built in 1774 and a distinctive Dutch Rest House perched on a coral headland with sweeping ocean views — one of the oldest government-operated rest houses in Sri Lanka. The rocky headlands separate several distinct beaches, each with different character.",
+      "cultural_significance": "The town's turtle nesting beaches at Rekawa, 10 km east, attract hundreds of leatherback turtles — among the world's largest reptiles — between April and September. The Rekawa Turtle Conservation Project is one of Sri Lanka's oldest community-based conservation programs. Tangalle also hosts a significant fishing community maintaining traditional boat-building techniques."
+    },
+    "tags": ["beach", "Wildlife", "South Coast", "Turtle Nesting", "Historical"],
+    "tts_hints": {
+      "pronunciation_guide": "Tan-gal-le",
+      "key_facts_short": "Leatherback turtle nesting, Dutch fort 1774, wild undeveloped beaches, eastern south coast, Rekawa conservation"
+    }
+  },
+  {
+    "location_id": "lk_navix_negombo",
+    "name": "Negombo",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [79.8380, 7.2096]
+    },
+    "category": "attraction",
+    "era": "Portuguese / Dutch Colonial",
+    "deep_history": {
+      "summary": "Negombo is a bustling coastal city 35 km north of Colombo, strategically located near Bandaranaike International Airport. One of the first ports in Sri Lanka visited by the Portuguese in the 16th century, it was a major hub for the cinnamon trade — a spice so valuable that it shaped global trade routes and colonial rivalries. Its Catholic heritage, Dutch canal system, and fish market remain defining features.",
+      "architectural_details": "Negombo features a 17th-century Dutch fort (now a prison), a Dutch canal system still used for fishing boats, numerous Portuguese-influenced Catholic churches including St. Mary's Church (1874) with its ornate interior, and a famous fish market that operates before dawn. The town has retained its heritage character despite modernization.",
+      "cultural_significance": "Negombo is home to one of the highest concentrations of Catholics in Sri Lanka, a legacy of Portuguese missionary activity. The town's identity is shaped by its Karava fishing caste, known for their seafaring skills and distinct culture. The lagoon fish market, operating by lamplight from 4 AM, is one of the most atmospheric early-morning experiences in Sri Lanka."
+    },
+    "tags": ["historical-monument", "Heritage", "West Coast", "Colonial", "Fishing"],
+    "tts_hints": {
+      "pronunciation_guide": "Ne-gom-bo",
+      "key_facts_short": "Portuguese cinnamon port, Dutch canal system, Catholic heritage, fish market, near airport"
+    }
+  },
+  {
+    "location_id": "lk_navix_bentota",
+    "name": "Bentota Beach",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [79.9994, 6.4262]
+    },
+    "category": "beach",
+    "era": "Contemporary",
+    "deep_history": {
+      "summary": "Bentota is one of Sri Lanka's premier beach resort destinations, located where the Bentota River meets the Indian Ocean on the southwest coast. It is known for its wide, golden beaches, calm lagoon ideal for water sports, and the Bentota River ecosystem with mangroves and crocodiles. Geoffrey Bawa, Sri Lanka's most celebrated architect, designed several landmark hotels here.",
+      "architectural_details": "Geoffrey Bawa's architectural vision is most fully realized in Bentota through hotels like the Hotel Bentota Beach and Lunuganga — his country home and garden estate. Lunuganga, developed over 50 years from a 1948 rubber estate, is Sri Lanka's most celebrated garden, blending tropical landscape with Italian renaissance garden principles and Modernist architecture.",
+      "cultural_significance": "Bentota's Galapatha Raja Maha Vihara, one of Sri Lanka's oldest temples with origins in the 12th century, stands in striking contrast to the modern resort infrastructure. The temple contains ancient murals and a legendary history connected to Queen Viharamahadevi. Bentota also serves as a hub for turtle hatching programs, river safaris, and Ayurvedic wellness tourism."
+    },
+    "tags": ["beach", "Heritage", "West Coast", "Water Sports", "Architecture"],
+    "tts_hints": {
+      "pronunciation_guide": "Ben-to-ta Beach",
+      "key_facts_short": "Geoffrey Bawa architecture, Lunuganga garden, river meets ocean, water sports, southwest coast resort"
+    }
+  },
+  {
+    "location_id": "lk_navix_gangaramaya",
+    "name": "Gangaramaya Temple",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [79.8571, 6.9167]
+    },
+    "category": "religious_site",
+    "era": "Late 19th Century (1885)",
+    "deep_history": {
+      "summary": "Gangaramaya Temple, located beside Beira Lake in central Colombo, is one of the most important and ornate Buddhist temples in Sri Lanka. Founded in 1885 by Venerable Hikkaduwe Sri Sumangala Thero, it has grown into a vast complex that blends Buddhist, Hindu, Moorish, and Colonial architectural styles, housing an extraordinary collection of artifacts.",
+      "architectural_details": "The temple's eclectic architecture incorporates Sinhalese, Thai, Indian, and Chinese elements across its multiple buildings. The main shrine houses a magnificent seated Buddha in Thai style. The complex includes a museum containing thousands of donated objects — vintage cars, ivory tusks, crystal Buddhas, ancient coins, and rare manuscripts — creating one of Sri Lanka's most unusual collections.",
+      "cultural_significance": "Gangaramaya is the spiritual anchor of Colombo and hosts the Navam Perahera — one of the largest Buddhist processions in Sri Lanka, held annually in February with over 50 elegantly decorated elephants parading around Beira Lake. The temple is also deeply involved in social welfare programs and Buddhist education, making it a center of contemporary urban Buddhist life."
+    },
+    "tags": ["religious-temple", "Buddhist", "Heritage", "Colombo", "Architecture"],
+    "tts_hints": {
+      "pronunciation_guide": "Gang-ga-ra-ma-ya Tem-ple",
+      "key_facts_short": "1885 Buddhist temple, Beira Lake Colombo, eclectic architecture, Navam Perahera 50 elephants, art museum collection"
+    }
+  },
+  {
+    "location_id": "lk_navix_independence_sq",
+    "name": "Independence Square Colombo",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [79.8617, 6.9106]
+    },
+    "category": "monument",
+    "era": "Post-Independence (1948)",
+    "deep_history": {
+      "summary": "Independence Square in Colombo's Cinnamon Gardens district marks the site where Ceylon gained independence from British rule on February 4, 1948. The Independence Memorial Hall at its center, modeled after the ancient Kandyan audience hall (the Magul Maduwa of the Kandy Kingdom), houses a statue of Sri Lanka's first Prime Minister D.S. Senanayake.",
+      "architectural_details": "The Independence Memorial Hall is built in the traditional Kandyan architectural style — an open pavilion with a tiered roof, ornate columns, and traditional Kandyan motifs. It stands in a formal landscaped plaza with a ceremonial drive, flanked by lion statues. The broader Colombo 7 district of tree-lined boulevards and colonial-era buildings provides an elegant urban context.",
+      "cultural_significance": "Independence Square is the symbolic heart of Sri Lanka as a sovereign nation and the site of the annual Independence Day ceremony on February 4th. The surrounding Independence Square complex was redeveloped in 2016 into a public promenade with sports facilities, cafes, and gardens, transforming it into a vibrant urban gathering space. The area embodies both national pride and urban renewal."
+    },
+    "tags": ["historical-monument", "Heritage", "Colombo", "National Symbol", "Urban"],
+    "tts_hints": {
+      "pronunciation_guide": "In-de-pen-dence Square Co-lom-bo",
+      "key_facts_short": "Sri Lanka independence 1948, Kandyan architecture, D.S. Senanayake statue, national ceremony February 4th"
+    }
+  },
+  {
+    "location_id": "lk_navix_lotus_tower",
+    "name": "Colombo Lotus Tower",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [79.8585, 6.9371]
+    },
+    "category": "attraction",
+    "era": "Contemporary (2019)",
+    "deep_history": {
+      "summary": "The Colombo Lotus Tower (Nelum Kuluna) is the tallest self-supported structure in South Asia, standing 356 meters tall. Completed in 2019 after 12 years of construction with Chinese assistance, it is shaped like a lotus flower — Sri Lanka's national flower — and serves as a telecommunications tower, observation deck, hotel, and restaurant complex.",
+      "architectural_details": "The tower's distinctive lotus blossom shape features a pod of 'petals' at the 150-meter mark housing an observation deck, revolving restaurant, and hotel floors. The structure is lit with LED lighting in changing colors each evening, making it Colombo's most dramatic nightscape element. Its engineering integrated complex telecommunications functions with its architectural form.",
+      "cultural_significance": "The Lotus Tower represents Sri Lanka's modern aspirations and Chinese-Sri Lankan diplomatic partnership. From the observation deck, visitors can see the entirety of Colombo, the coastline, and on clear days, the highlands 100 km away. It has rapidly become a symbol of modern Colombo's urban transformation and is the most visited landmark in the capital."
+    },
+    "tags": ["historical-monument", "Urban", "Colombo", "Architecture", "Modern"],
+    "tts_hints": {
+      "pronunciation_guide": "Co-lom-bo Lo-tus Tower, Ne-lum Ku-lu-na",
+      "key_facts_short": "South Asia's tallest structure, 356 meters, lotus flower design, observation deck, completed 2019"
+    }
+  },
+  {
+    "location_id": "lk_navix_koneswaram",
+    "name": "Koneswaram Temple Trincomalee",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [81.2394, 8.5680]
+    },
+    "category": "religious_site",
+    "era": "Ancient (pre-2nd Century BC)",
+    "deep_history": {
+      "summary": "Koneswaram (Thirukonamalai) is one of the Pancha Ishwarams — five ancient Hindu temples of Shiva established across Sri Lanka. Perched dramatically on Swami Rock (also called Lover's Leap) overlooking Trincomalee's deep natural harbor, it is among the most sacred Hindu temples in Sri Lanka. The original ancient temple was largely destroyed by Portuguese colonists in 1624, who used its stones to extend Fort Frederick.",
+      "architectural_details": "The current temple, rebuilt from the 20th century onwards, features classic Dravidian architecture with a towering gopuram (gateway tower) and multiple mandapas (halls). In 1950, underwater excavations in Trincomalee harbor recovered several original stone carvings and a magnificent Shiva Lingam from the ancient temple destroyed by the Portuguese — these are now housed within the complex.",
+      "cultural_significance": "Koneswaram is central to Tamil Hindu identity in Sri Lanka's east and a major pilgrimage site. The Maha Shivaratri festival draws thousands of devotees. The legendary Sivan Kovil, mentioned in ancient Tamil literature like Manimekalai (5th century), was considered one of the most sacred temples in Asia before its Portuguese destruction. Its restoration represents cultural resilience."
+    },
+    "tags": ["religious-temple", "Hindu", "Heritage", "East Coast", "Pilgrimage"],
+    "tts_hints": {
+      "pronunciation_guide": "Ko-nes-wa-ram Tem-ple, Thiru-ko-na-ma-lai",
+      "key_facts_short": "Ancient Hindu Shiva temple, Swami Rock Trincomalee, Pancha Ishwaram, destroyed by Portuguese 1624, rebuilt, harbor views"
+    }
+  },
+  {
+    "location_id": "lk_navix_fort_frederick",
+    "name": "Fort Frederick Trincomalee",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [81.2378, 8.5683]
+    },
+    "category": "archaeological_site",
+    "era": "Portuguese (1623) / Dutch / British Colonial",
+    "deep_history": {
+      "summary": "Fort Frederick is a well-preserved colonial fortification built on Swami Rock promontory in Trincomalee, commanding one of the finest natural harbors in Asia — a harbor that Napoleon reportedly called 'the finest in the world.' Originally constructed by the Portuguese in 1623 using stones from the demolished Koneswaram Hindu temple, it was subsequently occupied and expanded by the Dutch and then the British.",
+      "architectural_details": "The fort features massive granite walls, bastions, a central parade ground, the former British barracks (now used by the Sri Lanka Army), and the historic Wellington House — where the young Duke of Wellington (future victor of Waterloo) briefly stayed in 1799. The Lovers' Leap rock at the fort's edge is associated with a tragic colonial-era legend of Dutch Governor's daughter who leapt to her death.",
+      "cultural_significance": "Trincomalee harbor's strategic importance made it a critical naval base throughout World War II. The Eastern Naval Command of the British Royal Navy was based here, and the waters outside contain numerous World War II wrecks. The fort's Wellington connection and its commanding view of the harbor — where elephants still bathe on the beach below — make it a unique colonial heritage site."
+    },
+    "tags": ["historical-monument", "Heritage", "East Coast", "Colonial", "Military"],
+    "tts_hints": {
+      "pronunciation_guide": "Fort Fred-er-ick Trin-co-ma-lee",
+      "key_facts_short": "Portuguese fort 1623, Napoleon's finest harbor, Wellington House, World War II naval base, Swami Rock promontory"
+    }
+  },
+  {
+    "location_id": "lk_navix_arugam_bay",
+    "name": "Arugam Bay",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [81.8413, 6.8402]
+    },
+    "category": "beach",
+    "era": "Contemporary",
+    "deep_history": {
+      "summary": "Arugam Bay on Sri Lanka's east coast is consistently ranked among the top 10 surf spots in the world, attracting professional surfers from May to October when the Indian Ocean swell lines up perfectly with its reef-point break. Beyond surfing, the area is surrounded by elephant safaris at Kumana National Park, ancient Muhudu Maha Viharaya temple, and lagoons teeming with crocodiles and bird life.",
+      "architectural_details": "The town itself is a laid-back strip of surf shops, beachside restaurants, and guesthouses with a distinctly casual character. The ancient Muhudu Maha Viharaya, located at the northern end of the bay, is a 2,000-year-old Buddhist stupa associated with the legendary arrival of Prince Kavantissa and Princess Viharamahadevi on these shores.",
+      "cultural_significance": "Arugam Bay was devastated by the 2004 tsunami and its rebuild has become a story of community resilience and international support. The eastern coast's relative isolation during decades of civil conflict preserved its natural environment, making the waters exceptionally clear and the wildlife abundant. The annual Muhudu Maha Viharaya Perahera remains an important local Buddhist cultural event."
+    },
+    "tags": ["beach", "Surfing", "East Coast", "Wildlife", "Adventure"],
+    "tts_hints": {
+      "pronunciation_guide": "A-ru-gam Bay",
+      "key_facts_short": "World top 10 surf spot, east coast, May to October season, 2000-year-old temple, elephant safari nearby"
+    }
+  },
+  {
+    "location_id": "lk_navix_passikudah",
+    "name": "Passikudah Beach",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [81.5611, 7.9282]
+    },
+    "category": "beach",
+    "era": "Contemporary",
+    "deep_history": {
+      "summary": "Passikudah is a bay on Sri Lanka's east coast celebrated for having one of the most extraordinary beach environments in Asia: a natural sandbar creates a vast, extremely shallow lagoon extending hundreds of meters from shore, where the depth rarely exceeds waist height. The calm, crystal-clear turquoise water makes it one of the safest and most beautiful swimming beaches in South Asia.",
+      "architectural_details": "The bay's defining feature is entirely natural — an arc of white sand beach curving around the shallow lagoon, protected from ocean swells by a natural reef. The government developed Passikudah as a high-end resort zone after the end of the civil conflict in 2009, attracting international hotel chains. The absence of development through the conflict years left the water and reef in pristine condition.",
+      "cultural_significance": "Passikudah's opening to tourism post-2009 became a symbol of Sri Lanka's national reconciliation and the reopening of the north and east to visitors after decades of restricted access. The bay is now a centerpiece of eastern Sri Lanka's economic development strategy. Its coral reef systems, largely undamaged by human activity during the conflict years, are now among the best-preserved in Sri Lanka."
+    },
+    "tags": ["beach", "East Coast", "Swimming", "Luxury", "Snorkeling"],
+    "tts_hints": {
+      "pronunciation_guide": "Pas-si-ku-dah Beach",
+      "key_facts_short": "Shallowest bay in Asia, crystal turquoise lagoon, east coast, pristine reef, post-war development symbol"
+    }
+  },
+  {
+    "location_id": "lk_navix_batticaloa",
+    "name": "Batticaloa Lagoon",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [81.6924, 7.7171]
+    },
+    "category": "attraction",
+    "era": "Ancient to Contemporary",
+    "deep_history": {
+      "summary": "Batticaloa, known as 'Batti,' is a historic eastern city set on a lagoon island connected to the mainland by causeways. It is famous for the 'Singing Fish' phenomenon — a musical sound emanating from the depths of Batticaloa Lagoon at night during certain seasons, attributed by locals to fish or shells. The city's Dutch Fort (1628) and its role in Tamil cultural heritage make it a significant east coast destination.",
+      "architectural_details": "The Batticaloa Dutch Fort, built in 1628, is one of the largest fortifications built by the Dutch in Sri Lanka. Its star-shaped plan and coral-stone walls have survived remarkably well. The city's urban character reflects its Tamil cultural identity, with numerous Kovils (Hindu temples) and the Kallady Bridge connecting the lagoon island to the mainland.",
+      "cultural_significance": "The Singing Fish of Batticaloa Lagoon has fascinated scientists, sailors, and travelers for centuries. Samuel Baker (the Victorian explorer) described it in 1855; it is believed to be produced by fish or mollusks vibrating their bodies. The lagoon also holds important cultural events including the multi-day Thai Pongal harvest festival and the annual Madu Shrine boat procession."
+    },
+    "tags": ["historical-monument", "Heritage", "East Coast", "Lagoon", "Mystery"],
+    "tts_hints": {
+      "pronunciation_guide": "Bat-ti-ca-lo-a La-goon",
+      "key_facts_short": "Singing fish lagoon, Dutch fort 1628, Tamil cultural hub, island city, east coast heritage"
+    }
+  },
+  {
+    "location_id": "lk_navix_nallur_kovil",
+    "name": "Nallur Kandaswamy Kovil",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [80.0276, 9.6677]
+    },
+    "category": "religious_site",
+    "era": "10th Century (original) / 17th Century (current)",
+    "deep_history": {
+      "summary": "Nallur Kandaswamy Kovil is the most important Hindu temple in northern Sri Lanka and one of the most sacred in Asia, dedicated to Lord Murugan (Skanda). The original temple dates to the 10th century Jaffna Kingdom era. It was repeatedly destroyed and rebuilt — most famously demolished by the Portuguese in 1620 and rebuilt in its current form under the Dutch period. Today it is the spiritual heart of Jaffna's Tamil Hindu community.",
+      "architectural_details": "The temple complex is dominated by a soaring 12-tiered Dravidian-style gopuram (gateway tower) richly decorated with hundreds of painted stucco figures of deities. The main shrine, festival hall (mandapam), tank, and subsidiary shrines are enclosed within a walled compound. A golden flagstaff (kodimaram) at the entrance traditionally marks its religious authority over the region.",
+      "cultural_significance": "The Nallur Festival, held over 25 days in July–August, is the largest and most elaborate Hindu festival in Sri Lanka, with chariot processions, fire-walking, hook-swinging (kavadi), and massive daily attendances of over 500,000 devotees during its climax. The festival survived even through the decades of civil conflict, maintaining its role as the anchor of Tamil cultural and religious identity in the north."
+    },
+    "tags": ["religious-temple", "Hindu", "Heritage", "North Sri Lanka", "Pilgrimage"],
+    "tts_hints": {
+      "pronunciation_guide": "Nal-lur Kan-da-swa-my Ko-vil",
+      "key_facts_short": "Most sacred Hindu temple north Sri Lanka, Lord Murugan, 25-day festival 500,000 devotees, 12-tiered gopuram, Jaffna"
+    }
+  },
+  {
+    "location_id": "lk_navix_jaffna_fort",
+    "name": "Jaffna Fort",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [79.9992, 9.6596]
+    },
+    "category": "archaeological_site",
+    "era": "Portuguese (1618) / Dutch (1658)",
+    "deep_history": {
+      "summary": "Jaffna Fort is the largest colonial-era fort in Sri Lanka and one of the most impressive in Asia, built by the Portuguese in 1618 and dramatically expanded by the Dutch after 1658. It served as the seat of colonial power in northern Sri Lanka for 300 years. The fort changed hands multiple times between Portuguese, Dutch, British, and — remarkably — during Sri Lanka's civil conflict was held by both government forces and the LTTE at different periods.",
+      "architectural_details": "The fort covers 55 acres with a five-pointed star plan featuring massive pentagonal bastions, a wide moat (still water-filled), drawbridge approach, and walls up to 3.5 meters thick. Within the walls stand the former Dutch church (now a museum), colonial administrative buildings, and the ruins of the Portuguese Captain's house. A lighthouse stands within the fort compound.",
+      "cultural_significance": "Jaffna Fort represents a layered history of Jaffna city's colonial past and recent civil conflict. Having been severely damaged during the civil war (1983–2009), its restoration is a symbol of post-war reconciliation and the reconnection of northern Sri Lanka with the national heritage network. The fort now houses a museum documenting Dutch colonial history in northern Ceylon."
+    },
+    "tags": ["historical-monument", "Heritage", "North Sri Lanka", "Colonial", "Archaeological"],
+    "tts_hints": {
+      "pronunciation_guide": "Jaf-fna Fort",
+      "key_facts_short": "Portuguese fort 1618, Dutch expanded, 55 acres, star plan, post-war reconciliation symbol, Jaffna city"
+    }
+  },
+  {
+    "location_id": "lk_navix_yala",
+    "name": "Yala National Park",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [81.5212, 6.3723]
+    },
+    "category": "national_park",
+    "era": "Established 1938",
+    "deep_history": {
+      "summary": "Yala National Park is Sri Lanka's most famous wildlife reserve and the second-largest national park in the country, covering 979 square kilometers. It has the highest density of leopards in the world — an estimated 30–35 leopards per 100 square kilometers — making it the premier destination globally for leopard sightings. Yala also holds the ruins of several ancient Buddhist sites within its boundaries, revealing that the area was once densely populated.",
+      "architectural_details": "Within Yala's boundaries lie the ruins of Sithulpawwa — a 2,000-year-old rock monastery that once housed 12,000 monks, now partly restored. The Magul Maha Viharaya stupa, dating to the 2nd century BC, and the Akasa Chaitya are other significant archaeological sites within the park, creating a unique environment where wildlife and ancient ruins coexist.",
+      "cultural_significance": "Yala's coastal section was devastated by the 2004 tsunami — one of the largest wildlife losses in Sri Lanka's history — but the park's resilience became an international story of ecological recovery. Block 1 (Ruhuna National Park) is the most visited section, while Blocks 2 through 5 offer increasingly remote wilderness experiences. Elephants, sloth bears, crocodiles, peacocks, and hundreds of bird species share the landscape."
+    },
+    "tags": ["urban-park", "Wildlife", "Leopard", "Safari", "South Coast"],
+    "tts_hints": {
+      "pronunciation_guide": "Ya-la Na-tion-al Park",
+      "key_facts_short": "Highest leopard density in world, 979 square kilometers, elephants, ancient ruins, 2004 tsunami survivor"
+    }
+  },
+  {
+    "location_id": "lk_navix_udawalawe",
+    "name": "Udawalawe National Park",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [80.8993, 6.4742]
+    },
+    "category": "national_park",
+    "era": "Established 1972",
+    "deep_history": {
+      "summary": "Udawalawe National Park was established in 1972 to protect the catchment of the Udawalawe Reservoir, one of Sri Lanka's major irrigation projects. It has grown into the best destination in Asia for reliable, close-range elephant sightings — with a resident population of 500–700 elephants. The park's open, semi-arid scrub landscape allows exceptional wildlife visibility.",
+      "architectural_details": "The park's defining landscape feature is the 3,800-hectare Udawalawe Reservoir (Walawe Ganga Reservoir) completed in 1968, around which the grasslands and scrub forests support extraordinary wildlife concentrations. The Elephant Transit Home, operated by the Wildlife Conservation Department, rehabilitates orphaned elephant calves before returning them to the wild.",
+      "cultural_significance": "Udawalawe is considered Africa-style safari territory in Asia — open plains, large elephant herds, and reliable big mammal sightings make it uniquely different from Sri Lanka's dense-forest parks. The Elephant Transit Home is one of the world's most successful elephant orphan rehabilitation programs and gives visitors an extraordinary opportunity to observe young elephants being fed and cared for."
+    },
+    "tags": ["urban-park", "Wildlife", "Elephant", "Safari", "South Sri Lanka"],
+    "tts_hints": {
+      "pronunciation_guide": "U-da-wa-la-we Na-tion-al Park",
+      "key_facts_short": "Best Asian elephant safari, 700 elephants, rehabilitation center, open plains, Walawe Reservoir"
+    }
+  },
+  {
+    "location_id": "lk_navix_wilpattu",
+    "name": "Wilpattu National Park",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [79.9283, 8.4560]
+    },
+    "category": "national_park",
+    "era": "Established 1938",
+    "deep_history": {
+      "summary": "Wilpattu National Park is Sri Lanka's largest national park, covering 1,317 square kilometers of northwestern Sri Lanka. Its name means 'Land of Lakes' in Sinhalese, referring to its unique feature: over 60 naturally formed lakes called 'villus' — seasonal rain-fed depressions that attract extraordinary concentrations of wildlife. The park was closed for 20 years during the civil war and reopened in 2010.",
+      "architectural_details": "Wilpattu's landscape is dominated by its characteristic villus — circular lakes ringed by sandy beaches that provide perfect wildlife observation points. The park's central region is dense dry scrub jungle transitioning to open parkland around the lakes. Ancient ruins of the Kala Wewa irrigation system and Panaikkadanthurai ruins are found within the park.",
+      "cultural_significance": "Wilpattu's 20-year closure during the civil conflict allowed its ecosystem to recover exceptionally, making it today perhaps the most pristine large national park in Sri Lanka. Its leopard population, undisturbed for decades, is believed to be one of the densest in the country. The park also holds the legendary Kudiramalai Point, traditionally identified as the landing spot of Prince Vijaya — the founding ancestor of the Sinhalese people — in 543 BC."
+    },
+    "tags": ["urban-park", "Wildlife", "Leopard", "Nature", "North West"],
+    "tts_hints": {
+      "pronunciation_guide": "Wil-pat-tu Na-tion-al Park, Land of Lakes",
+      "key_facts_short": "Sri Lanka's largest park, 60 natural lakes, Land of Lakes, 20-year closure, pristine leopard habitat"
+    }
+  },
+  {
+    "location_id": "lk_navix_bundala",
+    "name": "Bundala National Park",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [81.1631, 6.1988]
+    },
+    "category": "national_park",
+    "era": "Established 1993",
+    "deep_history": {
+      "summary": "Bundala National Park is a wetland sanctuary on Sri Lanka's southeastern coast, designated a Ramsar Wetland of International Importance and a UNESCO Biosphere Reserve. Its chain of five lagoons forms a critical wintering and staging ground for migratory shorebirds from the Palearctic region, with over 200 bird species recorded including large flocks of greater flamingos from India.",
+      "architectural_details": "Bundala's landscape is a mosaic of saline lagoons, coastal dunes, and dry scrub jungle covering 62 square kilometers. The lagoons create a complex intertidal ecosystem supporting breeding waterbirds, crocodiles, sea turtles (nesting on beaches), and a resident herd of elephants. The park's boundary extends to the Indian Ocean coast.",
+      "cultural_significance": "Bundala serves a critical ecological role as one of South Asia's most important wintering grounds for migratory birds, with over 150,000 waterbirds using the lagoons annually. The greater flamingo flocks from the Rann of Kutch in India are among the most dramatic seasonal wildlife spectacles in Sri Lanka. The park is a centerpiece of sustainable eco-tourism development in Sri Lanka's southeast."
+    },
+    "tags": ["urban-park", "Wildlife", "Birdwatching", "South Coast", "UNESCO"],
+    "tts_hints": {
+      "pronunciation_guide": "Bun-da-la Na-tion-al Park",
+      "key_facts_short": "Ramsar wetland, UNESCO biosphere, flamingos, 200 bird species, coastal lagoon system, southeastern Sri Lanka"
+    }
   }
 ]
