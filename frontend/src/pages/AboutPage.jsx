@@ -1,9 +1,9 @@
 const AboutPage = () => (
   <section className="space-y-5">
-    <h1 className="section-title">About CeyGo</h1>
+    <h1 className="section-title">About NaviX</h1>
     <div className="glass-card space-y-4 p-5 text-sm text-slate-700 dark:text-slate-200">
       <p>
-        CeyGo is an AI-powered travel companion built to make Sri Lankan tourism
+        NaviX is an AI-powered travel companion built to make Sri Lankan tourism
         smarter, more local, and more immersive.
       </p>
       <p>

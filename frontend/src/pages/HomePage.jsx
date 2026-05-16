@@ -99,7 +99,7 @@ const HomePage = () => {
         <div>
           <h3 className="text-lg font-semibold">Ready for a guided trip plan?</h3>
           <p className="text-sm text-slate-500">
-            Ask CeyGo for live route advice, weather-safe schedules, and hidden
+            Ask NaviX for live route advice, weather-safe schedules, and hidden
             gems.
           </p>
         </div>

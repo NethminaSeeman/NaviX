@@ -18,7 +18,7 @@ const Navbar = () => (
           <FiMapPin />
         </span>
         <div>
-          <p className="text-lg font-bold text-slate-900 dark:text-white">CeyGo</p>
+          <p className="text-lg font-bold text-slate-900 dark:text-white">NaviX</p>
           <p className="text-xs text-slate-500">AI Sri Lanka Companion</p>
         </div>
       </Link>

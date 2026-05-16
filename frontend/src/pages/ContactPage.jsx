@@ -15,7 +15,7 @@ const ContactPage = () => {
 
   return (
     <section className="space-y-5">
-      <h1 className="section-title">Contact CeyGo</h1>
+      <h1 className="section-title">Contact NaviX</h1>
       <div className="grid gap-4 lg:grid-cols-2">
         <form onSubmit={handleSubmit} className="glass-card space-y-3 p-5">
           <input
