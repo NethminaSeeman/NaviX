@@ -195,7 +195,7 @@ export async function findNearbyLocations(
   if (!env.DB) return [];
 
   const safeRadius = Math.max(1, radiusMeters);
-  const safeLimit = Math.min(Math.max(1, Math.floor(limit)), 200);
+  const safeLimit = Math.min(Math.max(1, Math.floor(limit)), 500);
 
   // Fast bounding-box prefilter to reduce expensive trig operations.
   const earthMetersPerDegree = 111320;

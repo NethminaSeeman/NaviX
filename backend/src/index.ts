@@ -123,8 +123,8 @@ export default {
           );
         }
 
-        const limitRaw = Number(url.searchParams.get("limit") ?? "50");
-        const limit = Number.isFinite(limitRaw) ? limitRaw : 50;
+        const limitRaw = Number(url.searchParams.get("limit") ?? "500");
+        const limit = Number.isFinite(limitRaw) && limitRaw > 0 ? limitRaw : 500;
 
         const rows = await findNearbyLocations(
           env,
