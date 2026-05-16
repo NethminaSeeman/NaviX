@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useRef, useMemo, useState } from "react";
 import {
   GoogleMap,
   InfoWindow,
@@ -32,6 +32,8 @@ const isWithinSriLankaBounds = (point) => {
 
 const MapContainer = ({ userLocation, places = [], weather }) => {
   const [activePlace, setActivePlace] = useState(null);
+  const mapRef = useRef(null);
+  const hasAppliedInitialBoundsRef = useRef(false);
   const { isLoaded, loadError } = useJsApiLoader({
     id: "ceygo-map",
     googleMapsApiKey: MAPS_API_KEY,
@@ -52,18 +54,29 @@ const MapContainer = ({ userLocation, places = [], weather }) => {
   }, [placesInSriLanka, userLocation]);
   const userInSriLanka = isWithinSriLankaBounds(userLocation);
 
+  const fitSriLankaBounds = useCallback((map) => {
+    if (!map || !window.google?.maps?.LatLngBounds) return;
+    const bounds = new window.google.maps.LatLngBounds(
+      { lat: sriLankaBounds.south, lng: sriLankaBounds.west },
+      { lat: sriLankaBounds.north, lng: sriLankaBounds.east }
+    );
+    map.fitBounds(bounds);
+  }, []);
+
   const handleMapLoad = useCallback(
     (map) => {
-      if (!window.google?.maps?.LatLngBounds) return;
-
-      const bounds = new window.google.maps.LatLngBounds(
-        { lat: sriLankaBounds.south, lng: sriLankaBounds.west },
-        { lat: sriLankaBounds.north, lng: sriLankaBounds.east }
-      );
-      map.fitBounds(bounds);
+      mapRef.current = map;
+      hasAppliedInitialBoundsRef.current = false;
+      fitSriLankaBounds(map);
     },
-    []
+    [fitSriLankaBounds]
   );
+
+  const handleTilesLoaded = useCallback(() => {
+    if (!mapRef.current || hasAppliedInitialBoundsRef.current) return;
+    fitSriLankaBounds(mapRef.current);
+    hasAppliedInitialBoundsRef.current = true;
+  }, [fitSriLankaBounds]);
 
   if (!MAPS_API_KEY) {
     return (
@@ -97,6 +110,7 @@ const MapContainer = ({ userLocation, places = [], weather }) => {
         defaultCenter={defaultCenter}
         defaultZoom={6}
         onLoad={handleMapLoad}
+        onTilesLoaded={handleTilesLoaded}
         options={{
           disableDefaultUI: false,
           zoomControl: true,
@@ -107,6 +121,7 @@ const MapContainer = ({ userLocation, places = [], weather }) => {
             strictBounds: true,
           },
           minZoom: 5,
+          maxZoom: 18,
         }}
       >
         {userInSriLanka && (
