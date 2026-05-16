@@ -9,7 +9,7 @@ const navItems = [
 ];
 
 const MobileBottomNav = () => (
-  <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-slate-200 bg-white/95 px-2 py-2 backdrop-blur-lg dark:border-slate-700 dark:bg-slate-950/90 lg:hidden">
+  <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-slate-200 bg-white/95 px-2 py-2 backdrop-blur-lg dark:border-cyan-500/20 dark:bg-zinc-950/90 lg:hidden">
     <div className="flex items-center justify-around">
       {navItems.map((item) => {
         const Icon = item.icon;
@@ -20,8 +20,8 @@ const MobileBottomNav = () => (
             className={({ isActive }) =>
               `flex flex-col items-center gap-1 rounded-lg px-3 py-1 text-xs transition ${
                 isActive
-                  ? "bg-ceygo-primary/10 text-ceygo-primary"
-                  : "text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800"
+                  ? "bg-cyan-500/10 text-cyan-600 dark:text-cyan-300"
+                  : "text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800/80"
               }`
             }
           >
