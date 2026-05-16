@@ -231,14 +231,22 @@ async function resolveMatchedCoordinates(
   const entityNames = Object.values(intent.entities ?? {})
     .filter((v): v is string => typeof v === "string" && v.length > 1);
   for (const name of entityNames) {
-    const hit = await findPlaceByName(env.DB, name);
-    if (hit) return hit.coordinates;
+    try {
+      const hit = await findPlaceByName(env.DB, name.slice(0, 96));
+      if (hit) return hit.coordinates;
+    } catch {
+      // Ignore lookup errors and continue with safer fallbacks.
+    }
   }
 
   const cleaned = query.replace(/[^\w\s]/g, " ").trim();
   if (cleaned.length >= 3) {
-    const matches = await searchPlacesByName(env.DB, cleaned, 1);
-    if (matches.length > 0) return matches[0].coordinates;
+    try {
+      const matches = await searchPlacesByName(env.DB, cleaned, 1);
+      if (matches.length > 0) return matches[0].coordinates;
+    } catch {
+      // Ignore search errors and use nearby fallback below.
+    }
   }
 
   return nearby[0]?.coordinates ?? null;
