@@ -1,6 +1,6 @@
 import { Env, NearbyPlace, Place } from "./types";
 
-type PlaceRow = {
+interface PlaceRow {
   location_id: string;
   name: string;
   category: string | null;
@@ -13,7 +13,7 @@ type PlaceRow = {
   tts_key_facts: string | null;
   lat: number;
   lng: number;
-};
+}
 
 type NearbyRow = {
   id: string;
@@ -93,12 +93,19 @@ export async function searchPlacesByName(
 ): Promise<Place[]> {
   const like = `%${query.replace(/[%_]/g, "")}%`;
   const { results } = await db
-    .prepare(`SELECT ${SELECT_COLUMNS} FROM places WHERE name LIKE ? COLLATE NOCASE LIMIT ?`)
+    .prepare(
+      `SELECT ${SELECT_COLUMNS} FROM places WHERE name LIKE ? COLLATE NOCASE LIMIT ?`
+    )
     .bind(like, limit)
     .all<PlaceRow>();
   return (results ?? []).map(rowToPlace);
 }
 
+/**
+ * Returns the N nearest places to (lat, lon) ordered ascending by distance.
+ * SQLite has no haversine built-in, so we compute it in JS over all rows.
+ * With ~140 rows this is trivial (< 1 ms).
+ */
 export async function findNearestPlaces(
   db: D1Database,
   lat: number,
@@ -127,6 +134,8 @@ export async function findNearestPlaces(
   ranked.sort((a, b) => a.distance_km - b.distance_km);
   return ranked.slice(0, Math.max(1, limit));
 }
+
+// ─────────────────────────────────────────────────────────────────────
 
 export async function findNearbyLocations(
   env: Env,
@@ -236,7 +245,7 @@ function parseTags(raw: string | null): string[] {
   return [];
 }
 
-function haversineKm(
+export function haversineKm(
   lat1: number,
   lng1: number,
   lat2: number,

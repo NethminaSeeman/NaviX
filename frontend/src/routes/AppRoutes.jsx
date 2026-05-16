@@ -7,6 +7,13 @@ import LiveMapPage from "@/pages/LiveMapPage";
 import DestinationDetailsPage from "@/pages/DestinationDetailsPage";
 import AboutPage from "@/pages/AboutPage";
 import ContactPage from "@/pages/ContactPage";
+import LoginPage from "@/pages/LoginPage";
+import RegisterPage from "@/pages/RegisterPage";
+import PricingPage from "@/pages/PricingPage";
+import AccountPage from "@/pages/AccountPage";
+import BillingResultPage from "@/pages/BillingResultPage";
+import RequireAuth from "@/routes/RequireAuth";
+import RequireAccess from "@/routes/RequireAccess";
 
 const PageTransition = ({ children }) => (
   <motion.div
@@ -19,6 +26,12 @@ const PageTransition = ({ children }) => (
   </motion.div>
 );
 
+const gated = (element) => (
+  <RequireAuth>
+    <RequireAccess>{element}</RequireAccess>
+  </RequireAuth>
+);
+
 const AppRoutes = () => {
   const location = useLocation();
 
@@ -26,18 +39,56 @@ const AppRoutes = () => {
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
         <Route element={<MainLayout />}>
+          {/* Public marketing */}
           <Route path="/" element={<PageTransition><HomePage /></PageTransition>} />
-          <Route
-            path="/chat"
-            element={<PageTransition><ChatAssistantPage /></PageTransition>}
-          />
-          <Route path="/map" element={<PageTransition><LiveMapPage /></PageTransition>} />
-          <Route
-            path="/destination/:id"
-            element={<PageTransition><DestinationDetailsPage /></PageTransition>}
-          />
           <Route path="/about" element={<PageTransition><AboutPage /></PageTransition>} />
           <Route path="/contact" element={<PageTransition><ContactPage /></PageTransition>} />
+          <Route path="/pricing" element={<PageTransition><PricingPage /></PageTransition>} />
+
+          {/* Auth */}
+          <Route path="/login" element={<PageTransition><LoginPage /></PageTransition>} />
+          <Route path="/register" element={<PageTransition><RegisterPage /></PageTransition>} />
+          <Route
+            path="/account"
+            element={
+              <PageTransition>
+                <RequireAuth>
+                  <AccountPage />
+                </RequireAuth>
+              </PageTransition>
+            }
+          />
+          <Route
+            path="/billing/success"
+            element={
+              <PageTransition>
+                <BillingResultPage status="success" />
+              </PageTransition>
+            }
+          />
+          <Route
+            path="/billing/cancel"
+            element={
+              <PageTransition>
+                <BillingResultPage status="cancel" />
+              </PageTransition>
+            }
+          />
+
+          {/* Gated premium pages */}
+          <Route
+            path="/chat"
+            element={<PageTransition>{gated(<ChatAssistantPage />)}</PageTransition>}
+          />
+          <Route
+            path="/map"
+            element={<PageTransition>{gated(<LiveMapPage />)}</PageTransition>}
+          />
+          <Route
+            path="/destination/:id"
+            element={<PageTransition>{gated(<DestinationDetailsPage />)}</PageTransition>}
+          />
+
           <Route
             path="*"
             element={
