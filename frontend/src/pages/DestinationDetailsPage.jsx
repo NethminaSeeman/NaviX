@@ -6,6 +6,7 @@ import { useSpeechSynthesis } from "@/hooks/useSpeechSynthesis";
 import { useWeather } from "@/context/WeatherContext";
 import WeatherCard from "@/components/WeatherCard";
 import { ceygoApi } from "@/services/ceygoApi";
+import fallbackImage from "@/assets/destinations/fallback.jpg";
 
 const DestinationDetailsPage = () => {
   const { id } = useParams();
@@ -36,6 +37,10 @@ const DestinationDetailsPage = () => {
         src={destination.image}
         alt={destination.name}
         className="h-72 w-full rounded-lg border border-slate-200 object-cover shadow-sm md:h-96 dark:border-cyan-500/20"
+        onError={(event) => {
+          event.currentTarget.onerror = null;
+          event.currentTarget.src = fallbackImage;
+        }}
       />
       <div className="tech-panel space-y-4 p-5">
         <h1 className="section-title">{destination.name}</h1>
