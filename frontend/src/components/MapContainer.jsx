@@ -56,19 +56,13 @@ const MapContainer = ({ userLocation, places = [], weather }) => {
     (map) => {
       if (!window.google?.maps?.LatLngBounds) return;
 
-      if (userInSriLanka) {
-        map.setCenter(userLocation);
-        map.setZoom(9);
-        return;
-      }
-
       const bounds = new window.google.maps.LatLngBounds(
         { lat: sriLankaBounds.south, lng: sriLankaBounds.west },
         { lat: sriLankaBounds.north, lng: sriLankaBounds.east }
       );
       map.fitBounds(bounds);
     },
-    [userInSriLanka, userLocation]
+    []
   );
 
   if (!MAPS_API_KEY) {
@@ -112,7 +106,7 @@ const MapContainer = ({ userLocation, places = [], weather }) => {
             latLngBounds: sriLankaBounds,
             strictBounds: true,
           },
-          minZoom: 6,
+          minZoom: 5,
         }}
       >
         {userInSriLanka && (
