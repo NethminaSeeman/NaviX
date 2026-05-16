@@ -14,7 +14,7 @@ const classifyError = (message = "") => {
   if (lower.includes("cannot reach") || lower.includes("network")) {
     return {
       title: "Cannot reach NaviX backend",
-      hint: `Start the FastAPI server: cd backend && uvicorn main:app --reload (expected at ${API_BASE_URL})`,
+      hint: `Backend is unreachable at ${API_BASE_URL}. For local FastAPI: cd backend && uvicorn main:app --reload. For deployed app, set VITE_API_BASE_URL in Pages environment variables.`,
     };
   }
   if (lower.includes("openai_api_key") || lower.includes("api key")) {
