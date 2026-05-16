@@ -5,7 +5,7 @@ const DestinationCard = ({ destination }) => (
   <motion.article
     whileHover={{ y: -6 }}
     transition={{ duration: 0.2 }}
-    className="glass-card overflow-hidden"
+    className="tech-panel overflow-hidden"
   >
     <img
       src={destination.image}
@@ -18,7 +18,7 @@ const DestinationCard = ({ destination }) => (
           {destination.name}
         </h3>
         {destination.category && (
-          <span className="rounded-full bg-ceygo-accent/20 px-2 py-0.5 text-xs font-medium text-slate-700 dark:text-slate-200">
+          <span className="mono-label rounded-md border border-cyan-500/30 bg-cyan-500/10 px-2 py-0.5 text-[10px] text-cyan-700 dark:text-cyan-200">
             {destination.category}
           </span>
         )}
@@ -29,7 +29,7 @@ const DestinationCard = ({ destination }) => (
       </p>
       <Link
         to={`/destination/${destination.id}`}
-        className="inline-block rounded-lg bg-ceygo-secondary px-3 py-1.5 text-sm text-white shadow-sm transition hover:bg-blue-700"
+        className="inline-block rounded-md border border-cyan-500/40 bg-gradient-to-r from-cyan-500 to-teal-500 px-3 py-1.5 text-sm font-semibold text-slate-950 shadow-sm transition hover:opacity-95 active:scale-95"
       >
         View Details
       </Link>
