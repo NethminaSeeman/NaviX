@@ -1,19 +1,33 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FiClock, FiVolume2 } from "react-icons/fi";
 import { featuredDestinations } from "@/utils/mockData";
 import { useSpeechSynthesis } from "@/hooks/useSpeechSynthesis";
 import { useWeather } from "@/context/WeatherContext";
 import WeatherCard from "@/components/WeatherCard";
+import { ceygoApi } from "@/services/ceygoApi";
 
 const DestinationDetailsPage = () => {
   const { id } = useParams();
   const { speak } = useSpeechSynthesis();
   const { weather } = useWeather();
+  const [destinations, setDestinations] = useState(featuredDestinations);
+
+  useEffect(() => {
+    const loadPlaces = async () => {
+      try {
+        const places = await ceygoApi.places();
+        if (places.length > 0) setDestinations(places);
+      } catch (_error) {
+        // Keep local data fallback.
+      }
+    };
+    loadPlaces();
+  }, []);
 
   const destination = useMemo(
-    () => featuredDestinations.find((item) => item.id === id) || featuredDestinations[0],
-    [id]
+    () => destinations.find((item) => item.id === id) || destinations[0],
+    [id, destinations]
   );
 
   return (
