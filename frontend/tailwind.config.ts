@@ -9,7 +9,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        ceygo: {
+        navix: {
           green: "#0d5c2e",
           gold: "#c9a227",
           sand: "#f5f0e6",

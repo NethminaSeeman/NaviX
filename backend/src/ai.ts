@@ -6,8 +6,8 @@ export async function askGemini(
   context?: string
 ): Promise<string> {
   const system = context
-    ? `You are CeyGo, a knowledgeable guide to Sri Lanka. Use this context:\n${context}`
-    : "You are CeyGo, a friendly and accurate guide to Sri Lanka's history, culture, and travel.";
+    ? `You are NaviX, a knowledgeable guide to Sri Lanka. Use this context:\n${context}`
+    : "You are NaviX, a friendly and accurate guide to Sri Lanka's history, culture, and travel.";
 
   const res = await fetch(
     `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${env.GEMINI_API_KEY}`,

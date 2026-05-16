@@ -1,4 +1,4 @@
-# CeyGo
+# NaviX
 
 Voice-guided travel companion for exploring Sri Lanka — map navigation, weather, and AI-powered historical context powered by Gemini.
 

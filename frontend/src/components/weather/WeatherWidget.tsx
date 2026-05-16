@@ -28,8 +28,8 @@ export function WeatherWidget() {
   }, []);
 
   return (
-    <div className="rounded-xl border border-ceygo-green/20 bg-white p-4 shadow-sm">
-      <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-ceygo-green">
+    <div className="rounded-xl border border-navix-green/20 bg-white p-4 shadow-sm">
+      <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-navix-green">
         Weather
       </h2>
       {weather.loading && <p className="text-sm text-gray-500">Loading…</p>}

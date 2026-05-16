@@ -1,7 +1,7 @@
 export function MapView() {
   return (
     <div
-      className="flex h-full min-h-[60vh] items-center justify-center bg-ceygo-sand/50 text-gray-500"
+      className="flex h-full min-h-[60vh] items-center justify-center bg-navix-sand/50 text-gray-500"
       role="region"
       aria-label="Map"
     >

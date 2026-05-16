@@ -1,4 +1,4 @@
-name = "ceygo-api"
+name = "navix-api"
 main = "src/index.ts"
 compatibility_date = "2024-05-01"
 
