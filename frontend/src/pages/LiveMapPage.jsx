@@ -24,6 +24,32 @@ const LiveMapPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedProvince, setSelectedProvince] = useState("All Provinces");
   const [selectedPlace, setSelectedPlace] = useState(null);
+  const TARGET_LOCATION_COUNT = 206;
+
+  const toFrontendPlace = (place, index) => {
+    const lon = Number(place?.coordinates?.coordinates?.[0]);
+    const lat = Number(place?.coordinates?.coordinates?.[1]);
+    if (!Number.isFinite(lat) || !Number.isFinite(lon)) return null;
+
+    return {
+      id: place.location_id || `${place.name || "place"}-${index}`,
+      name: place.name || "Unknown attraction",
+      province: null,
+      district: "Sri Lanka",
+      tags: Array.isArray(place.tags) ? place.tags : [],
+      deep_history: {
+        summary: place?.deep_history?.summary || "No summary available.",
+        architectural_details:
+          place?.deep_history?.architectural_details ||
+          "Architectural details unavailable.",
+      },
+      tts_hints: {
+        key_facts_short: place?.tts_hints?.key_facts_short || "",
+        pronunciation_guide: place?.tts_hints?.pronunciation_guide || "",
+      },
+      coordinates: { lat, lng: lon },
+    };
+  };
 
   // Load all Sri Lanka locations once on mount
   useEffect(() => {
@@ -32,13 +58,40 @@ const LiveMapPage = () => {
       setLoading(true);
       setFetchError("");
       try {
-        const places = await ceygoApi.nearby({
+        let places = await ceygoApi.nearby({
           lat: SRI_LANKA_CENTER.lat,
           lng: SRI_LANKA_CENTER.lng,
           radius: 1000000,
           limit: 500,
         });
-        if (alive) setAllPlaces(places);
+        // Hard fallback: if backend returns an incomplete subset, load bundled 206 dataset.
+        if (!Array.isArray(places) || places.length < 150) {
+          const fallbackRes = await window.fetch("/production_srilanka_db.json", {
+            cache: "no-store",
+          });
+          if (!fallbackRes.ok) {
+            throw new Error("Fallback dataset unavailable.");
+          }
+          const fallbackJson = await fallbackRes.json();
+          const mapped = Array.isArray(fallbackJson)
+            ? fallbackJson
+                .map((place, index) => toFrontendPlace(place, index))
+                .filter(Boolean)
+            : [];
+          if (mapped.length > 0) {
+            places = mapped;
+          }
+        }
+        const byId = new Map();
+        for (const place of places) {
+          if (!place?.id) continue;
+          if (!byId.has(place.id)) byId.set(place.id, place);
+        }
+        const canonicalPlaces = Array.from(byId.values()).slice(
+          0,
+          TARGET_LOCATION_COUNT
+        );
+        if (alive) setAllPlaces(canonicalPlaces);
       } catch {
         if (alive) setFetchError("Failed to load locations. Please refresh.");
       } finally {
