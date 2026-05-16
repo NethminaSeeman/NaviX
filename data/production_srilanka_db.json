@@ -4846,5 +4846,311 @@
       "pronunciation_guide": "Fort Frederick is pronounced as 'Fort Fred-er-ick'.",
       "key_facts_short": "Built in 1624, significant for colonial history, located in Trincomalee."
     }
+  },
+  {
+    "location_id": "lk_navix_peradeniya_gardens",
+    "name": "Royal Botanical Gardens Peradeniya",
+    "coordinates": { "type": "Point", "coordinates": [80.5952, 7.2679] },
+    "category": "attraction",
+    "era": "British Colonial (1821)",
+    "deep_history": {
+      "summary": "The Royal Botanical Gardens at Peradeniya, established in 1821 on the site of a Kandyan royal garden, is one of the finest botanical gardens in Asia, covering 147 acres in a bend of the Mahaweli River just outside Kandy. The gardens house over 4,000 species of plants including a 60-metre Java Fig tree with an aerial root span of 2,500 square metres — one of the largest trees in Asia.",
+      "architectural_details": "The garden is organised into themed sections including the Orchid House (over 300 orchid species), the Spice Garden, Medicinal Plants collection, a palm avenue stretching 300 metres, the Great Lawn, and the Giant Bamboo grove featuring bamboo stalks up to 30 metres high. The suspension bridge over the Mahaweli River offers dramatic views of the garden from above. Colonial-era glasshouses and a palm house survive from the original British layout.",
+      "cultural_significance": "Peradeniya Gardens served as the Allied South East Asia Command headquarters during World War II, with Lord Mountbatten operating from offices within the grounds. The site was chosen for its botanical importance — many medicinal plants fundamental to 20th-century pharmaceutical development were first documented and cultivated here. The gardens also played a key role in establishing Sri Lanka's tea, rubber, and cinchona (quinine) plantation industries by propagating plant stock."
+    },
+    "tags": ["urban-park", "Heritage", "Colonial", "Nature", "Hill Country"],
+    "tts_hints": {
+      "pronunciation_guide": "Per-a-den-i-ya Bot-an-ic-al Gar-dens",
+      "key_facts_short": "147 acres, 4000 plant species, 60-metre Java Fig tree, WWII Mountbatten HQ, palm avenue, orchid house, near Kandy"
+    }
+  },
+  {
+    "location_id": "lk_navix_ratnapura",
+    "name": "Ratnapura Gem City",
+    "coordinates": { "type": "Point", "coordinates": [80.3833, 6.6833] },
+    "category": "attraction",
+    "era": "Ancient to Contemporary",
+    "deep_history": {
+      "summary": "Ratnapura — meaning 'City of Gems' in Sinhala — is the gem mining capital of Sri Lanka and one of the world's most prolific sources of precious stones. Blue sapphires, rubies, cat's eye chrysoberyls, alexandrite, and star sapphires have been mined from the river gravels and alluvial pits around Ratnapura for over 2,000 years. Some of the world's most famous gemstones — including the Blue Belle of Asia sapphire (392 carats) — originated here.",
+      "architectural_details": "The gem mining in Ratnapura is conducted by traditional open-pit mining in waterlogged alluvial gravels, using wooden frames and rattan baskets to sieve the gem-bearing gravel (illam) through a water-sluicing process unchanged for centuries. The National Gem and Jewellery Authority Museum in Ratnapura displays the extraordinary range of gems found in the region alongside the traditional mining equipment.",
+      "cultural_significance": "Sri Lanka's gem trade has shaped its relationships with the ancient world — Arab, Roman, Chinese, and Indian merchants all traded for Ceylon gems. Marco Polo wrote of Sri Lanka that it had 'the best rubies in the world, likewise sapphires, topazes, amethysts and many other precious stones.' The Star of India sapphire (563 carats, in the American Museum of Natural History) and the Blue Belle of Asia (392 carats, sold for $17.3 million in 2014) are among the world's most famous gems from this region."
+    },
+    "tags": ["museum", "Heritage", "Gemstones", "Traditional Industry", "South Sri Lanka"],
+    "tts_hints": {
+      "pronunciation_guide": "Rat-na-pu-ra Gem Ci-ty",
+      "key_facts_short": "City of Gems, 2000-year sapphire mining, Star of India sapphire, Blue Belle of Asia, traditional alluvial gem pitting, Marco Polo described"
+    }
+  },
+  {
+    "location_id": "lk_navix_madu_river",
+    "name": "Madu River Boat Safari",
+    "coordinates": { "type": "Point", "coordinates": [80.1183, 6.2333] },
+    "category": "attraction",
+    "era": "Natural Heritage",
+    "deep_history": {
+      "summary": "Madu Ganga is a UNESCO-listed Ramsar Wetland and one of Sri Lanka's most biodiverse river estuaries, a labyrinthine system of 64 islands, mangrove channels, and lagoons near Balapitiya on the southwest coast. Boat safaris wind through the mangrove corridors, stopping at islands with cinnamon gardens, a Buddhist temple, a fish therapy pool, and a snake farm — creating one of the most unique nature experiences in Sri Lanka.",
+      "architectural_details": "The Madu Ganga estuary covers 915 hectares of mangrove forest interspersed with sandy islands. One island houses the Kothduwa Raja Maha Vihara — a 200-year-old Buddhist temple accessible only by boat. Boat safari operators use traditional dugout canoes and fibre boats to navigate the narrow mangrove channels where the root systems of Rhizophora mangroves arch dramatically into the water.",
+      "cultural_significance": "Madu Ganga's 64 islands sustain communities that have lived entirely on water-based livelihoods for generations — fishing, cinnamon peeling (the traditional craft of stripping cinnamon bark by hand), and boat-building. The estuary is critical habitat for the critically endangered purple-faced langur, water monitors, mugger crocodiles, and over 300 bird species. The fish therapy pools, where small Garra rufa fish nibble dead skin, have become an unexpected tourist attraction."
+    },
+    "tags": ["urban-park", "Wildlife", "Nature", "West Coast", "Boat Safari"],
+    "tts_hints": {
+      "pronunciation_guide": "Ma-du Ri-ver Boat Sa-fa-ri, Ma-du Gan-ga",
+      "key_facts_short": "64 mangrove islands, UNESCO Ramsar wetland, cinnamon island, Buddhist temple by boat, crocodiles and monkeys, Balapitiya"
+    }
+  },
+  {
+    "location_id": "lk_navix_brief_garden",
+    "name": "Brief Garden",
+    "coordinates": { "type": "Point", "coordinates": [79.9833, 6.3833] },
+    "category": "attraction",
+    "era": "British Colonial (1929)",
+    "deep_history": {
+      "summary": "Brief Garden is the extraordinary creation of Bevis Bawa — elder brother of the celebrated architect Geoffrey Bawa — who transformed a rubber plantation into one of Asia's most eclectic private gardens over 50 years from 1929. Unlike Geoffrey's formal architectural approach, Bevis's garden is an exuberant, romantic creation filled with sculpture, whimsy, hidden grottos, and surprises — reflecting a larger-than-life personality who entertained royalty and celebrities.",
+      "architectural_details": "The 2.4-hectare garden features interconnected garden rooms — a sculpture terrace, a lawn theatre, jungle paths, a lily pond, and a series of outdoor dining areas. The house at its centre is filled with artwork, eclectic antiques, and portraits of the famous visitors Bevis entertained, including Vivien Leigh, Laurence Olivier, and Roger Moore. The garden has no fixed design plan — it evolved organically through Bevis's enthusiasm over five decades.",
+      "cultural_significance": "Brief Garden represents an extraordinary personal vision — a life's work of aesthetic expression by a man who shaped the cultural world of mid-20th century Sri Lanka. Bevis Bawa's garden parties became legendary gatherings of artists, writers, and socialites. The garden is now preserved as a heritage site and is one of Sri Lanka's most unusual cultural experiences — less a botanical garden than an outdoor autobiography of a remarkable personality."
+    },
+    "tags": ["museum", "Heritage", "Architecture", "West Coast", "Colonial"],
+    "tts_hints": {
+      "pronunciation_guide": "Brief Gar-den, Be-vis Ba-wa",
+      "key_facts_short": "Bevis Bawa's 50-year personal garden masterpiece, sculpture grottos, Vivien Leigh and Roger Moore visited, 1929, rubber plantation transformed"
+    }
+  },
+  {
+    "location_id": "lk_navix_muthurajawela",
+    "name": "Muthurajawela Wetlands",
+    "coordinates": { "type": "Point", "coordinates": [79.9167, 7.1167] },
+    "category": "national_park",
+    "era": "Natural Heritage",
+    "deep_history": {
+      "summary": "Muthurajawela (meaning 'Great Glittering Marsh') is Sri Lanka's largest coastal peat bog and mangrove wetland system, covering 3,072 hectares north of Colombo between Negombo and the capital. A critical ecological buffer protecting Colombo from storm surges and flooding, it is also the largest remaining habitat for the purple-faced langur — one of Sri Lanka's most endangered primates — within the Western Province.",
+      "architectural_details": "The wetland is navigated by a network of Dutch-era canals built in the 17th century as part of the Negombo-Colombo inland waterway system — many still passable by small boat today. The canals thread through mangrove forests where kingfishers, herons, crocodiles, and water monitors are regularly sighted. A visitor centre at Hamilton Canal provides boat hire and guided wetland tours.",
+      "cultural_significance": "Muthurajawela's Dutch canal network is a living legacy of the Dutch East India Company's engineering ambition in Ceylon — the canals were built to transport cinnamon and other spices from the interior to Colombo port without using the open sea. The wetland's ecological services — water filtration, flood protection, carbon sequestration — are valued at billions of rupees annually yet remain largely invisible to the city they protect. Restoration efforts since the 1990s have significantly improved bird diversity."
+    },
+    "tags": ["urban-park", "Wildlife", "West Coast", "Wetland", "Boat Safari"],
+    "tts_hints": {
+      "pronunciation_guide": "Mu-thu-ra-ja-we-la Wet-lands, Great Glit-ter-ing Marsh",
+      "key_facts_short": "Largest coastal marsh near Colombo, Dutch colonial canals 17th century, purple-faced langur habitat, crocodiles and kingfishers, flood protection"
+    }
+  },
+  {
+    "location_id": "lk_navix_galle_face_green",
+    "name": "Galle Face Green",
+    "coordinates": { "type": "Point", "coordinates": [79.8467, 6.9218] },
+    "category": "attraction",
+    "era": "British Colonial (1859)",
+    "deep_history": {
+      "summary": "Galle Face Green is a 500-metre oceanfront promenade in central Colombo, facing the Indian Ocean, established in 1859 by Governor Sir Henry Ward as a public esplanade. It is the most iconic public space in Colombo — the city's living room — where families fly kites, eat street food, court romance, and gather at sunset with the ocean breeze. Colonial-era hotels including the Galle Face Hotel (1864) — Sri Lanka's oldest hotel — line its northern end.",
+      "architectural_details": "The Green is a long, narrow strip of manicured lawn and paved esplanade between the Galle Road and the Indian Ocean. The Galle Face Hotel, opened in 1864 and continuously operating for 160 years, anchors the northern end with its grand colonial facade. The southern end transitions to the Colombo Lighthouse and the entrance to Colombo's commercial port. The sea wall along the Green takes the brunt of the Indian Ocean southwest monsoon each May–September.",
+      "cultural_significance": "Galle Face Green has been the social heartbeat of Colombo for over 160 years, hosting everything from colonial horse races and cricket matches to political rallies and the extraordinary 'Aragalaya' protest movement of 2022. Sri Lanka's most famous street food — isso wade (prawn fritters), kotthu roti, and locally made ice cream — is sold from vendors who have worked the promenade for generations. The sunset view from Galle Face, with dhow silhouettes against the Indian Ocean, is one of South Asia's great urban spectacles."
+    },
+    "tags": ["historical-monument", "Heritage", "Colombo", "Urban", "Ocean Front"],
+    "tts_hints": {
+      "pronunciation_guide": "Gal-le Face Green Co-lom-bo",
+      "key_facts_short": "Colombo's iconic oceanfront, 1859 colonial promenade, Galle Face Hotel 1864 oldest hotel, kite flying street food, Indian Ocean sunset views"
+    }
+  },
+  {
+    "location_id": "lk_navix_pettah",
+    "name": "Pettah Market Colombo",
+    "coordinates": { "type": "Point", "coordinates": [79.8575, 6.9369] },
+    "category": "attraction",
+    "era": "Dutch Colonial / British Colonial",
+    "deep_history": {
+      "summary": "Pettah is Colombo's oldest and most vibrant commercial district, an intense, colourful maze of street markets where every commodity is traded on dedicated streets — electronics on one lane, fabrics on the next, spices, hardware, watches, and flowers each with their own territory. The name derives from the Tamil word 'pettai' meaning 'outside the fort,' as this district grew outside the colonial Fort walls.",
+      "architectural_details": "Pettah's streetscape is a layered architectural palimpsest — Dutch colonial warehouses converted to shops, Victorian-era arcaded commercial buildings, art-deco facades, and modern concrete structures all coexisting in chaotic vitality. The Jami Ul-Alfar Mosque (1909), also called the Red Mosque for its striking candy-striped exterior, is the district's most distinctive landmark. The Old Dutch Period Museum occupies a 1780 Dutch colonial mansion.",
+      "cultural_significance": "Pettah is where all of Sri Lanka's communities meet in commerce — Tamil traders, Sinhalese wholesalers, Moor (Muslim) gem dealers, Burgher antique sellers, and Malay spice merchants all trade within blocks of each other, creating a commercial ecology unchanged in its essentials since the Portuguese era. The Manning Market (wholesale vegetable market) and Manning Place (fish market) are authentic Sri Lankan commercial experiences of extraordinary sensory intensity."
+    },
+    "tags": ["historical-monument", "Heritage", "Colombo", "Market", "Urban"],
+    "tts_hints": {
+      "pronunciation_guide": "Pet-tah Mar-ket Co-lom-bo",
+      "key_facts_short": "Colombo's oldest market district, candy-striped Red Mosque 1909, Dutch colonial museum, every commodity on dedicated streets, multi-community commerce"
+    }
+  },
+  {
+    "location_id": "lk_navix_parliament",
+    "name": "Parliament of Sri Lanka",
+    "coordinates": { "type": "Point", "coordinates": [79.8878, 6.8878] },
+    "category": "monument",
+    "era": "Contemporary (1982)",
+    "deep_history": {
+      "summary": "Sri Lanka's Parliament building, completed in 1982 and designed by architect Geoffrey Bawa, is widely regarded as his greatest work — an extraordinary fusion of traditional Sri Lankan architecture with modernist spatial principles, set on an island in the Diyawanna Oya lake in Sri Jayawardenepura Kotte. The building's design is so accomplished that it appears simultaneously ancient and entirely modern.",
+      "architectural_details": "The complex occupies a 6-hectare island reached by a ceremonial causeway. Bawa's design draws on the tradition of the Kandyan-era audience halls — open-sided, pavilion-based buildings with massive overhanging copper roofs — but interprets them through a modernist lens of precise geometry and spatial drama. The copper-clad roofs have weathered to a distinctive blue-green patina. The surrounding lake and landscaped grounds integrate the building seamlessly into the landscape.",
+      "cultural_significance": "Geoffrey Bawa's Parliament is considered one of the great public buildings of the 20th century in Asia, earning international recognition as a building that proves traditional forms can be authentically reinterpreted for modern democratic institutions. Sri Jayawardenepura Kotte — the suburb where the Parliament is located — was the ancient capital of the Kotte Kingdom (15th–16th centuries), making the choice of location a statement of historical continuity."
+    },
+    "tags": ["historical-monument", "Heritage", "Colombo", "Architecture", "Modern"],
+    "tts_hints": {
+      "pronunciation_guide": "Par-lia-ment of Sri Lan-ka, Sri Ja-ya-war-de-na-pu-ra Kot-te",
+      "key_facts_short": "Geoffrey Bawa's masterpiece 1982, island in lake, Kandyan pavilion modernist fusion, copper roof, one of Asia's great public buildings"
+    }
+  },
+  {
+    "location_id": "lk_navix_kosgoda_turtle",
+    "name": "Kosgoda Sea Turtle Conservation",
+    "coordinates": { "type": "Point", "coordinates": [80.0333, 6.2333] },
+    "category": "attraction",
+    "era": "Natural Heritage / Conservation",
+    "deep_history": {
+      "summary": "Kosgoda on Sri Lanka's southwest coast is home to one of the oldest sea turtle conservation projects in Asia, established in 1981. The Kosgoda Turtle Hatchery rescues eggs from nesting turtles on the beach, incubates them in protected sandy pits, and releases thousands of hatchlings each year. Five species of sea turtle nest on this stretch of coast, and the hatchery allows visitors to observe hatchlings up close before their ocean release.",
+      "architectural_details": "The hatchery consists of a beachside compound with incubation pits — sandy enclosures fenced with wire mesh — holding thousands of eggs at various stages of development. Holding tanks contain injured adult turtles undergoing rehabilitation. The facility is deliberately simple, prioritising function over aesthetics, with staff on round-the-clock patrol of the adjacent nesting beach.",
+      "cultural_significance": "Kosgoda's turtle conservation work began long before eco-tourism was a recognised concept — founded by a local businessman who recognised the crisis facing turtle populations from egg collection and habitat loss. The project has released over 1 million hatchlings since 1981. Kosgoda was severely affected by the 2004 tsunami, which destroyed the original hatchery — the rebuilt project became a symbol of community resilience, funded partly by international post-tsunami aid."
+    },
+    "tags": ["urban-park", "Wildlife", "Conservation", "West Coast", "Marine"],
+    "tts_hints": {
+      "pronunciation_guide": "Kos-go-da Sea Tur-tle Con-ser-va-tion",
+      "key_facts_short": "1981 oldest turtle project in Asia, 1 million hatchlings released, five turtle species, hands-on hatchling experience, post-tsunami symbol"
+    }
+  },
+  {
+    "location_id": "lk_navix_nelligala",
+    "name": "Nelligala International Buddhist Centre",
+    "coordinates": { "type": "Point", "coordinates": [80.6333, 7.2833] },
+    "category": "religious_site",
+    "era": "Contemporary",
+    "deep_history": {
+      "summary": "Nelligala International Buddhist Centre sits on a hillside outside Kandy with stunning panoramic views of the Kandy city and surrounding highland valley. The centre features a large white stupa visible from across the Kandy basin, a meditation hall accommodating international retreatants, and a serene garden pathway to the summit. It represents a modern expression of Sri Lanka's living Theravada Buddhist tradition.",
+      "architectural_details": "The complex is built on a series of hillside terraces, with a striking white dagoba at the summit connected by a covered pilgrim path. The image house and meditation halls are built in modern adaptations of the Kandyan architectural tradition — white walls, terracotta tile roofs, and timber-screened verandas. The 360-degree view from the dagoba terrace encompasses the entire Kandy basin.",
+      "cultural_significance": "Nelligala serves both as an active monastic centre and as an international meditation retreat facility, hosting practitioners from across Asia, Europe, and North America. Its hilltop position with unobstructed views of the central highlands creates an environment of unusual tranquillity within sight of Sri Lanka's most sacred city. The white stupa, lit at night, is visible from Kandy town as a serene landmark above the city."
+    },
+    "tags": ["religious-temple", "Buddhist", "Hill Country", "Meditation", "Viewpoint"],
+    "tts_hints": {
+      "pronunciation_guide": "Nel-li-ga-la In-ter-na-tion-al Bud-dhist Cen-tre",
+      "key_facts_short": "Hilltop stupa with panoramic Kandy views, international meditation retreats, modern Theravada centre, night-lit dagoba, outside Kandy"
+    }
+  },
+  {
+    "location_id": "lk_navix_somawathiya",
+    "name": "Somawathiya National Park",
+    "coordinates": { "type": "Point", "coordinates": [81.1667, 8.0000] },
+    "category": "national_park",
+    "era": "Established 1986",
+    "deep_history": {
+      "summary": "Somawathiya National Park in northeastern Sri Lanka combines extraordinary wildlife habitat with one of the most sacred Buddhist sites in the country — the Somawathiya Chaitya stupa, believed to enshrine the right tooth of the Buddha. The park protects a critical elephant corridor along the Mahaweli River and is home to large herds of wild elephants, leopards, sloth bears, and hundreds of bird species.",
+      "architectural_details": "The Somawathiya Chaitya, a gleaming white stupa situated on the banks of the Mahaweli River, dates to the 2nd century BC and was built by King Kavantissa to house the tooth relic. The stupa's riverside location creates a uniquely atmospheric pilgrimage experience, with wild elephants sometimes visible from the temple grounds across the river. The surrounding park is dry zone jungle with riverine forest along the Mahaweli.",
+      "cultural_significance": "Somawathiya is one of the 16 sacred places (Solosmasthana) in Sri Lanka's Buddhist pilgrimage tradition — sites specifically blessed by the Buddha during his visits to the island. The Poson Poya full moon festival in June brings tens of thousands of pilgrims to Somawathiya, many travelling on foot for days from across the country in the ancient tradition of pilgrimage walking. The combination of sacred site and wildlife creates an experience found nowhere else in Sri Lanka."
+    },
+    "tags": ["religious-temple", "Buddhist", "Wildlife", "Heritage", "North East"],
+    "tts_hints": {
+      "pronunciation_guide": "So-ma-wath-i-ya Na-tion-al Park",
+      "key_facts_short": "Sacred Buddhist stupa 2nd century BC, Buddha tooth relic, elephants visible from temple, Poson Poya pilgrimage, 16 sacred places of Sri Lanka"
+    }
+  },
+  {
+    "location_id": "lk_navix_maduru_oya",
+    "name": "Maduru Oya National Park",
+    "coordinates": { "type": "Point", "coordinates": [81.1333, 7.7000] },
+    "category": "national_park",
+    "era": "Established 1983",
+    "deep_history": {
+      "summary": "Maduru Oya National Park in eastern Sri Lanka, established in 1983 to protect the catchment of the Maduru Oya Reservoir, is one of the four national parks constituting the Mahaweli development zone conservation network. It is home to one of the highest concentrations of wild elephants in Sri Lanka and shelters the last remaining community of Veddah people — Sri Lanka's indigenous forest-dwellers — within its boundaries.",
+      "architectural_details": "The park's terrain is predominantly dry zone mixed forest with several ancient irrigation tanks within its boundaries. The Maduru Oya reservoir, constructed as part of the Accelerated Mahaweli Programme, provides permanent water that attracts wildlife year-round. Ancient ruins of the Mahakanadarawa irrigation complex within the park reveal centuries of human habitation before the area was gazetted as protected land.",
+      "cultural_significance": "The Veddah communities of Maduru Oya — the Dambana Veddah — are the direct descendants of Sri Lanka's pre-Sinhalese inhabitants, maintaining a forest culture that predates the arrival of the Indo-Aryan settlers 2,500 years ago. Their traditional knowledge of forest plants, honey-gathering, and tracking is increasingly recognised as irreplaceable cultural heritage. The park's protection simultaneously protects both biodiversity and the living indigenous culture of Sri Lanka's original people."
+    },
+    "tags": ["urban-park", "Wildlife", "Elephant", "Indigenous Culture", "East Sri Lanka"],
+    "tts_hints": {
+      "pronunciation_guide": "Ma-du-ru O-ya Na-tion-al Park",
+      "key_facts_short": "Highest elephant concentration, last Veddah indigenous community within park, Mahaweli reservoir, ancient irrigation ruins, eastern Sri Lanka"
+    }
+  },
+  {
+    "location_id": "lk_navix_okanda",
+    "name": "Okanda Beach and Temple",
+    "coordinates": { "type": "Point", "coordinates": [81.8000, 6.6167] },
+    "category": "attraction",
+    "era": "Ancient / Natural Heritage",
+    "deep_history": {
+      "summary": "Okanda is a remote, pristine beach and ancient Hindu temple at the southern entrance of Kumana National Park on Sri Lanka's far east coast. The Okanda Devalaya — a small but powerful temple dedicated to Skanda — is the departure point for the Pada Yatra: the ancient annual pilgrimage on foot from Jaffna to Katharagama, a 500-km walk of 4–6 weeks undertaken by thousands of Tamil Hindu devotees every year.",
+      "architectural_details": "The Okanda Devalaya is a modest coastal temple of whitewashed walls and a simple gopuram entrance, positioned dramatically at the edge of the jungle where it meets the beach. The beach itself is wild and undeveloped, accessible only by 4WD through Kumana National Park — requiring a safari to reach the pilgrimage temple. The surrounding coastal forest is prime habitat for leopards, elephants, and sea turtles.",
+      "cultural_significance": "The Pada Yatra pilgrimage through Okanda is one of Asia's most extraordinary religious journeys — pilgrims travel barefoot through jungle, cross rivers, and walk along remote beaches for 4–6 weeks from Jaffna to Katharagama. The journey was suspended during the civil conflict and its revival post-2009 was a powerful symbol of reconciliation, with Tamil pilgrims crossing regions of the country they had not visited in decades. Okanda is where sea-crossing pilgrims land and begin the final southern leg of the journey."
+    },
+    "tags": ["religious-temple", "Hindu", "Beach", "East Coast", "Pilgrimage"],
+    "tts_hints": {
+      "pronunciation_guide": "O-kan-da Beach and Tem-ple",
+      "key_facts_short": "Pada Yatra pilgrimage start point, 500 km barefoot walk Jaffna to Katharagama, remote jungle beach, Skanda temple, Kumana Park entrance"
+    }
+  },
+  {
+    "location_id": "lk_navix_trincomalee_bay",
+    "name": "Trincomalee Bay",
+    "coordinates": { "type": "Point", "coordinates": [81.2333, 8.5667] },
+    "category": "attraction",
+    "era": "Ancient to Contemporary",
+    "deep_history": {
+      "summary": "Trincomalee Bay is one of the finest natural deep-water harbours in the world — a vast sheltered bay of extraordinary beauty that has shaped the history of maritime Asia for over 2,000 years. Ancient Tamil and Sinhalese kingdoms, Arab traders, Portuguese, Dutch, British, and Japanese military commanders all recognised its strategic supremacy. Napoleon called it 'the finest harbour in the world; whoever holds Trincomalee holds the Indian Ocean.'",
+      "architectural_details": "The bay's geography is defined by three major promontories — Swami Rock (topped by Koneswaram Temple and Fort Frederick), Ostenburg Point, and China Bay — that create a sheltered anchorage of extraordinary scale. The harbour is deep enough to accommodate the largest modern vessels. Its shores include Nilaveli and Uppuveli beaches to the north, Marble Beach within the former military zone, and the historic town of Trincomalee itself with its Dutch-era buildings.",
+      "cultural_significance": "Trincomalee Bay's historical significance spans 2,000 years of maritime history. The Battle of Ceylon in April 1942 — when Japanese aircraft attacked Trincomalee and sank HMS Hermes — was a pivotal moment in World War II. The harbour's waters contain some of Asia's finest wreck diving, including HMS Hermes at 60 metres depth. Post-war, Trincomalee has emerged as eastern Sri Lanka's tourism centrepiece, its harbour offering whale watching, snorkelling, diving, and coastal cruises."
+    },
+    "tags": ["historical-monument", "Heritage", "East Coast", "Harbour", "Maritime"],
+    "tts_hints": {
+      "pronunciation_guide": "Trin-co-ma-lee Bay",
+      "key_facts_short": "World's finest natural harbour, Napoleon's quote, WWII HMS Hermes sunk, 2000-year strategic history, whale watching and wreck diving"
+    }
+  },
+  {
+    "location_id": "lk_navix_alankuda",
+    "name": "Alankuda Beach",
+    "coordinates": { "type": "Point", "coordinates": [79.7700, 8.2800] },
+    "category": "beach",
+    "era": "Natural Heritage",
+    "deep_history": {
+      "summary": "Alankuda is a secluded beach on the Kalpitiya Peninsula, a thin sandy spit on Sri Lanka's northwest coast where the Indian Ocean meets the Puttalam Lagoon. The beach is surrounded by some of the finest kite surfing conditions in Asia — with consistent trade winds from November to April — and the waters offshore host regular sightings of spinner dolphins and blue whales. The peninsula's isolation has preserved it as one of Sri Lanka's most pristine beach environments.",
+      "architectural_details": "Alankuda's beach setting is defined by its extraordinary narrowness — the peninsula is sometimes only 200 metres wide, with lagoon on one side and ocean on the other, creating a unique dual waterfront experience. The accommodation is dominated by small eco-lodges built from natural materials with minimal environmental footprint. The surrounding lagoon shoreline is fringed with mangroves sheltering flamingos, pelicans, and wading birds.",
+      "cultural_significance": "Alankuda and the Kalpitiya Peninsula have become central to Sri Lanka's emerging eco-tourism identity — offering experiences that combine world-class kite surfing, whale and dolphin watching, snorkelling over Bar Reef Marine Sanctuary, and flamingo watching in Puttalam Lagoon. The area's development has provided economic alternatives for fishing communities whose traditional catches have declined due to overfishing, making it a model for community-based coastal tourism."
+    },
+    "tags": ["beach", "Wildlife", "West Coast", "Kite Surfing", "Eco Tourism"],
+    "tts_hints": {
+      "pronunciation_guide": "A-lan-ku-da Beach, Kal-pi-ti-ya",
+      "key_facts_short": "World-class kite surfing, lagoon and ocean both sides, spinner dolphins, flamingos in lagoon, pristine northwest peninsula, eco-lodges"
+    }
+  },
+  {
+    "location_id": "lk_navix_mullaitivu",
+    "name": "Mullaitivu Coast",
+    "coordinates": { "type": "Point", "coordinates": [80.8167, 9.2667] },
+    "category": "beach",
+    "era": "Natural Heritage / Contemporary History",
+    "deep_history": {
+      "summary": "Mullaitivu is a remote district on Sri Lanka's northern coast, once the heartland of LTTE (Liberation Tigers of Tamil Eelam) territory and the site of the final battle of the civil war in May 2009. Today the area is gradually opening to tourism, revealing a coastline of extraordinary wild beauty — long, empty beaches, a lagoon system, and the Nandikadal Lagoon where the conflict finally ended. A civil war museum and war memorials are emerging as sites of remembrance.",
+      "architectural_details": "The coastline features unbroken stretches of white sand beach, some extending for tens of kilometres with no development, backed by coconut palms and scrub jungle. The Nandikadal Lagoon — the narrow strip of water where the final phase of the civil war was fought — is surrounded by memorials and former military positions. A sunken LTTE vessel is visible on the beach as an accidental war monument.",
+      "cultural_significance": "Mullaitivu's coast carries immense emotional weight for Sri Lanka's Tamil community — it is where tens of thousands of civilians were trapped during the final offensive. The site is the subject of ongoing debate about memorialisation, accountability, and reconciliation. The area's natural beauty — long considered among the finest unspoilt coastline in South Asia — has been largely preserved by decades of restricted access, making it simultaneously a place of tragedy and natural splendour."
+    },
+    "tags": ["beach", "Heritage", "North Sri Lanka", "Civil War History", "Untouched"],
+    "tts_hints": {
+      "pronunciation_guide": "Mul-lai-ti-vu Coast",
+      "key_facts_short": "Final civil war battleground 2009, wild untouched northern beaches, Nandikadal Lagoon, emerging reconciliation tourism, extraordinary unspoilt coastline"
+    }
+  },
+  {
+    "location_id": "lk_navix_puttalam_lagoon",
+    "name": "Puttalam Lagoon",
+    "coordinates": { "type": "Point", "coordinates": [79.8333, 8.0333] },
+    "category": "attraction",
+    "era": "Natural Heritage",
+    "deep_history": {
+      "summary": "Puttalam Lagoon is Sri Lanka's largest coastal lagoon, covering 16,000 hectares of brackish water, mangrove channels, and tidal flats on the northwest coast. It is a critically important habitat for migratory waterbirds from the Palearctic region, supports the largest prawn and fish farming industry in Sri Lanka, and is the economic lifeline for over 50 traditional fishing villages around its shores.",
+      "architectural_details": "The lagoon's landscape is defined by an intricate network of mangrove-fringed channels, open water expanses, and salt-encrusted mudflats. The town of Puttalam at its northern end features a Dutch-era watchtower and colonial church. Traditional fishing boats — outrigger canoes (oruwa) and fibre trawlers — work the lagoon waters alongside modern prawn farms enclosed by earthen bunds.",
+      "cultural_significance": "Puttalam Lagoon is one of Sri Lanka's most important fisheries, supporting communities that have worked its waters for over a millennium. The Muslim fishing communities of Puttalam — some of the oldest Muslim settlements in Sri Lanka, with Arab trading origins dating to the 8th century — maintain distinct cultural traditions including unique fishing boat designs and food culture. The lagoon's flamingo and pelican flocks create extraordinary wildlife spectacles accessible by local fishing boat."
+    },
+    "tags": ["urban-park", "Wildlife", "West Coast", "Birdwatching", "Lagoon"],
+    "tts_hints": {
+      "pronunciation_guide": "Put-ta-lam La-goon",
+      "key_facts_short": "Largest coastal lagoon Sri Lanka, flamingos and pelicans, 8th century Arab Muslim fishing communities, prawn farming industry, migratory waterbirds"
+    }
+  },
+  {
+    "location_id": "lk_navix_jaffna_peninsula_beaches",
+    "name": "Casuarina Beach Jaffna",
+    "coordinates": { "type": "Point", "coordinates": [79.9833, 9.8000] },
+    "category": "beach",
+    "era": "Natural Heritage",
+    "deep_history": {
+      "summary": "Casuarina Beach on the Jaffna Peninsula is one of northern Sri Lanka's finest beaches — a long stretch of white sand fringed by casuarina (ironwood) trees on the shore of the Palk Strait, with extraordinarily calm, shallow water extending hundreds of metres. Reopened to tourism after decades of civil conflict, it is rapidly becoming the most popular beach in northern Sri Lanka for Tamil families and adventurous visitors from the south.",
+      "architectural_details": "The beach derives its name from the dense casuarina tree planting along the shore — the signature coastal tree of northern Sri Lanka, whose feathery needles create a distinctive shade canopy. The shallow, clear water over a sandy seabed is safe for family swimming for hundreds of metres from shore. Simple beach restaurants serving Jaffna-style seafood — crab curry, mutton rolls, and palmyra fruit dishes — line the shore.",
+      "cultural_significance": "Casuarina Beach represents the normalisation of northern Sri Lanka's tourist economy after the civil war's end in 2009. The Jaffna Peninsula's beaches were entirely closed to outsiders for over 25 years, making them among the least explored coastlines of South Asia. The beach is also a point of cultural exchange — southern Sinhalese visitors encounter Jaffna's distinct Tamil food culture, architecture, and social customs in a setting of natural beauty that encourages genuine cross-cultural contact."
+    },
+    "tags": ["beach", "North Sri Lanka", "Swimming", "Peaceful", "Post-War"],
+    "tts_hints": {
+      "pronunciation_guide": "Ca-su-a-ri-na Beach Jaf-fna",
+      "key_facts_short": "Finest beach north Sri Lanka, shallow calm water, casuarina shade trees, Jaffna seafood, post-war tourism, 25 years inaccessible"
+    }
   }
 ]
