@@ -35,6 +35,29 @@ const normalizePlace = (place, index) => {
     image: place.image || featuredDestinations[index % featuredDestinations.length].image,
     duration: place.duration || "2-3 hours",
     tips: Array.isArray(place.tips) ? place.tips : [],
+    tags: Array.isArray(place.tags) ? place.tags : [],
+    deep_history: {
+      summary:
+        place?.deep_history?.summary ||
+        place?.summary ||
+        place.history ||
+        place.description ||
+        "A notable Sri Lankan attraction with cultural value.",
+      architectural_details:
+        place?.deep_history?.architectural_details ||
+        place?.architectural_details ||
+        "Architectural details currently unavailable.",
+    },
+    tts_hints: {
+      key_facts_short:
+        place?.tts_hints?.key_facts_short ||
+        place?.key_facts_short ||
+        `${place.name || "This destination"} is a must-visit attraction in Sri Lanka.`,
+      pronunciation_guide:
+        place?.tts_hints?.pronunciation_guide ||
+        place?.pronunciation_guide ||
+        "",
+    },
     coordinates: {
       lat: Number(lat),
       lng: Number(lng),
