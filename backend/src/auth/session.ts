@@ -8,7 +8,7 @@
 
 import { Env, HttpError, User } from "../types";
 import { randomToken, sha256Hex } from "./crypto";
-import { findUserById, requireDb } from "./users";
+import { ensureAuthSchema, findUserById } from "./users";
 
 const DEFAULT_TTL_DAYS = 30;
 
@@ -22,7 +22,7 @@ export async function createSession(
   userId: string,
   ttlDays: number = DEFAULT_TTL_DAYS
 ): Promise<IssuedSession> {
-  const db = requireDb(env);
+  const db = await ensureAuthSchema(env);
   const token = randomToken(32);
   const tokenHash = await sha256Hex(token);
   const expiresAt = new Date(Date.now() + ttlDays * 24 * 60 * 60 * 1000).toISOString();
@@ -44,7 +44,7 @@ export async function resolveSession(
   const raw = readBearerToken(request);
   if (!raw) return null;
 
-  const db = requireDb(env);
+  const db = await ensureAuthSchema(env);
   const tokenHash = await sha256Hex(raw);
   const row = await db
     .prepare(
@@ -65,7 +65,7 @@ export async function resolveSession(
 export async function deleteSession(env: Env, request: Request): Promise<void> {
   const raw = readBearerToken(request);
   if (!raw) return;
-  const db = requireDb(env);
+  const db = await ensureAuthSchema(env);
   const tokenHash = await sha256Hex(raw);
   await deleteSessionByHash(db, tokenHash);
 }
@@ -74,7 +74,7 @@ export async function deleteAllSessionsForUser(
   env: Env,
   userId: string
 ): Promise<void> {
-  const db = requireDb(env);
+  const db = await ensureAuthSchema(env);
   await db.prepare("DELETE FROM sessions WHERE user_id = ?").bind(userId).run();
 }
 
