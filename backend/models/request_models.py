@@ -1,6 +1,6 @@
-from typing import Any, Literal
+from typing import Any, Literal, Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 
 
 IntentCategory = Literal[
@@ -15,9 +15,23 @@ IntentCategory = Literal[
 
 
 class ChatRequest(BaseModel):
-    lat: float = Field(..., description="User latitude")
-    lon: float = Field(..., description="User longitude")
-    query: str = Field(..., min_length=1, description="User spoken question")
+    """Chat input. `lat`/`lon` are optional so users can ask general
+    questions without granting geolocation. `prompt` is accepted as an alias
+    for `query` to keep the older frontend payload working."""
+
+    lat: Optional[float] = Field(default=None, description="User latitude (optional)")
+    lon: Optional[float] = Field(default=None, description="User longitude (optional)")
+    query: Optional[str] = Field(default=None, min_length=1, description="User spoken question")
+    prompt: Optional[str] = Field(default=None, min_length=1, description="Alias for query")
+    context: Optional[Any] = Field(default=None, description="Free-form client context (ignored server-side)")
+
+    @model_validator(mode="after")
+    def _coerce_query(self) -> "ChatRequest":
+        if not self.query and self.prompt:
+            self.query = self.prompt
+        if not self.query:
+            raise ValueError("Either 'query' or 'prompt' is required.")
+        return self
 
 
 class WeatherResponse(BaseModel):
@@ -50,7 +64,7 @@ class IntentResult(BaseModel):
 class ChatResponse(BaseModel):
     answer: str
     intent: IntentResult
-    weather: WeatherResponse
-    nearby: list[NearbyPlace]
-    matched_location_coordinates: dict[str, float] | None = None
+    weather: Optional[WeatherResponse] = None
+    nearby: list[NearbyPlace] = []
+    matched_location_coordinates: Optional[dict[str, float]] = None
     voice_script: str
