@@ -1,35 +1,7 @@
-/**
- * D1 access layer for the `places` table (rich schema from
- * migrations/0003_rich_places.sql). All functions return objects in the
- * shape expected by the frontend (lat/lng coords, tags array, deep_history,
- * tts_hints) — never raw DB rows.
- */
-
 import { NearbyPlace, Place } from "./types";
 
-export type HeritageContext = {
-  nearest_site: string;
-  district: string;
-  distance_meters: number;
-  verified_history: string;
-  cultural_rules: string;
-};
-
-export type NearbyLocation = {
-  id: string;
-  name: string;
-  longitude: number;
-  latitude: number;
-  category: string | null;
-  era: string | null;
-  deep_history: unknown;
-  tags: unknown;
-  tts_hints: unknown;
-  distance_meters: number;
-};
-
 type PlaceRow = {
-  id: number;
+  location_id: string;
   name: string;
   category: string | null;
   era: string | null;
@@ -43,61 +15,8 @@ type PlaceRow = {
   lng: number;
 };
 
-type NearbyRow = {
-  id: string;
-  name: string;
-  longitude: number;
-  latitude: number;
-  category: string | null;
-  era: string | null;
-  deep_history: string | null;
-  tags: string | null;
-  tts_hints: string | null;
-  distance_meters: number;
-};
-
-function parseCulturalRules(rules: string | null): string | string[] {
-  if (!rules) return "";
-  try {
-    const parsed = JSON.parse(rules) as unknown;
-    if (Array.isArray(parsed)) {
-      return parsed.filter((item): item is string => typeof item === "string");
-    }
-  } catch {
-    // Keep original string value when not JSON.
-  }
-  return rules;
-}
-
 const SELECT_COLUMNS =
   "location_id, name, category, era, summary, architectural_details, cultural_significance, tags_json, tts_pronunciation, tts_key_facts, lat, lng";
-
-function parseJsonField<T>(value: string | null, fallback: T): T {
-  if (!value) return fallback;
-  try {
-    return JSON.parse(value) as T;
-  } catch {
-    return fallback;
-  }
-}
-
-function mapNearbyRow(row: NearbyRow): NearbyLocation {
-  return {
-    id: row.id,
-    name: row.name,
-    longitude: row.longitude,
-    latitude: row.latitude,
-    category: row.category,
-    era: row.era,
-    deep_history: parseJsonField(row.deep_history, null),
-    tags: parseJsonField(row.tags, [] as unknown[]),
-    tts_hints: parseJsonField(row.tts_hints, null),
-    distance_meters: row.distance_meters,
-  };
-}
-
-export async function findPlaces(env: Env): Promise<PlaceDocument[]> {
-  if (!env.DB) return [];
 
 export async function findPlaceByName(
   db: D1Database,
@@ -117,28 +36,19 @@ export async function searchPlacesByName(
 ): Promise<Place[]> {
   const like = `%${query.replace(/[%_]/g, "")}%`;
   const { results } = await db
-    .prepare(
-      `SELECT ${SELECT_COLUMNS} FROM places WHERE name LIKE ? COLLATE NOCASE LIMIT ?`
-    )
+    .prepare(`SELECT ${SELECT_COLUMNS} FROM places WHERE name LIKE ? COLLATE NOCASE LIMIT ?`)
     .bind(like, limit)
     .all<PlaceRow>();
   return (results ?? []).map(rowToPlace);
 }
 
-/**
- * Returns the N nearest places to (lat, lon) ordered ascending by distance.
- * SQLite has no haversine built-in, so we compute it in JS over all rows.
- * With ~140 rows this is trivial (< 1 ms).
- */
 export async function findNearestPlaces(
   db: D1Database,
   lat: number,
   lng: number,
   limit = 5
 ): Promise<NearbyPlace[]> {
-  const { results } = await db
-    .prepare(`SELECT ${SELECT_COLUMNS} FROM places`)
-    .all<PlaceRow>();
+  const { results } = await db.prepare(`SELECT ${SELECT_COLUMNS} FROM places`).all<PlaceRow>();
 
   const ranked: NearbyPlace[] = (results ?? []).map((row) => {
     const place = rowToPlace(row);
@@ -158,8 +68,6 @@ export async function findNearestPlaces(
   ranked.sort((a, b) => a.distance_km - b.distance_km);
   return ranked.slice(0, Math.max(1, limit));
 }
-
-// ─────────────────────────────────────────────────────────────────────
 
 function rowToPlace(row: PlaceRow): Place {
   return {
@@ -181,101 +89,20 @@ function rowToPlace(row: PlaceRow): Place {
   };
 }
 
-export async function findNearbyLocations(
-  env: Env,
-  lat: number,
-  lng: number,
-  radiusMeters: number,
-  limit = 50
-): Promise<NearbyLocation[]> {
-  if (!env.DB) return [];
-
-  const safeRadius = Math.max(1, radiusMeters);
-  const safeLimit = Math.min(Math.max(1, Math.floor(limit)), 200);
-
-  // Fast bounding-box prefilter to reduce expensive trig operations.
-  const earthMetersPerDegree = 111320;
-  const latDelta = safeRadius / earthMetersPerDegree;
-  const cosLat = Math.cos((lat * Math.PI) / 180);
-  const lngDelta =
-    safeRadius / (earthMetersPerDegree * Math.max(Math.abs(cosLat), 0.1));
-
-  const rad = 0.017453292519943295;
-  const query = `
-    SELECT
-      id,
-      name,
-      longitude,
-      latitude,
-      category,
-      era,
-      deep_history,
-      tags,
-      tts_hints,
-      distance_meters
-    FROM (
-      SELECT
-        id,
-        name,
-        longitude,
-        latitude,
-        category,
-        era,
-        deep_history,
-        tags,
-        tts_hints,
-        (
-          2 * 6371000 * ASIN(
-            SQRT(
-              POW(SIN(((?1 - latitude) * ${rad}) / 2), 2) +
-              COS(latitude * ${rad}) * COS(?1 * ${rad}) *
-              POW(SIN(((?2 - longitude) * ${rad}) / 2), 2)
-            )
-          )
-        ) AS distance_meters
-      FROM heritage_locations
-      WHERE latitude BETWEEN ?3 AND ?4
-        AND longitude BETWEEN ?5 AND ?6
-    )
-    WHERE distance_meters <= ?7
-    ORDER BY distance_meters ASC
-    LIMIT ?8
-  `;
-
-  const result = await env.DB.prepare(query)
-    .bind(
-      lat,
-      lng,
-      lat - latDelta,
-      lat + latDelta,
-      lng - lngDelta,
-      lng + lngDelta,
-      safeRadius,
-      safeLimit
-    )
-    .all<NearbyRow>();
-
-  return (result.results ?? []).map(mapNearbyRow);
+function parseTags(raw: string | null): string[] {
+  if (!raw) return [];
+  try {
+    const parsed = JSON.parse(raw) as unknown;
+    if (Array.isArray(parsed)) {
+      return parsed.filter((item): item is string => typeof item === "string");
+    }
+  } catch {
+    // Ignore parse failures and fall back below.
+  }
+  return [];
 }
 
-export function toNearbyResponse(
-  places: PlaceDocument[],
-  lat: number,
-  lng: number
-): Array<PlaceDocument & { distanceKm: number }> {
-  return places
-    .map((place) => {
-      const coords = place.coordinates ?? {
-        lat: place.location?.coordinates?.[1] ?? 0,
-        lng: place.location?.coordinates?.[0] ?? 0,
-      };
-      const distanceKm = haversineKm(lat, lng, coords.lat, coords.lng);
-      return { ...place, distanceKm };
-    })
-    .sort((a, b) => a.distanceKm - b.distanceKm);
-}
-
-export function haversineKm(
+function haversineKm(
   lat1: number,
   lng1: number,
   lat2: number,

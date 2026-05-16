@@ -16,10 +16,9 @@ import { runResponseAgent, toVoiceScript } from "./agents/response";
 import { runTourismAgent } from "./agents/tourism";
 import { runWeatherAgent } from "./agents/weather";
 import {
-  findNearbyLocations,
-  findNearestHeritage,
-  findPlaces,
-  type HeritageContext,
+  findNearestPlaces,
+  findPlaceByName,
+  searchPlacesByName,
 } from "./db";
 import {
   ChatRequest,
@@ -101,45 +100,8 @@ export default {
 
 // ───────────────────────────────────────── Handlers
 
-      if (
-        (url.pathname === "/api/nearby" || url.pathname === "/nearby") &&
-        request.method === "GET"
-      ) {
-        const lat = Number(url.searchParams.get("lat"));
-        const lng = Number(
-          url.searchParams.get("lng") ?? url.searchParams.get("lon")
-        );
-        if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
-          return json({ error: "lat and lng are required numbers" }, 400);
-        }
-
-        let radiusMeters: number;
-        try {
-          radiusMeters = parseNearbyRadiusMeters(url);
-        } catch (err) {
-          return json(
-            { error: err instanceof Error ? err.message : "invalid radius" },
-            400
-          );
-        }
-
-        const limitRaw = Number(url.searchParams.get("limit") ?? "50");
-        const limit = Number.isFinite(limitRaw) ? limitRaw : 50;
-
-        const rows = await findNearbyLocations(
-          env,
-          lat,
-          lng,
-          radiusMeters,
-          limit
-        );
-        return json({
-          count: rows.length,
-          radius_meters: radiusMeters,
-          data: rows,
-        });
-      }
-
+async function healthHandler(env: Env): Promise<Record<string, unknown>> {
+  const d1 = env.DB ? "configured" : "missing";
   return {
     status: "ok",
     services: {
