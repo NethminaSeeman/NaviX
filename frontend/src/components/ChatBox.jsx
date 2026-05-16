@@ -36,17 +36,20 @@ const ChatBox = () => {
     .find((message) => message.role === "assistant");
 
   return (
-    <div className="glass-card flex h-[72vh] flex-col overflow-hidden">
+    <div className="tech-panel flex h-[74vh] flex-col overflow-hidden">
       <motion.div
         initial={{ opacity: 0, y: -6 }}
         animate={{ opacity: 1, y: 0 }}
-        className="border-b border-slate-200/70 bg-white/60 px-4 py-3 text-sm font-medium text-slate-600 backdrop-blur-xl dark:border-slate-700 dark:bg-slate-900/40 dark:text-slate-200"
+        className="flex items-center justify-between border-b border-slate-200/70 bg-white/60 px-4 py-3 text-sm font-medium text-slate-600 backdrop-blur-xl dark:border-cyan-500/20 dark:bg-slate-900/50 dark:text-slate-200"
       >
-        CeyGo Assistant is online for live Sri Lanka guidance.
+        <span>NaviX Assistant is online for Sri Lanka guidance.</span>
+        <span className="mono-label text-[10px] text-cyan-600 dark:text-cyan-300">
+          Session_Active
+        </span>
       </motion.div>
       <div
         ref={listRef}
-        className="flex-1 space-y-4 overflow-y-auto p-4 md:p-6"
+        className="flex-1 space-y-4 overflow-y-auto bg-gradient-to-b from-transparent to-slate-100/50 p-4 md:p-6 dark:to-slate-900/20"
       >
         {messages.map((message) => (
           <MessageBubble key={message.id} message={message} />
@@ -56,14 +59,14 @@ const ChatBox = () => {
 
       {error && <p className="px-4 pb-2 text-xs text-red-500">{error}</p>}
 
-      <div className="border-t border-slate-200 p-3 dark:border-slate-700">
+      <div className="border-t border-slate-200 bg-white/70 p-3 dark:border-cyan-500/20 dark:bg-slate-900/50">
         <div className="mb-3 flex flex-wrap gap-2">
           {SUGGESTED_PROMPTS.map((prompt) => (
             <button
               key={prompt}
               type="button"
               onClick={() => handleSend(prompt)}
-              className="rounded-full bg-slate-100 px-3 py-1 text-xs hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700"
+              className="mono-label rounded-md border border-slate-300 bg-white px-3 py-1 text-[10px] tracking-[0.06em] text-slate-600 hover:border-cyan-500/50 hover:text-cyan-700 active:scale-95 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:border-cyan-500/50 dark:hover:text-cyan-200"
             >
               {prompt}
             </button>
@@ -73,8 +76,8 @@ const ChatBox = () => {
           <input
             value={input}
             onChange={(event) => setInput(event.target.value)}
-            placeholder="Ask CeyGo about destinations, culture, weather, or routes..."
-            className="flex-1 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ceygo-primary dark:border-slate-700 dark:bg-slate-900"
+            placeholder="Ask NaviX about destinations, culture, weather, or routes..."
+            className="flex-1 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 dark:border-slate-700 dark:bg-slate-900"
           />
           <VoiceButton
             listening={speech.listening}
@@ -84,7 +87,7 @@ const ChatBox = () => {
           <button
             type="button"
             onClick={() => handleSend()}
-            className="rounded-xl bg-ceygo-secondary p-3 text-white"
+            className="rounded-md bg-gradient-to-r from-cyan-500 to-teal-500 p-3 text-slate-950 shadow-[0_6px_16px_rgba(45,212,191,0.35)] active:scale-95"
             aria-label="Send message"
           >
             <FiSend />
@@ -92,7 +95,7 @@ const ChatBox = () => {
           <button
             type="button"
             onClick={() => tts.speak(lastAssistantMessage?.text)}
-            className="rounded-xl bg-ceygo-accent p-3 text-slate-900"
+            className="rounded-md border border-slate-300 bg-white p-3 text-slate-700 active:scale-95 dark:border-slate-700 dark:bg-slate-800 dark:text-cyan-200"
             aria-label="Play voice response"
           >
             <FiVolume2 />

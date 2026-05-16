@@ -1,0 +1,2474 @@
+[
+  {
+    "location_id": "lk_osm_node_6325660489",
+    "name": "Dive Seenigama Dive Lanka",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.0919254,
+        6.1583507
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_4556181993",
+    "name": "Turtle sanctuary",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.0884684,
+        6.1671685
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_6347257887",
+    "name": "Tsunami Monument",
+    "category": "monument",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.0892894,
+        6.1665372
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_3377399101",
+    "name": "Clippenburg Bastion",
+    "category": "archaeological_site",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.2140301,
+        6.0270001
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_11502316371",
+    "name": "Elephant riding",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.1728791,
+        6.0901532
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_4556165692",
+    "name": "Wijala beach",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.2636381,
+        5.9996808
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_6273572085",
+    "name": "Paid Palm Rope Swing",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.2600697,
+        6.0013739
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_11475829069",
+    "name": "Frog Rock",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.2619912,
+        6.0001052
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_11478088669",
+    "name": "Monkeys",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.3146697,
+        5.9986791
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_6151874578",
+    "name": "Kottawa Rainforest and Arboretum",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.3123094,
+        6.0973686
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5319727123",
+    "name": "Stick Fishermans",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.3323903,
+        5.9834929
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_10586767905",
+    "name": "Stick Fishing",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.3306171,
+        5.9844629
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_10586769305",
+    "name": "Stick Fishing",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.3285158,
+        5.9854749
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5800272353",
+    "name": "Pallisters",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.3953023,
+        5.9862051
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5242116921",
+    "name": "Turtle Bay",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.4655387,
+        5.9412891
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_9722122604",
+    "name": "Hemachandra Gunasekara",
+    "category": "memorial",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.4295665,
+        5.9738344
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_9722124151",
+    "name": "General Montagu Jayawickrama",
+    "category": "memorial",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.429318,
+        5.9738297
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_4620115989",
+    "name": "Tea factory Hill garden",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.2204598,
+        6.1556042
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_4621586590",
+    "name": "Tea shop-factory",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.3242,
+        6.1950683
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5018097621",
+    "name": "Sea Turtle conservation center",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.0055951,
+        6.3978652
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_4918571122",
+    "name": "Kosgoda Sea Turtle Conservation Project",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.0182795,
+        6.354312
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5386154922",
+    "name": "Kosgoda Sea Turtle Conservation Project",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.0182057,
+        6.354556
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_4693137589",
+    "name": "Jeffry bawa's garden",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.0216523,
+        6.4047562
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_13707543201",
+    "name": "Thun Bodhiya",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        79.9698396,
+        6.7033261
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5507198221",
+    "name": "Watch - Clock Tower",
+    "category": "monument",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.0630472,
+        6.7143904
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_10570114947",
+    "name": "Sinharaja, Lankagama Entrance",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.4529069,
+        6.3727073
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5745528021",
+    "name": "Sinharaja Conservation Centre",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.4786707,
+        6.3645587
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_4512854290",
+    "name": "Giant Nawada tree",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.4160946,
+        6.4202246
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_4512854289",
+    "name": "Sinharaja National Park",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.4159544,
+        6.4280468
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5679936821",
+    "name": "Pahiyangala cave.",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.2136,
+        6.6472
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_10204233717",
+    "name": "Moratuwa Clock Tower",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        79.8832732,
+        6.7775947
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5317654427",
+    "name": "Okada Temple",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        79.8640115,
+        6.8285224
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_6486247688",
+    "name": "Island Scuba",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        79.8609148,
+        6.8542187
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5102778721",
+    "name": "Urban Ruin",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        79.8557992,
+        6.915605
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_6152700385",
+    "name": "Felix Reginald Dias Bandaranaike",
+    "category": "memorial",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        79.8644419,
+        6.9120898
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5915271185",
+    "name": "Pettah Market",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        79.8499631,
+        6.9362523
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5242147923",
+    "name": "buddha statue",
+    "category": "monument",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        79.8774256,
+        6.9132399
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_4732044624",
+    "name": "Fishing at Bolgoda Lake",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        79.9219593,
+        6.7543681
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5898406686",
+    "name": "Methodist Church Wattala",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        79.8827022,
+        6.9907169
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_4440485990",
+    "name": "Travel with mathisha",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        79.9462551,
+        6.9776945
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5325160023",
+    "name": "Lanka Adventure Camp",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.068108,
+        7.0789421
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5052550121",
+    "name": "Statue of Lord buddha",
+    "category": "monument",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.0949664,
+        7.1421294
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_10920716110",
+    "name": "Buddha",
+    "category": "monument",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.48849,
+        6.81047
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5809896058",
+    "name": "rafting no 99",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.4320451,
+        6.990081
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5774416653",
+    "name": "Brickworks",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        79.8711571,
+        7.2828112
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_7091125991",
+    "name": "Kešu",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.1328856,
+        7.1848795
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5080700328",
+    "name": "Dunumala ella",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.2019743,
+        7.1478186
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5230868422",
+    "name": "Sanjaya",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.1208812,
+        7.2329372
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5797616053",
+    "name": "spice garden",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.4648578,
+        7.2467344
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_4550540793",
+    "name": "legale",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.3769608,
+        7.2538462
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5404930955",
+    "name": "Millennium Elephant Foundation",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.3837969,
+        7.2750643
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_7134834085",
+    "name": "Sucharitha's House",
+    "category": "monument",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.3372188,
+        7.4977466
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_6702565385",
+    "name": "Ruins",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.105187,
+        7.5969922
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_10815930110",
+    "name": "Ruin",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.1081471,
+        7.5976744
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_10815930111",
+    "name": "Circular ruin",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.1082547,
+        7.5983507
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_10815930112",
+    "name": "Outer wall",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.1084748,
+        7.5967007
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_10815937308",
+    "name": "Massive tree with ruins around",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.1080651,
+        7.5980243
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_10815940005",
+    "name": "Three ancient image houses",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.1065605,
+        7.5966802
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_10815940006",
+    "name": "Image House",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.1074443,
+        7.5981814
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_10815940008",
+    "name": "Monastery ruin",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.1076083,
+        7.5985342
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_9809202117",
+    "name": "Sunil's Housr",
+    "category": "memorial",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.1429682,
+        7.6350151
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_10814382919",
+    "name": "Well preserved 13th century temple",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.3131145,
+        7.816583
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_12775885901",
+    "name": "Wakeboard",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        79.7439173,
+        8.2339207
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_10811136108",
+    "name": "Rock cave with stone doorway",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.3895948,
+        8.3265829
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_6432436685",
+    "name": "Royal park (baths)",
+    "category": "monument",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.3900578,
+        8.3376481
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_10880157505",
+    "name": "Walisingha Harishchandra",
+    "category": "monument",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.4061778,
+        8.3369814
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5711360822",
+    "name": "Western Monastery",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.3757808,
+        8.3635575
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5412519221",
+    "name": "Dalada Maligawa",
+    "category": "memorial",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.3994321,
+        8.3558548
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_4621888689",
+    "name": "Moonstone II",
+    "category": "monument",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.3899695,
+        8.3703008
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_6683049985",
+    "name": "Ruins Main Residential Complex",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.3930744,
+        8.3677261
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_4409259289",
+    "name": "Citadel",
+    "category": "monument",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.4013921,
+        8.3594387
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_2831589055",
+    "name": "Wijayarama Archaeological Site",
+    "category": "ruins",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.3947055,
+        8.3936466
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5314443422",
+    "name": "Pankuliya Ashokaramaya",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.4100311,
+        8.3859549
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5711360821",
+    "name": "Kiribath Wahera",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.4004633,
+        8.3995613
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_10734725405",
+    "name": "Anuradhapura",
+    "category": "monument",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.4297335,
+        8.3015913
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_10814089805",
+    "name": "Ruin with pillars and stupa mounds",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.5055526,
+        8.3496058
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_6690060085",
+    "name": "Ruins",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.4279432,
+        8.3551703
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5046261527",
+    "name": "meditation temple",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.4673528,
+        8.352887
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_1732697627",
+    "name": "Isinbessagala Buddhist Temple",
+    "category": "ruins",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.481452,
+        8.568539
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_6305117585",
+    "name": "Dutch Horse stable",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        79.6580513,
+        9.5169717
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_6218908687",
+    "name": "Keeri beach",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        79.8724415,
+        8.9827155
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_4289829989",
+    "name": "Mannar Dutch Fort",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        79.9170635,
+        8.9758832
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_4723787590",
+    "name": "Baobab Tree",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        79.9233614,
+        8.981667
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_9875743717",
+    "name": "Queen's Tower",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        79.7200822,
+        9.4749543
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_9875807817",
+    "name": "Old horse stable",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        79.7152396,
+        9.482995
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_9880363417",
+    "name": "Delft island",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        79.6971916,
+        9.5133015
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5046507022",
+    "name": "Baobab Tree",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        79.7160156,
+        9.5107329
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_6304966311",
+    "name": "Baobab tree",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        79.7154119,
+        9.5124584
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5046516725",
+    "name": "Dutch Fort Ruins",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        79.7001435,
+        9.5280594
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_6304972688",
+    "name": "Dutch Hospital",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        79.702829,
+        9.5271318
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_6461934689",
+    "name": "Pigeon nest",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        79.7027238,
+        9.5278434
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_6371399387",
+    "name": "Baobab",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        79.8087433,
+        9.6050061
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_6451410387",
+    "name": "Punguduthivu Baobab Tree",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        79.8087971,
+        9.6049098
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_10882636005",
+    "name": "Jaffna scout group 2016",
+    "category": "monument",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.0143341,
+        9.6628331
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_4365906200",
+    "name": "Fort Hammenhiel கடல் கோட்டை",
+    "category": "fort",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        79.8479234,
+        9.7117061
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_11193962338",
+    "name": "arch",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.0359314,
+        9.6762438
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5493128921",
+    "name": "King Sangiliyan's Minister's House",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.0359869,
+        9.6775284
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5585546021",
+    "name": "Sankiliyan Minister’s Abode",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.0360354,
+        9.6774517
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5668567021",
+    "name": "Water tank",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.0444015,
+        9.7438906
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_10586762306",
+    "name": "Crocodile River",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.5399231,
+        5.9449137
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_10948764905",
+    "name": "Rev. Anagarika Dharmapala",
+    "category": "monument",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.5469835,
+        5.9489852
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_10779464806",
+    "name": "Blowhole",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.6333872,
+        5.9457353
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_11593689270",
+    "name": "Sea turtle feeding point",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.6827633,
+        5.9594366
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_13568838001",
+    "name": "Twin coconut tree swing",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.6848929,
+        5.9599002
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_11598066769",
+    "name": "CoCo Bay Beach",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.6995234,
+        5.9627474
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_11595481269",
+    "name": "Blue Beach Island",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.7197396,
+        5.9608061
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_4699139209",
+    "name": "Rock Pool",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.8625726,
+        6.0432445
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_12499358801",
+    "name": "Kahandamodara beach",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.8757292,
+        6.060401
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_4840725123",
+    "name": "Ashram Sri Lanka",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.7095071,
+        6.2570294
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_7255150485",
+    "name": "Trees with a lot of bats",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        81.2769551,
+        6.2878465
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_10570682463",
+    "name": "Sinharaja, Morningside Entrance 7km",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.6268698,
+        6.4324834
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_10920734166",
+    "name": "Buddha",
+    "category": "monument",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.6592623,
+        6.5009145
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_7164398705",
+    "name": "Tank 2",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.8609927,
+        6.3112543
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_7164398786",
+    "name": "udawalawe reservoir 1",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.8406391,
+        6.4580984
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_7164398894",
+    "name": "tank",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.8410149,
+        6.4525751
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_7164398696",
+    "name": "Tank",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.8372949,
+        6.4650524
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_7164398790",
+    "name": "Tank 3",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.7914233,
+        6.6751497
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5007045022",
+    "name": "Big Game Camp Pickup Spot",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        81.3680994,
+        6.4048783
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_4496380792",
+    "name": "Lulugamvehera National Park",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        81.2780426,
+        6.5351516
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_4496380791",
+    "name": "Weheragala National Park Entrance",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        81.3040448,
+        6.5405682
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_4496392090",
+    "name": "Luluganverhera National Park ticket office",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        81.3051958,
+        6.5401567
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5430606722",
+    "name": "Afternoon Cricket Spot",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.5999966,
+        6.8943294
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_4675292992",
+    "name": "Radella Tea Factory",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.7207169,
+        6.9285924
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_4979705921",
+    "name": "temple",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.9343211,
+        6.7718077
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_13015241103",
+    "name": "Buddhist Shrine",
+    "category": "wayside_shrine",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.8947155,
+        6.7803749
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_11612530869",
+    "name": "Summit level",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.833256,
+        6.848736
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_4675430289",
+    "name": "Waterfall",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.7387603,
+        6.9450388
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_7171516185",
+    "name": "Adma Agro Strawberry Farm",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.7165567,
+        7.029118
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_4675370791",
+    "name": "Edinburgh Tea Processing Center",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.7463278,
+        6.9411217
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_11052239805",
+    "name": "Row of white statues up to the temple",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.7659307,
+        6.9550802
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_10915395205",
+    "name": "World wars",
+    "category": "memorial",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.7677234,
+        6.9678669
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_6328536587",
+    "name": "Water Pools",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        81.0325218,
+        6.7355669
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_13017174101",
+    "name": "Hindu Tree Kovil",
+    "category": "wayside_shrine",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.9774415,
+        6.783433
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_2993920098",
+    "name": "Secret Waterfall",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        81.0766197,
+        6.8276089
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_10567161218",
+    "name": "Pallewela Ella",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        81.0814816,
+        6.8288186
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_4719045981",
+    "name": "Upper Rawana",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        81.0520032,
+        6.8372322
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_7178405688",
+    "name": "Hanging bridge",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        81.0523456,
+        6.8357172
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_11892745469",
+    "name": "Ella Organic Tea Garden",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        81.0334561,
+        6.8573499
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_10973269206",
+    "name": "Zero Arch Bridge (Black Bridge)",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        81.0433168,
+        6.8627366
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_11163050805",
+    "name": "Priya Cookery Class",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        81.0462148,
+        6.8735385
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_6251021786",
+    "name": "Flyvina - zipline",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        81.0621285,
+        6.8659937
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_4731608022",
+    "name": "Bhodhirukkarama Rajamaha Viharasthanaya Gamhatha",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.5625423,
+        7.2007914
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_7091125990",
+    "name": "Plantaz",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.5478382,
+        7.2704061
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5797630154",
+    "name": "Tea factory",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.5594977,
+        7.2640755
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_11823912370",
+    "name": "bats",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.5926362,
+        7.2754595
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5127717721",
+    "name": "New Ranweli Spice Garden 99",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.5929019,
+        7.2818123
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5747554723",
+    "name": "Vinja home",
+    "category": "castle",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.6805845,
+        7.2603351
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_4358591689",
+    "name": "Victoria Dam Observation Center",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.7880494,
+        7.2419686
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_3412740593",
+    "name": "Hunas Falls",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.6897795,
+        7.4017036
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_7025902985",
+    "name": "Buddha statue",
+    "category": "monument",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.6166963,
+        7.4970671
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5747565324",
+    "name": "Diyakwrella waterfall",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.8226821,
+        7.4476601
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_8566285117",
+    "name": "Walpolamulla",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.7687593,
+        7.4934698
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5213427822",
+    "name": "Hot Water Spring Mahaoya",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        81.3531299,
+        7.552153
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_4586724489",
+    "name": "Spice Garden #50",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.6274322,
+        7.583191
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_6649955785",
+    "name": "Ruins",
+    "category": "ruins",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.7488254,
+        7.9581412
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_10796165510",
+    "name": "Melu’s rock",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.7447426,
+        7.9612807
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_2019733819",
+    "name": "Pidurangala Vihara",
+    "category": "archaeological_site",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.7623997,
+        7.9658517
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_6649955485",
+    "name": "Chapter House",
+    "category": "ruins",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.7599013,
+        7.9699701
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_6649955585",
+    "name": "Image House",
+    "category": "ruins",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.759832,
+        7.9696702
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_10981045305",
+    "name": "Vanni Kuda Madu Church",
+    "category": "monument",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        81.1972774,
+        7.6641233
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_567018199",
+    "name": "Parakramabahu I",
+    "category": "memorial",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.994828,
+        7.9263122
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_11027213905",
+    "name": "Starting Point",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.9978651,
+        7.9426987
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_11029634305",
+    "name": "Bathing Pool",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.9976722,
+        7.9429845
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_6652869683",
+    "name": "Ruins",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.9942695,
+        7.9513899
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_11029625806",
+    "name": "Shiva Devale No 2",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        81.007509,
+        7.9499928
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_11029625807",
+    "name": "Damila Thupa",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        81.0048957,
+        7.969217
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5822839655",
+    "name": "Demala Maha Says stupa ruins",
+    "category": "monument",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        81.0061051,
+        7.9762662
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_4462730689",
+    "name": "M A N D U R",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        81.7650885,
+        7.4837759
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_4470686789",
+    "name": "Porativu",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        81.7590597,
+        7.5259599
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_4470686790",
+    "name": "Kaluthawalai",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        81.78774,
+        7.5386517
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_4470675790",
+    "name": "Palugamam",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        81.7615336,
+        7.5467199
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_4370658500",
+    "name": "Masjid Ul Jannah",
+    "category": "monument",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        81.848007,
+        7.3608208
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_11190045165",
+    "name": "Mahatma Gandhi Statue",
+    "category": "memorial",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        81.6989279,
+        7.7137822
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5714845930",
+    "name": "Monastery Ruins",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.6607336,
+        8.1186344
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_6315702786",
+    "name": "Big Tree",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.6604194,
+        8.118275
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_7211826885",
+    "name": "wow lake",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.7687674,
+        8.030803
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_7235296085",
+    "name": "Entrance Hurulu Eco Park",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.7701177,
+        8.0581698
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_11033747306",
+    "name": "Aqua Dreams",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        81.2187967,
+        8.6140228
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5682692325",
+    "name": "Monument of Victory",
+    "category": "monument",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.7261544,
+        9.3219605
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5669433624",
+    "name": "Memorial tamil tiger",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.7284822,
+        9.3158935
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5397206524",
+    "name": "Lake with crocodiles STP",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.8131217,
+        9.2733377
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5397206222",
+    "name": "Ocean park benches",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.8193537,
+        9.2714424
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_node_5669433623",
+    "name": "Road to subarine",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.755091,
+        9.32525
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_way_1472051842",
+    "name": "Moonstone Mines",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.0965757,
+        6.196523
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_way_262531868",
+    "name": "White Triangle Building",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        79.8465015,
+        6.9368333
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_way_374793744",
+    "name": "Historic Cargills building",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        79.8446886,
+        6.935746
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_way_711381263",
+    "name": "Kadugannawa Tea Factory",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.5108192,
+        7.2530431
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_way_543899232",
+    "name": "Mahasena Temple (Moonstone)",
+    "category": "monument",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.3919851,
+        8.3716023
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_way_550562510",
+    "name": "Twin Pond",
+    "category": "archaeological_site",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.4018278,
+        8.3711761
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_way_581144469",
+    "name": "The Alms hall",
+    "category": "ruins",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.5154681,
+        8.3519012
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_way_581144470",
+    "name": "The Relic House",
+    "category": "ruins",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.5153228,
+        8.3515592
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_way_581144471",
+    "name": "Assembly Hall",
+    "category": "ruins",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.5152325,
+        8.3512777
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_way_581132512",
+    "name": "Indikatu Seya Monastery",
+    "category": "ruins",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.5091937,
+        8.3531625
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_way_611905557",
+    "name": "Adam's Grave",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        79.7013802,
+        9.0912005
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_way_404078214",
+    "name": "Fort Hammenhiel",
+    "category": "fort",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        79.8479197,
+        9.7117162
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_way_1046933427",
+    "name": "Somerset Estate Tea Factory",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.7220339,
+        6.9283303
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_way_1133853104",
+    "name": "Hakgala Botanical Garden Entranc",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.8225683,
+        6.9266066
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_way_1427156317",
+    "name": "Demodora Nine Arch Bridge",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        81.0608974,
+        6.8768906
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_way_191377767",
+    "name": "Queen's Bath",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.6411342,
+        7.2929338
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_way_217310122",
+    "name": "Middle Palace",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.6418612,
+        7.2936127
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_way_23810659",
+    "name": "Lion Temple",
+    "category": "archaeological_site",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.7598528,
+        7.9568222
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_way_217591865",
+    "name": "Sigiriya",
+    "category": "ruins",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.7573295,
+        7.957059
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_way_275745837",
+    "name": "Royal Bath",
+    "category": "attraction",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        81.0024434,
+        7.942164
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_way_332874377",
+    "name": "Tivanka Image House",
+    "category": "monument",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        81.006039,
+        7.9786914
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_way_238423280",
+    "name": "St. Mary's Cathedral",
+    "category": "yes",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        81.696032,
+        7.712446
+      ]
+    }
+  },
+  {
+    "location_id": "lk_osm_way_439563994",
+    "name": "Fort Frederick",
+    "category": "fort",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        81.2427553,
+        8.5789433
+      ]
+    }
+  }
+]
