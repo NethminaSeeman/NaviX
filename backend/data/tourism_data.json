@@ -1047,5 +1047,1011 @@
       "pronunciation_guide": "Bun-da-la Na-tion-al Park",
       "key_facts_short": "Ramsar wetland, UNESCO biosphere, flamingos, 200 bird species, coastal lagoon system, southeastern Sri Lanka"
     }
+  },
+  {
+    "location_id": "lk_navix_hikkaduwa",
+    "name": "Hikkaduwa Coral Reef",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [80.1030, 6.1390]
+    },
+    "category": "beach",
+    "era": "Natural Heritage",
+    "deep_history": {
+      "summary": "Hikkaduwa is Sri Lanka's original beach resort destination, famous for its shallow coral sanctuary that shelters enormous sea turtles, colourful reef fish, and vibrant hard corals within swimming distance of shore. Declared a National Marine Sanctuary in 1979, the reef extends 300 metres offshore and remains one of the most accessible coral reef ecosystems in South Asia.",
+      "architectural_details": "The reef is entirely natural, comprising plate corals, brain corals, and staghorn formations in depths of 2–5 metres. The sandy beach is backed by a colourful strip of guesthouses, surf shops, and restaurants. The town retains much of its 1970s bohemian backpacker character despite decades of tourism development.",
+      "cultural_significance": "Hikkaduwa became internationally famous in the early 1970s as one of the first stops on the Asia hippie trail, attracting travellers from around the world. The resident sea turtle population — green turtles, hawksbill, and leatherback — have learned to approach snorkellers, creating one of the most memorable wildlife encounters on the island. The 2004 tsunami caused extensive reef damage that has since partially recovered."
+    },
+    "tags": ["beach", "Wildlife", "Snorkeling", "South Coast", "Marine"],
+    "tts_hints": {
+      "pronunciation_guide": "Hik-ka-du-wa Cor-al Reef",
+      "key_facts_short": "National marine sanctuary, resident sea turtles, 1970s surf town, shallow reef, south west coast"
+    }
+  },
+  {
+    "location_id": "lk_navix_matara_fort",
+    "name": "Matara Star Fort",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [80.5455, 5.9476]
+    },
+    "category": "archaeological_site",
+    "era": "Dutch Colonial (1763)",
+    "deep_history": {
+      "summary": "The Matara Star Fort is a compact and beautifully preserved Dutch fortification built in 1763 across the Nilwala River from the main Matara Fort. Its distinctive five-pointed star plan allowed cannon coverage in every direction with no blind spots — a masterpiece of 18th-century military geometry. It is one of the smallest but most perfectly intact Dutch forts in Asia.",
+      "architectural_details": "The star-shaped design features five triangular bastions projecting from a central hexagonal core, constructed from coral stone and brick with lime mortar. The walls stand 4–5 metres high and are surrounded by a water-filled moat. A single arched gateway with the Dutch East India Company (VOC) crest is the only entrance. Inside, the original guardhouse still stands.",
+      "cultural_significance": "The Star Fort was built to protect the nearby Matara Fort from landward attack across the river. Today it houses a small museum displaying Dutch-era artefacts including cannon balls, coins, and maps. Together with the main Matara Fort ramparts and the 18th-century Dutch Reformed Church nearby, it forms one of the best-preserved clusters of Dutch colonial military architecture in Sri Lanka."
+    },
+    "tags": ["historical-monument", "Heritage", "Colonial", "South Coast", "Archaeological"],
+    "tts_hints": {
+      "pronunciation_guide": "Ma-ta-ra Star Fort",
+      "key_facts_short": "Dutch star fort 1763, five-pointed bastions, VOC crest gateway, moat, perfectly preserved colonial military gem"
+    }
+  },
+  {
+    "location_id": "lk_navix_pinnawala",
+    "name": "Pinnawala Elephant Orphanage",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [80.3518, 7.2955]
+    },
+    "category": "attraction",
+    "era": "Established 1975",
+    "deep_history": {
+      "summary": "Pinnawala Elephant Orphanage, established in 1975 by the Sri Lanka Department of Wildlife Conservation, is the world's largest captive elephant herd and one of Asia's most celebrated wildlife attractions. Originally set up to care for orphaned baby elephants found in the wild, the colony has grown to over 90 elephants living together on a 25-acre coconut plantation beside the Maha Oya River.",
+      "architectural_details": "The facility comprises open fields, sheltered stalls, and direct river access to the Maha Oya, where the entire herd is bathed twice daily — one of the most spectacular wildlife spectacles in Asia. The surrounding village of Pinnawala has grown around the orphanage, with viewing platforms and riverside cafes offering close-up views of bathing elephants.",
+      "cultural_significance": "Pinnawala's twice-daily elephant bath in the Maha Oya river, with dozens of elephants of all ages wading and splashing, is among the most photographed wildlife events in Sri Lanka. The orphanage has successfully bred elephants in captivity and returned some to the wild. Its location between Colombo and Kandy makes it one of the most visited attractions on the island."
+    },
+    "tags": ["urban-park", "Wildlife", "Elephant", "Conservation", "Family"],
+    "tts_hints": {
+      "pronunciation_guide": "Pin-na-wa-la El-e-phant Or-phan-age",
+      "key_facts_short": "World's largest captive elephant herd, 90 elephants, river bathing twice daily, 1975, between Colombo and Kandy"
+    }
+  },
+  {
+    "location_id": "lk_navix_knuckles",
+    "name": "Knuckles Mountain Range",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [80.7995, 7.4635]
+    },
+    "category": "national_park",
+    "era": "Natural Heritage",
+    "deep_history": {
+      "summary": "The Knuckles Mountain Range, named for its resemblance to a clenched fist when viewed from the Kandy plains, is a UNESCO World Heritage Site comprising five major peaks and a complex of 34 summits in central Sri Lanka. The range is one of the island's most biodiverse areas, sheltering endemic species found nowhere else on Earth and hosting some of the finest trekking terrain in Asia.",
+      "architectural_details": "The range spans 155 square kilometres of misty cloud forest, montane grasslands, and deep river gorges. Traditional villages practising ancient Kandyan farming methods — including chena (slash-and-burn) cultivation and terraced paddy — are scattered through the lower valleys. The Corbett's Gap viewpoint provides panoramic views across Kandy and the central highlands.",
+      "cultural_significance": "The Knuckles Range forms part of the Central Highlands UNESCO World Heritage Site (2010) and contains 34 endemic vertebrate species. Ancient footpaths connecting isolated mountain villages have been converted into trekking trails of 2–5 days. The area's traditional communities maintain folk medicinal plant knowledge passed down for generations, making it a living laboratory of ethnobotany."
+    },
+    "tags": ["urban-park", "UNESCO", "Trekking", "Wildlife", "Hill Country"],
+    "tts_hints": {
+      "pronunciation_guide": "Knuck-les Moun-tain Range",
+      "key_facts_short": "UNESCO heritage, clenched fist silhouette, 34 peaks, endemic species, multi-day trekking, central highlands"
+    }
+  },
+  {
+    "location_id": "lk_navix_ravana_falls",
+    "name": "Ravana Falls",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [81.0467, 6.8656]
+    },
+    "category": "attraction",
+    "era": "Natural Heritage / Ancient Legend",
+    "deep_history": {
+      "summary": "Ravana Falls is one of the widest waterfalls in Sri Lanka, plunging 25 metres from the cliff edge above the Ella–Wellawaya road. The falls are deeply embedded in Sri Lankan mythology, said to be the site where the demon king Ravana hid Sita after abducting her from Rama — the cave behind the curtain of water is known as Ravana's Cave in local legend.",
+      "architectural_details": "The falls cascade over a broad basalt cliff face, spreading into a wide curtain of white water that narrows during dry season. The cliff face is lush with ferns and mosses, and the plunge pool at the base is accessible for swimming. The cave mouth is visible through the falling water and is accessible via a steep trail, though it is shallow and of limited depth.",
+      "cultural_significance": "Ravana Falls sits at the heart of the Ramayana trail in Sri Lanka, a pilgrim circuit linking sites associated with the Hindu epic Ramayana that draws thousands of Indian Hindu tourists annually. Sri Lankan tradition holds that Ravana, the demon king, was also a learned king of great power who ruled the island before the events of the Ramayana, making him a complex and fascinating figure in local heritage."
+    },
+    "tags": ["urban-park", "Nature", "Waterfall", "Hill Country", "Mythology"],
+    "tts_hints": {
+      "pronunciation_guide": "Ra-va-na Falls El-la",
+      "key_facts_short": "25-metre wide waterfall, Ravana's cave legend, Ramayana trail, Ella area, Hindu pilgrimage site"
+    }
+  },
+  {
+    "location_id": "lk_navix_bambarakanda",
+    "name": "Bambarakanda Falls",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [80.7879, 6.7544]
+    },
+    "category": "attraction",
+    "era": "Natural Heritage",
+    "deep_history": {
+      "summary": "Bambarakanda Falls is the highest waterfall in Sri Lanka, plunging 263 metres in a single free-falling drop from the Horton Plains escarpment into the valley below. Located in the Badulu Oya river basin near Haputale in the southern highlands, it is one of the most dramatic natural features in the country, visible from several kilometres away.",
+      "architectural_details": "The falls drop from a sheer cliff in a near-vertical single cascade, creating a fine mist that nourishes the lush montane vegetation surrounding the pool. The approach involves a 45-minute walk through pine forest and tea estates. The viewing area provides an unobstructed view of the full height of the falls against the surrounding highland escarpment.",
+      "cultural_significance": "Bambarakanda's dramatic height and remote highland setting make it a popular destination for hikers and nature lovers who rarely visit this less-touristed part of Sri Lanka. The surrounding area, near Haputale, is famous for its tea estates and the dramatic Lipton's Seat viewpoint, creating a highland trekking circuit of considerable scenic beauty."
+    },
+    "tags": ["urban-park", "Nature", "Waterfall", "Trekking", "Hill Country"],
+    "tts_hints": {
+      "pronunciation_guide": "Bam-ba-ra-kan-da Falls",
+      "key_facts_short": "Highest waterfall in Sri Lanka, 263 metres, single free-fall, Horton Plains escarpment, Haputale highlands"
+    }
+  },
+  {
+    "location_id": "lk_navix_aukana",
+    "name": "Aukana Buddha Statue",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [80.5766, 8.2003]
+    },
+    "category": "archaeological_site",
+    "era": "5th Century AD",
+    "deep_history": {
+      "summary": "The Aukana Buddha is a magnificent 12-metre standing Buddha statue carved from a single solid granite boulder in the 5th century AD, commissioned by King Dhatusena — the same king who built the legendary Kalawewa tank. Considered the finest rock-cut Buddha statue in Sri Lanka and one of the greatest examples of ancient South Asian sculpture, the statue still stands in near-perfect condition after 1,500 years.",
+      "architectural_details": "The statue stands in the abhaya mudra (hand raised in blessing) pose, carved from a single granite outcrop with only the lotus pedestal separately constructed. Its proportions follow ancient Sinhalese canonical sculpture rules precisely. The face retains extraordinary detail — serene features, elongated earlobes, and the ushnisha (cranial protuberance) marking enlightenment. The water flowing from a vessel in the right hand is a unique artistic feature.",
+      "cultural_significance": "Aukana is one of the four great standing Buddha statues of Sri Lanka, alongside Maligawila, Buduruvagala, and Sasseruwa. It remains an active site of Buddhist veneration, with monks maintaining a small temple complex around the statue. The site is most atmospheric at sunrise, when early morning pilgrims arrive and the golden light illuminates the towering stone figure."
+    },
+    "tags": ["historical-monument", "Buddhist", "Heritage", "Archaeological", "Sculpture"],
+    "tts_hints": {
+      "pronunciation_guide": "Au-ka-na Bud-dha Sta-tue",
+      "key_facts_short": "12-metre standing Buddha, carved from single granite boulder, 5th century AD, King Dhatusena, finest rock sculpture in Sri Lanka"
+    }
+  },
+  {
+    "location_id": "lk_navix_medirigiriya",
+    "name": "Medirigiriya Vatadage",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [81.0218, 8.0003]
+    },
+    "category": "archaeological_site",
+    "era": "7th Century AD",
+    "deep_history": {
+      "summary": "The Medirigiriya Vatadage is one of the best-preserved circular relic houses (vatadage) in Sri Lanka, dating to the 7th century AD. Located on a rocky plateau in the Polonnaruwa district, it is remarkably intact — retaining its concentric stone pillars, moonstone entrance steps, and four seated Buddha statues at the cardinal points, all carved from white limestone.",
+      "architectural_details": "The vatadage structure comprises three concentric circles of stone pillars — the outer ring has 32 pillars, the middle ring 16, and the inner ring 8 — supporting what was once a conical timber-and-tile roof over the central stupa. Four finely carved seated Buddhas face the four directions. The intricately carved moonstone steps at the entrance are considered among the finest in Sri Lanka.",
+      "cultural_significance": "Medirigiriya is significant as one of Sri Lanka's lesser-visited but best-preserved ancient sites, offering an experience of authentic archaeological heritage without crowds. The surrounding Medirigiriya forest reserve shelters a population of wild elephants, adding a wildlife dimension to the cultural visit. The site is included in the UNESCO Polonnaruwa World Heritage Zone."
+    },
+    "tags": ["historical-monument", "UNESCO", "Archaeological", "Buddhist", "Heritage"],
+    "tts_hints": {
+      "pronunciation_guide": "Me-di-ri-gi-ri-ya Va-ta-da-ge",
+      "key_facts_short": "7th century circular relic house, concentric stone pillars, four Buddha statues, finest moonstone steps, Polonnaruwa zone"
+    }
+  },
+  {
+    "location_id": "lk_navix_national_museum_colombo",
+    "name": "National Museum of Colombo",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [79.8613, 6.9108]
+    },
+    "category": "museum",
+    "era": "Established 1877",
+    "deep_history": {
+      "summary": "The National Museum of Colombo is the largest museum in Sri Lanka, founded in 1877 during British colonial rule by Governor Sir William Henry Gregory. Its collection spans over 100,000 artefacts tracing Sri Lankan civilization from prehistoric times through the colonial era, including the crown jewels and throne of the last Kandyan king — Sri Vikrama Rajasinha — surrendered to the British in 1815.",
+      "architectural_details": "The museum occupies a grand two-storey Italian Renaissance-style building with a porticoed facade, set within Viharamahadevi Park in Colombo 7. Its white colonnaded exterior and high-ceilinged galleries were designed to impress colonial visitors. Inside, rooms are arranged thematically — prehistoric, ancient, medieval, and colonial — with a natural history wing displaying endemic Sri Lankan fauna.",
+      "cultural_significance": "The museum's centrepiece is the Kandyan royal regalia — crown, sword, and throne — surrendered at the 1815 Kandyan Convention that ended Sri Lanka's independence. This collection represents the last tangible links to 2,000 years of Sinhalese royal history. The museum also houses the remarkable Sigiriya fresco reproductions, ancient manuscripts, and the largest collection of colonial-era paintings in South Asia."
+    },
+    "tags": ["museum", "Heritage", "Colombo", "Colonial", "History"],
+    "tts_hints": {
+      "pronunciation_guide": "Na-tion-al Mu-se-um of Co-lom-bo",
+      "key_facts_short": "Founded 1877, Kandyan royal crown and throne, 100,000 artefacts, Italian Renaissance building, Sri Lanka's largest museum"
+    }
+  },
+  {
+    "location_id": "lk_navix_pigeon_island",
+    "name": "Pigeon Island National Park",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [81.2246, 8.5975]
+    },
+    "category": "national_park",
+    "era": "Natural Heritage",
+    "deep_history": {
+      "summary": "Pigeon Island National Park, located just 1 km offshore from Nilaveli beach north of Trincomalee, is the only coral reef national park in Sri Lanka. Its shallow clear waters shelter the healthiest coral reef ecosystem on the island, with visibility up to 30 metres. Rock pigeons nesting on the island gave it its name. Blacktip reef sharks and spinner dolphins are regular visitors.",
+      "architectural_details": "The park comprises two small rocky islands surrounded by pristine coral reefs in the shallow waters of the Bay of Bengal. The larger island has a small sandy beach where visitors can land by boat. The reef ecosystem comprises extensive staghorn and plate coral gardens in 2–10 metres of water, home to over 300 species of fish and several species of sea turtle.",
+      "cultural_significance": "Pigeon Island represents one of Sri Lanka's most significant marine conservation efforts and a model for balancing eco-tourism with reef protection. Access is strictly regulated by boat permits and no-anchor zones protect the fragile coral. The park was declared a National Park in 2003, recognising the reef as a nationally irreplaceable natural asset along the less-visited east coast."
+    },
+    "tags": ["urban-park", "Wildlife", "Snorkeling", "Diving", "East Coast"],
+    "tts_hints": {
+      "pronunciation_guide": "Pi-geon Is-land Na-tion-al Park",
+      "key_facts_short": "Only coral reef national park in Sri Lanka, 30-metre visibility, blacktip sharks, 300 fish species, Trincomalee coast"
+    }
+  },
+  {
+    "location_id": "lk_navix_nilaveli",
+    "name": "Nilaveli Beach",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [81.2281, 8.6388]
+    },
+    "category": "beach",
+    "era": "Contemporary",
+    "deep_history": {
+      "summary": "Nilaveli is a long, wide, white-sand beach stretching 8 km north of Trincomalee on Sri Lanka's northeast coast. Protected from the southwest monsoon by the geography of the Bay of Bengal, it offers calm swimming conditions from April to September when the west coast is rough. It serves as the mainland base for boat trips to Pigeon Island National Park.",
+      "architectural_details": "Nilaveli's beach is characterised by its extraordinary width at low tide — sometimes 100 metres from wave line to vegetation — backed by a fringe of casuarina and palm trees. The beachfront development is low-key compared to the south coast, with small guesthouses and mid-range hotels. Fishing villages at either end of the beach maintain traditional boat-building and net-fishing practices.",
+      "cultural_significance": "Nilaveli was severely affected by both the 2004 tsunami and decades of civil conflict that restricted access to the north and east. Its post-war development as a tourist destination represents an important dimension of Sri Lanka's national reconciliation process. The beach's remarkable cleanliness and low visitor numbers, a legacy of its isolation, make it one of the most pristine long beaches in South Asia."
+    },
+    "tags": ["beach", "East Coast", "Swimming", "Nature", "Peaceful"],
+    "tts_hints": {
+      "pronunciation_guide": "Ni-la-ve-li Beach",
+      "key_facts_short": "8 km pristine white sand, calm April to September, Pigeon Island base, post-war east coast, Trincomalee north"
+    }
+  },
+  {
+    "location_id": "lk_navix_sinharaja",
+    "name": "Sinharaja Rain Forest",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [80.4333, 6.3983]
+    },
+    "category": "national_park",
+    "era": "Natural Heritage",
+    "deep_history": {
+      "summary": "Sinharaja is Sri Lanka's last viable area of primary lowland tropical rainforest and a UNESCO World Heritage Site, designated in 1988. Meaning 'Lion King' in Sinhalese, it shelters an extraordinary concentration of endemic species — over 60% of Sri Lanka's endemic woody plant species grow here, along with 50% of endemic birds, 22 endemic reptiles, and 19 endemic amphibians.",
+      "architectural_details": "The forest is a multi-layered tropical ecosystem with a continuous canopy at 40–45 metres, an understorey of tree ferns and palms, and a complex floor stratum of epiphytes, mosses, and fungi. Several rivers originate in Sinharaja, including the Gin Ganga. Traditional walking trails wind through the forest interior with local guides identifying endemic species.",
+      "cultural_significance": "Sinharaja is one of Asia's most important biodiversity hotspots and is considered Sri Lanka's most ecologically sensitive protected area. The forest's remarkably high endemism rate is explained by Sri Lanka's ancient geological separation from India — species evolved independently for millions of years. Mixed flocking bird tours at dawn, led by expert local guides, attract ornithologists worldwide."
+    },
+    "tags": ["urban-park", "UNESCO", "Wildlife", "Rainforest", "Endemic Species"],
+    "tts_hints": {
+      "pronunciation_guide": "Sin-ha-ra-ja Rain For-est, Lion King Forest",
+      "key_facts_short": "UNESCO rainforest, Sri Lanka's last primary lowland jungle, 60% endemic plants, 50% endemic birds, extraordinary biodiversity"
+    }
+  },
+  {
+    "location_id": "lk_navix_kitulgala",
+    "name": "Kitulgala White Water Rafting",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [80.4167, 6.9897]
+    },
+    "category": "attraction",
+    "era": "Contemporary / British Colonial",
+    "deep_history": {
+      "summary": "Kitulgala is a small town on the Kelani River in Sri Lanka's wet zone, famous as the premier white water rafting destination in the country and as the filming location for David Lean's 1957 Oscar-winning film 'The Bridge on the River Kwai.' The Kelani River's rapids — graded 2–4 — provide an exhilarating 2-hour rafting experience through dense rainforest.",
+      "architectural_details": "The town is set in deep river valley jungle, and the Kelani River's rapids are created by the geological formations of the river bed as it descends from the central highlands. The original bridge built for the film has long been removed, but the surrounding jungle landscape remains essentially unchanged from its cinematic appearance. Birdwatching platforms and jungle camps have been established for eco-tourists.",
+      "cultural_significance": "Kitulgala's cinematic heritage adds a unique cultural dimension to its natural adventure offerings. The town is also a significant birdwatching destination — it lies within the wet zone lowland rainforest, one of Sri Lanka's richest bird habitats, and is one of the best places to see the Sri Lanka Blue Magpie and other endemic rainforest birds. The Kelani River is also sacred, used for ceremonial bathing by Hindu communities upstream."
+    },
+    "tags": ["urban-park", "Adventure", "Nature", "River", "Rainforest"],
+    "tts_hints": {
+      "pronunciation_guide": "Ki-tul-ga-la White Wa-ter Raft-ing",
+      "key_facts_short": "Premier Sri Lanka rafting, Bridge on the River Kwai filming location, Kelani River rapids, endemic birdwatching, wet zone jungle"
+    }
+  },
+  {
+    "location_id": "lk_navix_mannar_fort",
+    "name": "Mannar Fort",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [79.9048, 8.9781]
+    },
+    "category": "archaeological_site",
+    "era": "Portuguese (1560) / Dutch Colonial",
+    "deep_history": {
+      "summary": "Mannar Fort is one of the oldest colonial fortifications in Sri Lanka, originally constructed by the Portuguese in 1560 on a strategic peninsula controlling the northern sea route to India. It was subsequently captured and expanded by the Dutch in 1658. Mannar Island, connected to the mainland by a causeway, was for centuries the main crossing point for traders, pilgrims, and armies between India and Sri Lanka.",
+      "architectural_details": "The fort occupies the tip of Mannar Island with sea on three sides. Its rectangular plan features four corner bastions, a moat, and an arched main gate bearing the Dutch East India Company insignia. Within the walls stand the ruins of a colonial church, a well, and former barracks. The fort is unusually well-preserved given its remote location and relative obscurity.",
+      "cultural_significance": "Mannar Island lies at the northern end of Adam's Bridge — the legendary causeway of stone shoals stretching 18 km towards Rameswaram in India, said in the Ramayana to have been built by Hanuman's army to rescue Sita. The island is a major staging point for migratory birds and hosts Sri Lanka's largest population of wild donkeys — descendants of animals brought by Portuguese colonists."
+    },
+    "tags": ["historical-monument", "Heritage", "Colonial", "North Sri Lanka", "Archaeological"],
+    "tts_hints": {
+      "pronunciation_guide": "Man-nar Fort",
+      "key_facts_short": "Portuguese fort 1560, Dutch colonial, Adam's Bridge nearby, wild donkeys, northern sea route, Mannar Island"
+    }
+  },
+  {
+    "location_id": "lk_navix_adams_bridge",
+    "name": "Adam's Bridge (Rama's Bridge)",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [79.6699, 9.0847]
+    },
+    "category": "attraction",
+    "era": "Ancient / Natural Formation",
+    "deep_history": {
+      "summary": "Adam's Bridge, known in Hindu tradition as Rama Setu (Rama's Bridge), is a chain of natural limestone shoals stretching 48 km between Mannar Island in Sri Lanka and Rameswaram Island in India. These shallow shoals — mostly 1–10 metres deep — form a near-continuous natural bridge across the Palk Strait. The formation is central to the Hindu epic Ramayana and is a major pilgrimage site.",
+      "architectural_details": "The bridge is a geological formation of calcium carbonate shoals and sand banks, ancient coral reefs, and limestone ridges. NASA satellite imagery has revealed the striking linearity of the formation, fuelling debate about its natural versus constructed origins. The chain of islands and shoals is called Dhanushkodi on the Indian side, where the ancient pilgrimage town was devastated by a cyclone in 1964.",
+      "cultural_significance": "In the Ramayana, Hanuman's army of Vanaras built this bridge in 5 days to enable Rama's crossing to Lanka to rescue Sita from Ravana. Hindu tradition regards it as a sacred site, and millions of Indian pilgrims visit Rameswaram partly to connect with this legend. Sri Lanka's government has consistently rejected proposals to dredge a shipping channel through the shoals, in part due to their religious significance."
+    },
+    "tags": ["historical-monument", "Mythology", "Heritage", "Pilgrimage", "North Sri Lanka"],
+    "tts_hints": {
+      "pronunciation_guide": "A-dams Bridge, Ra-ma Se-tu, Ra-mas Bridge",
+      "key_facts_short": "48 km chain of limestone shoals to India, Ramayana Hanuman's bridge, Hindu pilgrimage, NASA visible from space"
+    }
+  },
+  {
+    "location_id": "lk_navix_lipton_seat",
+    "name": "Lipton's Seat",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [80.8714, 6.7849]
+    },
+    "category": "attraction",
+    "era": "British Colonial",
+    "deep_history": {
+      "summary": "Lipton's Seat is a dramatic viewpoint at 1,970 metres altitude in the Haputale mountains of southern Sri Lanka's hill country, named after Sir Thomas Lipton — the Scottish tea merchant and Lipton Tea founder who surveyed his vast Dambatenne tea estate from this clifftop point. On clear mornings the view extends across a sea of tea-covered hillsides to the southern coast and sometimes to the Maldives.",
+      "architectural_details": "The viewpoint is a simple rocky promontory at the end of a winding estate road through the Dambatenne tea estate. The Dambatenne Tea Factory at the base of the hill was built in 1890 by Thomas Lipton himself and remains operational, offering tours. The hillsides visible from the seat are covered in the geometric patterns of tea bushes trimmed to waist height, one of the most distinctive landscapes in Asia.",
+      "cultural_significance": "Sir Thomas Lipton transformed the global tea industry in the 19th century, buying directly from growers and selling directly to consumers, bypassing merchant middlemen. His Haputale estates were central to his business empire. Today Lipton's Seat is one of Sri Lanka's most dramatic sunrise viewpoints — the trek up through tea estates in the early morning mist, ending with panoramic views, is an iconic Sri Lankan highland experience."
+    },
+    "tags": ["historical-monument", "Heritage", "Tea Country", "Hill Country", "Viewpoint"],
+    "tts_hints": {
+      "pronunciation_guide": "Lip-tons Seat, Dam-ba-ten-ne Tea Es-tate",
+      "key_facts_short": "Thomas Lipton viewpoint, 1970 metres, Dambatenne tea estate, views to southern coast, sunrise tea country panorama"
+    }
+  },
+  {
+    "location_id": "lk_navix_kumana",
+    "name": "Kumana National Park",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [81.7167, 6.5667]
+    },
+    "category": "national_park",
+    "era": "Established 1938",
+    "deep_history": {
+      "summary": "Kumana National Park (formerly Yala East) is a remote coastal wildlife sanctuary on Sri Lanka's far south-eastern corner, bordering the Kumana Villu — a large coastal lagoon system that hosts one of the largest waterbird breeding colonies in Asia. Over 200 bird species including painted storks, pelicans, and open-billed storks nest here in their thousands each May–July.",
+      "architectural_details": "The park's defining feature is the Kumana Villu, a vast estuarine wetland where mangrove channels meet coastal lagoons, creating a nesting habitat of extraordinary density. The park also protects dry forest, scrubland, and beach habitats supporting leopards, elephants, sloth bears, and crocodiles. Ancient ruins at Magul Maha Viharaya within the park reveal 2,000-year-old human presence.",
+      "cultural_significance": "Kumana's remoteness — reached only by 4WD vehicle through the eastern lowlands — has preserved it as one of the least-disturbed national parks in Sri Lanka. The waterbird breeding colony at Kumana Villu is considered one of the greatest ornithological spectacles in South Asia. The ancient Magul Maha Viharaya ruins, associated with the legendary romance of Prince Kavantissa and Princess Viharamahadevi, add a mythological dimension."
+    },
+    "tags": ["urban-park", "Wildlife", "Birdwatching", "East Coast", "Nature"],
+    "tts_hints": {
+      "pronunciation_guide": "Ku-ma-na Na-tion-al Park",
+      "key_facts_short": "Asia's largest waterbird colony, painted storks and pelicans, remote southeastern park, leopards and elephants, ancient ruins"
+    }
+  },
+  {
+    "location_id": "lk_navix_ritigala",
+    "name": "Ritigala Ancient Ruins",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [80.7053, 8.1432]
+    },
+    "category": "archaeological_site",
+    "era": "2nd Century BC",
+    "deep_history": {
+      "summary": "Ritigala is a remote forest monastery complex on a rocky mountain massif rising from the Dry Zone plains north of Anuradhapura. Founded as early as the 2nd century BC, it was a home for the Pamsukulika monks — an ascetic forest-dwelling sect who rejected luxury and lived in absolute simplicity. The ruins are unique in Sri Lanka — no stupas or Buddha images, only meditation walkways and monastic platforms.",
+      "architectural_details": "The ruins comprise a series of double-platform structures (parivenas) connected by raised stone walkways (pathways of paved stone), all carved with exceptional precision from locally quarried rock. The structures represent the living quarters and meditation halls of the ascetic monks. The site is notable for what is absent — the ornate stupas and Buddha statues of mainstream Buddhism — reflecting the strict Pamsukulika ideology.",
+      "cultural_significance": "Ritigala is considered one of the most atmospheric and mysterious ancient sites in Sri Lanka. Its forest setting — the mountain is a protected strict natural reserve sheltering endemic plants — means the ruins are deeply embedded in jungle, with roots and trees gradually reclaiming the stonework. The silence and remoteness create an experience of genuine discovery. The site appears in ancient chronicles as a meeting place of legendary monks."
+    },
+    "tags": ["historical-monument", "Archaeological", "Heritage", "Buddhist", "Hidden Gem"],
+    "tts_hints": {
+      "pronunciation_guide": "Ri-ti-ga-la An-cient Ru-ins",
+      "key_facts_short": "2nd century BC forest monastery, ascetic Pamsukulika monks, no Buddha statues, mysterious stone walkways, jungle-engulfed ruins"
+    }
+  },
+  {
+    "location_id": "lk_navix_buduruvagala",
+    "name": "Buduruvagala Rock Temple",
+    "coordinates": { "type": "Point", "coordinates": [80.7453, 6.6169] },
+    "category": "archaeological_site",
+    "era": "8th–9th Century AD",
+    "deep_history": {
+      "summary": "Buduruvagala is a group of seven colossal rock-carved figures set into a jungle cliff face near Wellawaya, dating to the Mahayana Buddhist period of the 8th–9th centuries AD. The central figure is a 15-metre standing Buddha — the largest rock-cut Buddha in Sri Lanka — flanked by Bodhisattva Maitreya, the multi-armed Tara, and rare Vajrayana tantric figures that hint at a brief but extraordinary Mahayana phase in Sri Lankan Buddhism.",
+      "architectural_details": "The sculptures are carved directly into a granite rock face in bas-relief, with the standing Buddha still retaining traces of its original orange stucco paint coating. The Bodhisattva to the right holds a flame-shaped object unique in Sri Lankan art. A rare depiction of Tara — the female Bodhisattva — stands in triple-flexion pose (tribhanga), displaying the Mahayana artistic canon not typically found in Theravada Sri Lanka.",
+      "cultural_significance": "Buduruvagala is significant because it represents an anomalous episode of Mahayana and Vajrayana influence in predominantly Theravada Sri Lanka, possibly connected to South Indian Mahayana contacts during the Pandyan political period. Its remoteness through rubber and paddy fields has kept it remarkably uncrowded, making it one of the most atmospheric ancient sites in the country."
+    },
+    "tags": ["historical-monument", "Buddhist", "Archaeological", "Heritage", "Hill Country"],
+    "tts_hints": {
+      "pronunciation_guide": "Bu-du-ru-va-ga-la Rock Tem-ple",
+      "key_facts_short": "15-metre rock-cut Buddha, 8th century Mahayana, rare female Bodhisattva, jungle cliff setting, Wellawaya"
+    }
+  },
+  {
+    "location_id": "lk_navix_yapahuwa",
+    "name": "Yapahuwa Rock Fortress",
+    "coordinates": { "type": "Point", "coordinates": [80.3478, 8.0523] },
+    "category": "archaeological_site",
+    "era": "13th Century AD",
+    "deep_history": {
+      "summary": "Yapahuwa was the royal capital of Sri Lanka for a brief but critical period between 1272 and 1284 AD, when King Bhuvanekabahu I established his court atop a massive 90-metre granite rock to protect the Sacred Tooth Relic of the Buddha from South Indian Pandyan invasions. The rock rises dramatically from the surrounding flat jungle plains, making it a natural fortress of extraordinary strategic value.",
+      "architectural_details": "The ornate stairway leading to the upper palace is Yapahuwa's crowning glory — a masterpiece of 13th-century Sinhalese decorative stonework with elaborately carved balustrades featuring lions, dwarves, and foliage in a style blending Sinhalese and South Indian artistic traditions. The stairway arch and window of the Lion Palace at the summit are the most refined decorative stone carvings of the late Sinhalese medieval period.",
+      "cultural_significance": "The Tooth Relic was stolen by Pandyan invaders from Yapahuwa in 1284 and recovered only years later — an event that precipitated the capital's abandonment. The beautiful carved stone window from Yapahuwa's palace now stands in the National Museum in Colombo as one of the finest medieval Sinhalese artefacts. The fortress is a favourite of archaeology enthusiasts who relish the reward of the summit view."
+    },
+    "tags": ["historical-monument", "Archaeological", "Heritage", "Cultural Triangle", "Medieval"],
+    "tts_hints": {
+      "pronunciation_guide": "Ya-pa-hu-wa Rock For-tress",
+      "key_facts_short": "13th century royal capital, Sacred Tooth Relic fortress, ornate carved stairway, Pandyan invasions, 90-metre granite rock"
+    }
+  },
+  {
+    "location_id": "lk_navix_nalanda_gedige",
+    "name": "Nalanda Gedige",
+    "coordinates": { "type": "Point", "coordinates": [80.8433, 7.6497] },
+    "category": "archaeological_site",
+    "era": "8th–11th Century AD",
+    "deep_history": {
+      "summary": "Nalanda Gedige is one of the most architecturally unique temples in Sri Lanka — a stone structure that perfectly blends Sinhalese Buddhist and South Indian Hindu architectural styles in a synthesis found nowhere else in the country. Built between the 8th and 11th centuries, it incorporates explicit Tantric carvings alongside Buddhist imagery, making it a testament to an era of remarkable religious syncretism.",
+      "architectural_details": "The temple is constructed from dressed granite blocks assembled without mortar in the South Indian nagara shikhara (tower) tradition, yet the ground plan follows Sinhalese Buddhist conventions. The structure features erotic carvings in the tradition of Indian temple sculpture, alongside images of the Buddha and Bodhisattvas. It was partially dismantled and reassembled on higher ground when the Nalanda reservoir was built nearby, preserving it from flooding.",
+      "cultural_significance": "Nalanda Gedige is unique in South Asian religious architecture — no other structure in Sri Lanka shows such a thoroughgoing blend of Hindu and Buddhist traditions in both iconography and building form. It is believed to have been a centre for Tantric practice, a rare strand of religious thought that briefly influenced Sri Lankan Buddhism before Theravada orthodoxy reasserted itself in the Polonnaruwa period."
+    },
+    "tags": ["historical-monument", "Archaeological", "Heritage", "Unique", "Cultural Triangle"],
+    "tts_hints": {
+      "pronunciation_guide": "Na-lan-da Ge-di-ge",
+      "key_facts_short": "Unique Hindu-Buddhist fusion temple, 8th century, erotic Tantric carvings, reassembled after reservoir, Central Province"
+    }
+  },
+  {
+    "location_id": "lk_navix_katharagama",
+    "name": "Katharagama Sacred City",
+    "coordinates": { "type": "Point", "coordinates": [81.3342, 6.4151] },
+    "category": "religious_site",
+    "era": "Ancient (pre-Christian era)",
+    "deep_history": {
+      "summary": "Katharagama is one of the most sacred pilgrimage destinations in Sri Lanka, revered by Buddhists, Hindus, Muslims, and indigenous Veddah people alike. The city is home to the Kiri Vehera stupa (2nd century BC) and the Maha Devale — the primary shrine to the god Skanda (Murugan/Kataragama Deviyo), whose power is considered so immediate that devotees perform extreme acts of physical penance in his honour.",
+      "architectural_details": "The sacred precinct comprises the Maha Devale shrine complex (where the golden casket relic of Skanda is kept), the ancient Kiri Vehera Buddhist stupa (one of the oldest in the south), a mosque honouring the Islamic saint Khizr, and ceremonial bathing ghats on the Menik Ganga river. The complex is architecturally modest but spiritually charged, reflecting its multi-faith nature.",
+      "cultural_significance": "The Katharagama Esala Festival each July–August is one of the most intense religious events in Asia — thousands of devotees perform fire-walking, hook-swinging (vel kavadi), tongue and cheek piercing, and rolling prostrations as acts of devotion to Skanda. The indigenous Veddah people, Sri Lanka's original inhabitants, regard Katharagama as their most sacred site. Located near Yala National Park, pilgrims often encounter wild elephants on the road."
+    },
+    "tags": ["religious-temple", "Pilgrimage", "Heritage", "Multi-faith", "South Sri Lanka"],
+    "tts_hints": {
+      "pronunciation_guide": "Kath-a-ra-ga-ma Sa-cred Ci-ty",
+      "key_facts_short": "Multi-faith pilgrimage, Buddhist Hindu Muslim Veddah, fire-walking festival, Skanda deity, 2nd century BC stupa"
+    }
+  },
+  {
+    "location_id": "lk_navix_mulgirigala",
+    "name": "Mulgirigala Rock Temple",
+    "coordinates": { "type": "Point", "coordinates": [80.7500, 6.0667] },
+    "category": "religious_site",
+    "era": "2nd Century BC",
+    "deep_history": {
+      "summary": "Mulgirigala is a dramatic rock monastery rising 200 metres from the southern lowland plains near Tangalle, comprising a series of cave temples cut into the rock face at different levels, connected by steep stone staircases. Founded in the 2nd century BC, it houses some of the finest ancient Sinhalese murals in the south of the island. A Danish scholar's discovery here in 1826 of a Pali manuscript helped decode the Buddhist chronicle Mahavamsa.",
+      "architectural_details": "The complex comprises seven cave temples at progressively higher levels of the rock, each containing reclining and seated Buddha statues plastered and painted in bright colours. The uppermost dagoba at the rock summit dates to the 2nd century BC. The interior walls and ceilings of the caves are painted with Kandyan-period murals depicting Jataka tales (stories of the Buddha's previous lives) in vivid, folk-art style.",
+      "cultural_significance": "Mulgirigala's historical importance extends beyond its religious role: the Pali manuscript found here by Danish linguist Wilhelm Geiger's predecessor was the key that unlocked the translation of the Mahavamsa — Sri Lanka's ancient chronicle and one of the longest unbroken historical records in the world. The site remains an active temple with resident monks, combining living religious practice with extraordinary heritage."
+    },
+    "tags": ["religious-temple", "Buddhist", "Archaeological", "Heritage", "South Coast"],
+    "tts_hints": {
+      "pronunciation_guide": "Mul-gir-i-ga-la Rock Tem-ple",
+      "key_facts_short": "2nd century BC cave temple, ancient Sinhalese murals, Mahavamsa manuscript discovery, seven cave levels, southern Sri Lanka"
+    }
+  },
+  {
+    "location_id": "lk_navix_dondra_lighthouse",
+    "name": "Dondra Head Lighthouse",
+    "coordinates": { "type": "Point", "coordinates": [80.5914, 5.9238] },
+    "category": "monument",
+    "era": "British Colonial (1889)",
+    "deep_history": {
+      "summary": "Dondra Head Lighthouse stands at the southernmost point of Sri Lanka — and indeed the southernmost point of all of South Asia — where the Indian Ocean meets the Bay of Bengal. Built by the British in 1889, its 49-metre white granite tower is the tallest lighthouse in Sri Lanka and guides ships through one of the busiest sea lanes in the world. Below the lighthouse lie the ruins of the ancient Dondra Vishnu Temple.",
+      "architectural_details": "The lighthouse is constructed from Portuguese-style interlocking granite blocks without mortar, rising in a tapering octagonal column to its lantern room 160 metres above sea level. The adjacent ruins of the 16th-century Dondra Vishnu Devale — one of the four sacred Vishnu shrines of Sri Lanka, destroyed by the Portuguese in 1578 — provide a haunting contrast to the practical Victorian engineering of the lighthouse.",
+      "cultural_significance": "Dondra (Devundara in Sinhalese, meaning 'City of the Gods') was one of ancient Sri Lanka's most sacred pilgrimage cities, home to the great Vishnu temple described in vivid detail by the 14th-century Moroccan traveller Ibn Battuta before its Portuguese destruction. The lighthouse headland is also the traditional point where southern Sri Lankan fishermen have launched their boats into the open ocean for centuries."
+    },
+    "tags": ["historical-monument", "Heritage", "Lighthouse", "South Coast", "Southernmost Point"],
+    "tts_hints": {
+      "pronunciation_guide": "Don-dra Head Light-house, De-vun-da-ra",
+      "key_facts_short": "Southernmost point of South Asia, 49-metre lighthouse 1889, ancient Vishnu temple ruins, Ibn Battuta mentioned, Indian Ocean meets Bay of Bengal"
+    }
+  },
+  {
+    "location_id": "lk_navix_hummanaya",
+    "name": "Hummanaya Blowhole",
+    "coordinates": { "type": "Point", "coordinates": [80.5650, 5.9500] },
+    "category": "attraction",
+    "era": "Natural Heritage",
+    "deep_history": {
+      "summary": "The Hummanaya Blowhole near Dikwella on Sri Lanka's south coast is the second-largest blowhole in the world and the largest in Asia, shooting seawater up to 23 metres into the air when ocean swells are strong. The blowhole is a natural sea cave in the coastal rock that compresses incoming waves and forces them explosively upward through a narrow rock chimney.",
+      "architectural_details": "The geological formation is entirely natural — a lava tube-like cavity in the coastal bedrock approximately 30 metres long and several metres in diameter, open to the sea at one end and narrowing to a rock chimney at the other. The surrounding coastline is dramatic, with wave-cut platforms, sea arches, and a viewing platform constructed above the blowhole for safe observation.",
+      "cultural_significance": "Hummanaya is a popular day-trip destination from Galle and Matara, drawing visitors particularly during the southwest monsoon season (May–September) when the swells are strongest and the blowhole most dramatic. The name 'Hummanaya' derives from the Sinhala word for the whooshing sound the blowhole makes as air and water are expelled. Local legend connects the cave to sea spirits and marine mythology."
+    },
+    "tags": ["urban-park", "Nature", "South Coast", "Unique", "Natural Wonder"],
+    "tts_hints": {
+      "pronunciation_guide": "Hum-ma-na-ya Blow-hole, Dik-wel-la",
+      "key_facts_short": "Second largest blowhole in world, 23-metre water jets, largest in Asia, Dikwella south coast, strongest in monsoon season"
+    }
+  },
+  {
+    "location_id": "lk_navix_uppuveli",
+    "name": "Uppuveli Beach",
+    "coordinates": { "type": "Point", "coordinates": [81.2130, 8.5960] },
+    "category": "beach",
+    "era": "Contemporary",
+    "deep_history": {
+      "summary": "Uppuveli is a quiet, largely undeveloped beach 4 km north of Trincomalee town, offering calm, clear waters with easy access to snorkelling reefs and proximity to Pigeon Island National Park. The beach is backed by a small fishing village and several mid-range guesthouses. The War Cemetery adjacent to the beach honours over 360 Allied naval personnel who died in the Battle of Ceylon in 1942.",
+      "architectural_details": "The Commonwealth War Cemetery at Uppuveli is an immaculately maintained British-style memorial garden containing the graves of sailors and airmen of the British Royal Navy and Royal Air Force killed when Japanese aircraft attacked Trincomalee harbour and sank HMS Hermes — the world's first purpose-built aircraft carrier — on 9 April 1942. The graves are individually marked with white Portland stone.",
+      "cultural_significance": "Uppuveli's War Cemetery connects the beach to one of the most significant naval engagements in South Asian waters during World War II. The wreck of HMS Hermes, lying in 50 metres of water off Trincomalee, is now one of the most visited wreck dive sites in Asia. The juxtaposition of the calm beach, active fishing village, and solemn war graves creates an unusually layered visitor experience."
+    },
+    "tags": ["beach", "Heritage", "East Coast", "World War II", "Diving"],
+    "tts_hints": {
+      "pronunciation_guide": "Up-pu-ve-li Beach, Trin-co-ma-lee",
+      "key_facts_short": "Calm east coast beach, World War II cemetery, HMS Hermes wreck diving, near Trincomalee, Pigeon Island base"
+    }
+  },
+  {
+    "location_id": "lk_navix_delft_island",
+    "name": "Delft Island (Neduntheevu)",
+    "coordinates": { "type": "Point", "coordinates": [79.6878, 9.5463] },
+    "category": "attraction",
+    "era": "Dutch Colonial / Ancient",
+    "deep_history": {
+      "summary": "Delft Island, known in Tamil as Neduntheevu (Long Island), is a remote flat coral island in the Palk Strait 35 km northwest of Jaffna, accessible only by ferry. Named by the Dutch after the city of Delft in the Netherlands, it remains one of the most starkly beautiful and least-visited islands in Sri Lanka, famous for its wild ponies — descendants of Dutch-imported horses — roaming freely across the bare limestone landscape.",
+      "architectural_details": "The island features a Dutch fort (1645), a baobab tree believed to be over 500 years old (planted by Arab traders), ancient pigeon houses (dovecotes) built by the Dutch, fossilised coral formations, and a giant 400-year-old gateway arch standing isolated in a field. The landscape is flat, windswept, and almost treeless — a dramatically different environment from mainland Sri Lanka.",
+      "cultural_significance": "Delft Island's wild ponies, stone walls built from coral blocks, ancient ruins, and extraordinary remoteness give it a quality unlike anywhere else in Sri Lanka. The island's inhabitants maintain Tamil Hindu traditions largely unchanged by modernisation. The ferry journey from Kurikadduwan through the shallow, turquoise Palk Strait waters is an experience in itself, with dolphins frequently accompanying boats."
+    },
+    "tags": ["historical-monument", "Heritage", "North Sri Lanka", "Island", "Unique"],
+    "tts_hints": {
+      "pronunciation_guide": "Delft Is-land, Ne-dun-thee-vu",
+      "key_facts_short": "Wild Dutch ponies, remote coral island, Dutch fort 1645, 500-year-old baobab, 35 km from Jaffna by ferry"
+    }
+  },
+  {
+    "location_id": "lk_navix_kalpitiya",
+    "name": "Kalpitiya Peninsula",
+    "coordinates": { "type": "Point", "coordinates": [79.7833, 8.2333] },
+    "category": "beach",
+    "era": "Natural Heritage / Colonial",
+    "deep_history": {
+      "summary": "Kalpitiya is a narrow peninsula on Sri Lanka's northwest coast, flanked by the Indian Ocean and the Puttalam Lagoon, fast becoming the country's premier destination for kite surfing and dolphin and whale watching. Between November and April, spinner dolphins gather in pods of hundreds in the waters off Kalpitiya, and blue and sperm whales pass close to shore making it one of Asia's top cetacean hotspots.",
+      "architectural_details": "The peninsula features a Portuguese-era fort built in 1667, later modified by the Dutch, that still stands guard over the Kalpitiya harbour. The surrounding Bar Reef Marine Sanctuary — the largest coral reef in Sri Lanka at 307 square kilometres — is protected within the Sri Lanka national park system. Traditional fishing villages using outrigger canoes line the lagoon shore.",
+      "cultural_significance": "Kalpitiya's consistent strong winds from November to April have made it one of the top five kite surfing destinations in Asia, attracting international enthusiasts. The Bar Reef Marine Sanctuary protects an exceptional diversity of corals and marine life including dugong — sea mammals related to manatees — making it one of the last dugong habitats in South Asia. The peninsula's Dutch fort reflects the strategic importance of this coastline for colonial spice trade routes."
+    },
+    "tags": ["beach", "Wildlife", "West Coast", "Kite Surfing", "Marine"],
+    "tts_hints": {
+      "pronunciation_guide": "Kal-pi-ti-ya Pen-in-su-la",
+      "key_facts_short": "Top 5 Asia kite surfing, 500 spinner dolphins, blue whale watching, Bar Reef Marine Sanctuary, dugong habitat"
+    }
+  },
+  {
+    "location_id": "lk_navix_tissamaharama",
+    "name": "Tissamaharama",
+    "coordinates": { "type": "Point", "coordinates": [81.2833, 6.2833] },
+    "category": "archaeological_site",
+    "era": "3rd Century BC",
+    "deep_history": {
+      "summary": "Tissamaharama is an ancient royal city in southeastern Sri Lanka, serving as the capital of the Ruhuna Kingdom for centuries. Founded in the 3rd century BC, it was the base from which King Dutugamunu launched his campaigns to reunite Sri Lanka under Sinhalese Buddhist rule. The city centres on the vast Tissa Wewa reservoir and three massive ancient stupas, and serves today as the gateway town to Yala National Park.",
+      "architectural_details": "The three ancient stupas — Tissamaharama Dagoba, Sandagiri Vehera, and Yatala Vehera — are all within walking distance of each other and have been restored to their gleaming white condition. Tissamaharama Dagoba, the largest, is 55 metres high and was built by King Kavantissa in the 2nd century BC to house relics of the Buddha. The ancient Tissa Wewa tank remains a living reservoir used for irrigation.",
+      "cultural_significance": "Tissamaharama holds a pivotal place in Sri Lankan national identity as the staging ground for King Dutugamunu's legendary military campaign against the Chola invaders — a defining episode in the Mahavamsa chronicle. The town is also associated with the legend of Princess Viharamahadevi, who was offered to the sea as a sacrifice from this coast and washed ashore at Kelaniya. Today it serves as the main safari town for Yala, Bundala, and Wirawila national parks."
+    },
+    "tags": ["historical-monument", "Buddhist", "Archaeological", "Heritage", "South Coast"],
+    "tts_hints": {
+      "pronunciation_guide": "Tis-sa-ma-ha-ra-ma",
+      "key_facts_short": "3rd century BC royal capital, King Dutugamunu, three ancient white stupas, Tissa Wewa reservoir, Yala safari gateway"
+    }
+  },
+  {
+    "location_id": "lk_navix_rekawa",
+    "name": "Rekawa Turtle Beach",
+    "coordinates": { "type": "Point", "coordinates": [80.8667, 6.0333] },
+    "category": "beach",
+    "era": "Natural Heritage / Conservation",
+    "deep_history": {
+      "summary": "Rekawa Beach near Tangalle is one of Sri Lanka's most important sea turtle nesting beaches, where five species of sea turtles — green, leatherback, loggerhead, olive ridley, and hawksbill — come ashore to nest between April and September. The Rekawa Turtle Conservation Project, established in 1996, is one of Asia's longest-running community-based marine conservation programmes.",
+      "architectural_details": "The beach is a 3 km stretch of dark sand backed by coastal scrub vegetation. The conservation project operates a simple beach hut monitoring station where rangers watch for nesting turtles each night from dusk onwards. Visitors can join guided night walks to observe the nesting process under red light (to avoid disturbing the turtles), witnessing one of nature's most ancient and profound rituals.",
+      "cultural_significance": "Rekawa's success story lies in its community model — local villagers who once collected turtle eggs for food are now employed as conservation rangers, turning poaching incentives into protection incentives. Leatherback turtles nesting here can weigh 900 kilograms — the largest reptiles on Earth. The project has significantly increased hatchling survival rates and is studied internationally as a model for marine conservation economics."
+    },
+    "tags": ["beach", "Wildlife", "South Coast", "Conservation", "Turtle Nesting"],
+    "tts_hints": {
+      "pronunciation_guide": "Re-ka-wa Tur-tle Beach",
+      "key_facts_short": "Five turtle species nesting, leatherback 900kg world's largest reptile, night watching tours, community conservation, near Tangalle"
+    }
+  },
+  {
+    "location_id": "lk_navix_madhu_church",
+    "name": "Our Lady of Madhu Church",
+    "coordinates": { "type": "Point", "coordinates": [79.9167, 8.7333] },
+    "category": "religious_site",
+    "era": "17th Century (1670)",
+    "deep_history": {
+      "summary": "Our Lady of Madhu is the most sacred Catholic pilgrimage site in Sri Lanka and one of the most important in Asia, drawing over 500,000 pilgrims annually to a remote jungle shrine in Mannar District. The miraculous statue of Our Lady of Madhu has been a site of veneration since 1670, when Sinhalese Catholics fled Portuguese-to-Dutch religious persecution and carried the statue to safety through the jungle, establishing a shrine where they settled.",
+      "architectural_details": "The current church is a large white Gothic-style basilica with a high bell tower, rebuilt in its current form in the late 19th century. The interior houses the miraculous statue — a beautifully carved figure of Our Lady with the infant Jesus — in a richly decorated side chapel. The surrounding grounds accommodate vast numbers of pilgrims in temporary shelters during feast days.",
+      "cultural_significance": "Madhu Church carries extraordinary significance as a place of refuge and survival — throughout Sri Lanka's civil conflict (1983–2009), it became a sanctuary where tens of thousands of civilians from both sides sought shelter, with an informal truce observed even during active fighting. The church compound sheltered up to 450,000 displaced people at various points, representing a unique example of sacred space transcending political violence."
+    },
+    "tags": ["religious-temple", "Pilgrimage", "Heritage", "Christian", "North Sri Lanka"],
+    "tts_hints": {
+      "pronunciation_guide": "Our La-dy of Ma-dhu Church",
+      "key_facts_short": "Most sacred Catholic shrine Sri Lanka, 500,000 annual pilgrims, 1670 miraculous statue, civil war sanctuary, Mannar district jungle"
+    }
+  },
+  {
+    "location_id": "lk_navix_ramboda_falls",
+    "name": "Ramboda Falls",
+    "coordinates": { "type": "Point", "coordinates": [80.7067, 7.0733] },
+    "category": "attraction",
+    "era": "Natural Heritage",
+    "deep_history": {
+      "summary": "Ramboda Falls is one of the most spectacular and accessible waterfalls in Sri Lanka, dropping 109 metres in three cascades through a lush gorge on the road between Kandy and Nuwara Eliya. It is the 11th highest waterfall in Sri Lanka and one of the most visited, situated close to the A5 highway that millions of travellers use to access the hill country.",
+      "architectural_details": "The waterfall drops in three distinct stages through a deep forested gorge, with the middle section being the most dramatic — a near-vertical free-fall of approximately 75 metres. A pedestrian suspension bridge spans the gorge offering a direct eye-level view of the middle cascade. The surrounding slopes are covered in tea estates that form the visual backdrop to the falls.",
+      "cultural_significance": "Ramboda sits in the heart of the highland tea country, and the tea estates visible from the falls are among the highest-altitude tea gardens in Sri Lanka. The nearby Ramboda Pass at 1,238 metres was historically a strategic route connecting the Kandyan highlands to the lower hill country. The waterfall itself is sacred to the local Tamil plantation community who conduct annual ceremonies at its base."
+    },
+    "tags": ["urban-park", "Nature", "Waterfall", "Hill Country", "Tea Country"],
+    "tts_hints": {
+      "pronunciation_guide": "Ram-bo-da Falls",
+      "key_facts_short": "109-metre three-cascade waterfall, suspension bridge view, Kandy to Nuwara Eliya road, tea estate backdrop, 11th highest in Sri Lanka"
+    }
+  },
+  {
+    "location_id": "lk_navix_gregory_lake",
+    "name": "Gregory Lake Nuwara Eliya",
+    "coordinates": { "type": "Point", "coordinates": [80.7757, 6.9738] },
+    "category": "attraction",
+    "era": "British Colonial (1873)",
+    "deep_history": {
+      "summary": "Gregory Lake is an artificial reservoir in the heart of Nuwara Eliya town, created in 1873 by British Governor Sir William Henry Gregory (also founder of the National Museum) by damming the Nanu Oya stream. Surrounded by manicured lawns, rose gardens, and colonial-era bungalows, it is the social centrepiece of Sri Lanka's most British hill town — a place of boating, cycling, and the famous April Season festivities.",
+      "architectural_details": "The lake covers approximately 20 hectares and is bounded by a promenade walk, boat jetty, and the Victoria Park lawns. The surrounding landscape includes the Hill Club golf course, the Grand Hotel (1891), and Victorian-era bungalows with English country garden characteristics. Pedal boats, kayaks, and speed boats operate on the lake, and horse rides are available on the promenade.",
+      "cultural_significance": "Gregory Lake is the epicentre of Nuwara Eliya's famed April Season — ten days of horse racing, vintage car rallying, boat racing, and garden competitions held each April that preserve Victorian colonial leisure traditions with remarkable fidelity. The lake's reflection of the surrounding misty hills and colonial architecture creates the most quintessentially 'Little England' scene in Sri Lanka."
+    },
+    "tags": ["urban-park", "Heritage", "Hill Country", "Colonial", "Family"],
+    "tts_hints": {
+      "pronunciation_guide": "Greg-o-ry Lake Nu-wa-ra E-li-ya",
+      "key_facts_short": "1873 colonial reservoir, April Season boating and racing, Little England atmosphere, Victorian promenade, Nuwara Eliya centrepiece"
+    }
+  },
+  {
+    "location_id": "lk_navix_kelaniya_temple",
+    "name": "Kelaniya Raja Maha Vihara",
+    "coordinates": { "type": "Point", "coordinates": [79.9212, 6.9550] },
+    "category": "religious_site",
+    "era": "3rd Century BC",
+    "deep_history": {
+      "summary": "Kelaniya Raja Maha Vihara is one of the most sacred Buddhist temples in Sri Lanka, located 11 km east of Colombo on the banks of the Kelaniya River. According to the Mahavamsa, the Buddha himself visited Kelaniya during his third and final visit to Sri Lanka in the 6th century BC, sitting on a gem-studded throne to preach to the Naga king Maniakkhika. The temple was rebuilt in its current ornate form in the 20th century.",
+      "architectural_details": "The temple features a distinctive low, white dagoba in the unusual 'heap of paddy' form — a flattened shape unique to Kelaniya, said to enshrine the gem-studded throne on which the Buddha sat. The image house walls are covered in extraordinary 20th-century murals painted by artist Solias Mendis depicting scenes from Buddhist history and Jataka tales with a blend of traditional and art-deco aesthetics.",
+      "cultural_significance": "The Duruthu Perahera festival held at Kelaniya each January (on the Duruthu full moon poya day) is one of the five great processions of Sri Lanka, commemorating the Buddha's visit. It features over 70 elaborately decorated elephants, Kandyan dancers, and fire performers processing through the night. The temple attracts the largest daily attendance of any temple in Sri Lanka, drawing pilgrims from across the island every poya (full moon) day."
+    },
+    "tags": ["religious-temple", "Buddhist", "Heritage", "Colombo", "Pilgrimage"],
+    "tts_hints": {
+      "pronunciation_guide": "Ke-la-ni-ya Ra-ja Ma-ha Vi-ha-ra",
+      "key_facts_short": "Buddha visited in person 6th century BC, unique flattened dagoba, Solias Mendis murals, Duruthu Perahera 70 elephants, 11 km from Colombo"
+    }
+  },
+  {
+    "location_id": "lk_navix_lunugamvehera",
+    "name": "Lunugamvehera National Park",
+    "coordinates": { "type": "Point", "coordinates": [81.2667, 6.3333] },
+    "category": "national_park",
+    "era": "Established 1995",
+    "deep_history": {
+      "summary": "Lunugamvehera National Park is a relatively recently gazetted wildlife reserve in southeastern Sri Lanka, centred on the Lunugamvehera Reservoir. It forms a critical wildlife corridor connecting Yala and Udawalawe national parks, allowing elephant herds and other animals to migrate freely between the three protected areas. The park has one of the highest elephant densities in Sri Lanka.",
+      "architectural_details": "The park's dominant feature is the Lunugamvehera Reservoir, a large irrigation tank whose shores attract concentrations of waterbirds, crocodiles, and elephants. The surrounding habitat is a mosaic of dry scrub jungle, riverine forest, and open grassland. The reservoir's waters support large populations of mugger crocodiles and freshwater fish that in turn sustain otters, fishing cats, and waterbirds.",
+      "cultural_significance": "Lunugamvehera's role as a wildlife corridor is ecologically critical — without it, elephant populations in Yala and Udawalawe would be genetically isolated, threatening their long-term viability. The park is less visited than its famous neighbours, making it an excellent choice for visitors seeking authentic wildlife encounters without crowds. Large herds of elephants congregating at the reservoir edges during dry season create spectacular viewing opportunities."
+    },
+    "tags": ["urban-park", "Wildlife", "Elephant", "Safari", "South Sri Lanka"],
+    "tts_hints": {
+      "pronunciation_guide": "Lu-nu-gam-ve-he-ra Na-tion-al Park",
+      "key_facts_short": "Elephant corridor between Yala and Udawalawe, large reservoir, crocodiles and waterbirds, less crowded safari, southeastern Sri Lanka"
+    }
+  },
+  {
+    "location_id": "lk_navix_beira_lake",
+    "name": "Beira Lake Colombo",
+    "coordinates": { "type": "Point", "coordinates": [79.8569, 6.9169] },
+    "category": "attraction",
+    "era": "Portuguese / Dutch Colonial (16th Century)",
+    "deep_history": {
+      "summary": "Beira Lake is the historic heart of Colombo, a 65-hectare artificial lake created by the Portuguese in the 16th century as a defensive moat protecting their colonial fort. Developed further by the Dutch and British, it became the commercial waterway of the colonial city. Today it is surrounded by Colombo's most iconic buildings and serves as a public park, rowing venue, and floating market hub.",
+      "architectural_details": "The lake is connected to the sea by canal, allowing tidal fluctuation that has historically maintained its water level. Its shores are lined with the Gangaramaya Temple, the Seema Malaka (a floating temple designed by architect Geoffrey Bawa on an island in the lake), the Colombo City Centre mall, and colonial-era government buildings. A promenade circuit allows walking and cycling around the lake perimeter.",
+      "cultural_significance": "The Seema Malaka — Geoffrey Bawa's floating Buddhist sanctuary on Beira Lake — is one of the most celebrated works of Sri Lankan architecture, a serene island temple reached by footbridge whose design responds perfectly to its water setting. The Navam Perahera procession from Gangaramaya Temple circles the lake shores each February with 50 decorated elephants in one of Colombo's most spectacular annual events."
+    },
+    "tags": ["historical-monument", "Heritage", "Colombo", "Urban", "Colonial"],
+    "tts_hints": {
+      "pronunciation_guide": "Bei-ra Lake Co-lom-bo",
+      "key_facts_short": "Portuguese colonial moat 1500s, Geoffrey Bawa's floating Seema Malaka temple, Navam Perahera procession, 65 hectares, heart of Colombo"
+    }
+  },
+  {
+    "location_id": "lk_navix_panduwasnuwara",
+    "name": "Panduwasnuwara Ancient City",
+    "coordinates": { "type": "Point", "coordinates": [80.3833, 7.8167] },
+    "category": "archaeological_site",
+    "era": "5th Century BC",
+    "deep_history": {
+      "summary": "Panduwasnuwara is one of the earliest known urban settlements in Sri Lanka, dating to approximately the 5th century BC — making it contemporary with the earliest Anuradhapura occupation. The site contains the ruins of a royal palace complex, a circular citadel, a water garden, moat, and a series of monastic structures, representing the full infrastructure of an early Sri Lankan city-state.",
+      "architectural_details": "The most remarkable structure at Panduwasnuwara is a unique circular palace ('circular palace' in the Sri Lankan chronicles), surrounded by a moat — a building form with no parallel in South Asian archaeology. The site also features an ancient water garden with ornamental ponds and channels, a substantial dagoba, and the remains of a city wall enclosing the royal precinct.",
+      "cultural_significance": "Panduwasnuwara is associated in the chronicles with King Pandukabhaya (437–367 BC), the unifier of ancient Sri Lanka and founder of Anuradhapura as the royal capital. Some scholars identify this site as his pre-Anuradhapura capital. The site remains under-explored compared to the famous Cultural Triangle sites, making it an authentic archaeological discovery experience for adventurous travellers."
+    },
+    "tags": ["historical-monument", "Archaeological", "Heritage", "Ancient", "Cultural Triangle"],
+    "tts_hints": {
+      "pronunciation_guide": "Pan-du-was-nu-wa-ra An-cient Ci-ty",
+      "key_facts_short": "5th century BC early Sri Lankan city, unique circular palace, moat and water garden, King Pandukabhaya connection, hidden gem archaeology"
+    }
+  },
+  {
+    "location_id": "lk_navix_point_pedro",
+    "name": "Point Pedro",
+    "coordinates": { "type": "Point", "coordinates": [80.2333, 9.8167] },
+    "category": "attraction",
+    "era": "Ancient to Contemporary",
+    "deep_history": {
+      "summary": "Point Pedro is the northernmost tip of Sri Lanka, where the Palk Strait narrows to just 40 km separating the island from India. A small lighthouse marks the extremity of the island. The town is a bustling Tamil fishing community and the gateway to the Jaffna Peninsula's northern coast. On the clearest days, the coast of Tamil Nadu in India is visible from here.",
+      "architectural_details": "The Point Pedro Lighthouse, built during the British colonial period, is a modest white tower that has guided ships through the notoriously shallow Palk Strait for over a century. The surrounding coastline is rocky and windswept, with traditional catamaran fishing boats pulled up on the shore. A Hindu coastal shrine marks the spiritual significance locals attach to this liminal land's-end point.",
+      "cultural_significance": "Point Pedro holds symbolic importance as the geographic extremity of the island — completing the traditional pilgrimage circuit of Sri Lanka's four cardinal points: Dondra Head (south), Colombo (west), Sangaman Kanda (east), and Point Pedro (north). The local fishing community has maintained this northern shore for centuries, and the nearby Vallipuram Vishnu Temple is one of the oldest in the Jaffna Peninsula."
+    },
+    "tags": ["historical-monument", "North Sri Lanka", "Lighthouse", "Heritage", "Northernmost Point"],
+    "tts_hints": {
+      "pronunciation_guide": "Point Pe-dro",
+      "key_facts_short": "Northernmost tip of Sri Lanka, 40 km from India, British lighthouse, Tamil fishing community, see Tamil Nadu on clear days"
+    }
+  },
+  {
+    "location_id": "lk_navix_nainativu",
+    "name": "Nainativu Island",
+    "coordinates": { "type": "Point", "coordinates": [79.7833, 9.7667] },
+    "category": "religious_site",
+    "era": "Ancient (pre-5th Century AD)",
+    "deep_history": {
+      "summary": "Nainativu is a small island in the Palk Strait accessible only by boat from Kurikadduwan pier north of Jaffna, housing two of the most sacred pilgrimage sites in northern Sri Lanka. The Nagadipa Buddhist Temple marks the spot where the Buddha is said to have visited during his second journey to Sri Lanka to settle a dispute between Naga kings; alongside it stands the Nainativu Nagapooshani Amman Kovil — one of the holiest Hindu temples in the country.",
+      "architectural_details": "The Buddhist Nagadipa Purana Vihara is a gleaming white stupa set in a small compound at the island's centre, traditionally housing relics from the Buddha's era. The adjacent Nagapooshani Amman Kovil is a colourful Dravidian-style temple dedicated to the goddess Bhuvaneswari, renowned for its gold-plated sanctum and ornate gopuram. The two temples stand within metres of each other, embodying Sri Lanka's tradition of religious coexistence.",
+      "cultural_significance": "The boat journey to Nainativu — past flocks of seabirds, through shallow turquoise waters with visible coral — is as memorable as the destination. The island receives thousands of pilgrims daily from both Buddhist and Hindu traditions. The Naga Pooshani Amman temple festival draws over 100,000 Tamil Hindu devotees annually. This small island perfectly encapsulates the multi-religious character of Sri Lanka's north."
+    },
+    "tags": ["religious-temple", "Buddhist", "Hindu", "Pilgrimage", "North Sri Lanka"],
+    "tts_hints": {
+      "pronunciation_guide": "Nai-na-ti-vu Is-land, Na-ga-di-pa, Na-ga-poo-sha-ni Am-man",
+      "key_facts_short": "Buddha's second Sri Lanka visit, sacred to Buddhists and Hindus, island accessible only by boat, 100,000 pilgrims, Jaffna north"
+    }
+  },
+  {
+    "location_id": "lk_navix_keerimalai",
+    "name": "Keerimalai Hot Springs",
+    "coordinates": { "type": "Point", "coordinates": [80.0333, 9.8167] },
+    "category": "attraction",
+    "era": "Ancient (pre-Christian era)",
+    "deep_history": {
+      "summary": "Keerimalai is a coastal hot spring complex at the northernmost shore of Sri Lanka, where natural spring water at 28–32°C flows directly into the sea. The springs have been used for therapeutic bathing for over 2,000 years, with ancient Tamil Siddha medical texts describing their curative properties. A legend tells that a princess afflicted with a horse-like facial deformity was cured after bathing in these waters.",
+      "architectural_details": "The hot springs are channelled into gender-segregated stone bathing pools built at the sea's edge, enclosed by walls for modesty. The Maviddapuram Kandaswamy Kovil — a significant Hindu temple built over the spring source — is one of the Pancha Ishwarams of Tamil tradition. Its 5-tiered gopuram tower rises above the coastal landscape.",
+      "cultural_significance": "Keerimalai's springs are believed to be connected to a freshwater source deep beneath the ocean floor, rising through a limestone aquifer. Local Tamil communities have bathed here for generations as both spiritual ritual and medical treatment. The springs survived the civil conflict largely intact and are today a point of cultural reconnection for Sri Lanka's Tamil community with their ancient northern heritage."
+    },
+    "tags": ["religious-temple", "Hindu", "Heritage", "North Sri Lanka", "Wellness"],
+    "tts_hints": {
+      "pronunciation_guide": "Keer-i-ma-lai Hot Springs",
+      "key_facts_short": "Ancient therapeutic hot springs, princess legend, 2000-year history, Kandaswamy temple, northernmost Sri Lanka coast"
+    }
+  },
+  {
+    "location_id": "lk_navix_sasseruwa",
+    "name": "Sasseruwa Buddha Statue",
+    "coordinates": { "type": "Point", "coordinates": [80.5233, 8.0342] },
+    "category": "archaeological_site",
+    "era": "1st–4th Century AD",
+    "deep_history": {
+      "summary": "The Sasseruwa Buddha is a magnificent 12-metre rock-cut standing Buddha carved from a granite cliff face in the Kurunegala District, traditionally considered the 'unfinished' twin of the Aukana Buddha. Legend holds that the two statues were carved simultaneously by a master and his student in a competition — the student's Sasseruwa statue was abandoned when the master completed Aukana first. This makes Sasseruwa one of the oldest attempted rock-cut Buddhas in Sri Lanka.",
+      "architectural_details": "The statue is carved in the abhaya mudra pose from a vertical granite face, standing within a deep rock shelter. Unlike the pristine Aukana Buddha, Sasseruwa's surface shows the marks of unfinished chiselling, particularly around the robe folds and face — supporting the legend of its incompletion. A small cave monastery complex surrounds the statue with ancient inscriptions and meditation cells.",
+      "cultural_significance": "Sasseruwa is considered an active place of veneration by local Buddhist communities, with a resident monk maintaining the site. Its relative obscurity compared to Aukana makes it a rewarding off-the-beaten-path destination. The surrounding forested hills harbour wild elephants, and the rock shelter monastery gives a vivid impression of ancient monastic life in the North Central jungle."
+    },
+    "tags": ["historical-monument", "Buddhist", "Archaeological", "Heritage", "Cultural Triangle"],
+    "tts_hints": {
+      "pronunciation_guide": "Sas-se-ru-wa Bud-dha Sta-tue",
+      "key_facts_short": "12-metre unfinished rock Buddha, twin of Aukana, master versus student legend, ancient cave monastery, North Central jungle"
+    }
+  },
+  {
+    "location_id": "lk_navix_ridi_viharaya",
+    "name": "Ridi Viharaya",
+    "coordinates": { "type": "Point", "coordinates": [80.5167, 7.6833] },
+    "category": "religious_site",
+    "era": "2nd Century BC",
+    "deep_history": {
+      "summary": "Ridi Viharaya (Silver Temple) is a cave temple of exceptional historical significance, founded in the 2nd century BC by King Dutugamunu after silver ore was discovered at this location — providing the finances needed to build the great Ruwanwelisaya stupa at Anuradhapura. The temple complex contains extraordinarily rich Kandyan-period interiors with Dutch-imported blue-and-white Delft tiles covering the walls — an extraordinary fusion of Buddhist and European decorative arts.",
+      "architectural_details": "The main cave shrine features walls entirely lined with authentic 17th-century Dutch Delft tiles, donated by the Dutch East India Company as part of a trade agreement — creating a startlingly beautiful combination of Buddhist imagery and Dutch chinoiserie patterns. The image house also contains an unusual ivory-seated Buddha and some of the finest Kandyan-period paintings in Sri Lanka.",
+      "cultural_significance": "Ridi Viharaya's Dutch tiles are unique in Sri Lankan religious architecture — no other temple has anything comparable, making it one of the most visually unexpected heritage experiences in the country. The silver ore discovery here is one of the defining events in Sri Lankan Buddhist history, enabling King Dutugamunu to complete his ambitious building programme at Anuradhapura. The temple remains active with monks in residence."
+    },
+    "tags": ["religious-temple", "Buddhist", "Heritage", "Unique", "Archaeological"],
+    "tts_hints": {
+      "pronunciation_guide": "Ri-di Vi-ha-ra-ya, Silver Tem-ple",
+      "key_facts_short": "Silver Temple, Dutch Delft tiles lining walls, 2nd century BC, King Dutugamunu silver discovery, unique Buddhist-European fusion"
+    }
+  },
+  {
+    "location_id": "lk_navix_arankele",
+    "name": "Arankele Forest Monastery",
+    "coordinates": { "type": "Point", "coordinates": [80.3748, 7.7697] },
+    "category": "archaeological_site",
+    "era": "6th–7th Century AD",
+    "deep_history": {
+      "summary": "Arankele is a remote forest monastery complex in the Kurunegala District, founded in the 6th–7th centuries AD as a hermitage for meditation monks following the Aranavasi (forest-dweller) tradition. Its ruins — stone meditation walkways, platforms, bathing pools, and cisterns — are largely unexcavated and still partially engulfed by jungle, creating one of the most atmospheric ancient sites in Sri Lanka.",
+      "architectural_details": "The complex features raised stone meditation walkways (identical in design to those at Ritigala), double-platform monk residences, and a network of cisterns and ponds fed by stone-channelled rainwater. The engineering precision of the walkways and water management systems, built without mortar, demonstrates the high technical skill of ancient Sinhalese builders even in a remote forest setting.",
+      "cultural_significance": "Arankele represents the Aranavasi monastic tradition — forest monks who deliberately chose isolation from mainstream monastery life to pursue intense meditation practice. The site shares architectural DNA with Ritigala, suggesting a connected network of forest hermitages across north-central Sri Lanka in the early medieval period. Its near-complete absence from tourist circuits makes it one of the most authentic ancient sites in the country."
+    },
+    "tags": ["historical-monument", "Buddhist", "Archaeological", "Heritage", "Hidden Gem"],
+    "tts_hints": {
+      "pronunciation_guide": "A-ran-ke-le For-est Mon-as-ter-y",
+      "key_facts_short": "6th century forest hermitage, meditation walkways, Aranavasi monk tradition, jungle-engulfed ruins, unexcavated hidden gem"
+    }
+  },
+  {
+    "location_id": "lk_navix_ambuluwawa",
+    "name": "Ambuluwawa Biodiversity Complex",
+    "coordinates": { "type": "Point", "coordinates": [80.6167, 7.2333] },
+    "category": "attraction",
+    "era": "Contemporary",
+    "deep_history": {
+      "summary": "Ambuluwawa is a 1,319-metre hilltop biodiversity complex near Gampola in the Kandy District, featuring a uniquely designed multi-religious tower that houses four separate religious shrines — Buddhist, Hindu, Muslim, and Christian — within a single spiral structure. The surrounding biodiversity reserve protects rare montane forest species. The spiral tower is a remarkable piece of contemporary Sri Lankan architecture.",
+      "architectural_details": "The Ambuluwawa Tower rises in a tapering concrete spiral from the hilltop, with each level housing a different religious shrine accessed by an external spiral staircase that winds around the outside of the tower. From the summit platform, a 360-degree panorama encompasses the Kandy valley, Knuckles Range, Adam's Peak, and on clear days the coastline. The tower's form resembles a traditional Sri Lankan dagoba fused with a lighthouse.",
+      "cultural_significance": "Ambuluwawa's multi-faith tower is a deliberate architectural statement of religious harmony in a country that has experienced significant religious tension. The four religious communities share the hilltop and its facilities, making it a working symbol of inter-faith coexistence. The biodiversity reserve on the slopes shelters medicinal plant species documented in ancient Sinhala herbal manuscripts."
+    },
+    "tags": ["religious-temple", "Urban", "Nature", "Multi-faith", "Hill Country"],
+    "tts_hints": {
+      "pronunciation_guide": "Am-bu-lu-wa-wa Bi-o-di-ver-si-ty Com-plex",
+      "key_facts_short": "Multi-faith spiral tower, Buddhist Hindu Muslim Christian shrines, 1319 metres, panoramic views, Kandy district"
+    }
+  },
+  {
+    "location_id": "lk_navix_devon_falls",
+    "name": "Devon Falls",
+    "coordinates": { "type": "Point", "coordinates": [80.5667, 6.9167] },
+    "category": "attraction",
+    "era": "Natural Heritage",
+    "deep_history": {
+      "summary": "Devon Falls is one of Sri Lanka's most spectacular highland waterfalls, dropping 97 metres through a narrow gorge on the slopes near Hatton in the Nuwara Eliya District. Named after a former British coffee planter named Devon who owned the surrounding estate, the falls plunge through a lush curtain of tropical vegetation. It is located close to the equally dramatic St Clair's Falls, together forming one of the finest waterfall viewing areas in the hill country.",
+      "architectural_details": "The falls drop in a single powerful column from a rocky notch in the ridge, narrowing as it falls before spreading into a wide plunge pool hidden in the gorge below. The viewing point is accessible from the Hatton–Nuwara Eliya road, with the falls visible across the gorge through tea estate vegetation. A short walk through a working tea estate leads to a closer viewpoint.",
+      "cultural_significance": "Devon Falls and the adjacent St Clair's Falls sit within working tea estates, creating a landscape that perfectly combines Sri Lanka's colonial tea heritage with its dramatic highland waterfalls. The tea estate pathways passing the falls are used daily by Tamil estate workers, offering visitors a window into the daily life of Sri Lanka's plantation communities — a social world that has changed remarkably little since the colonial era."
+    },
+    "tags": ["urban-park", "Nature", "Waterfall", "Hill Country", "Tea Country"],
+    "tts_hints": {
+      "pronunciation_guide": "Dev-on Falls Hat-ton",
+      "key_facts_short": "97-metre single drop waterfall, named after British planter, near St Clair's Falls, Hatton tea country, Nuwara Eliya district"
+    }
+  },
+  {
+    "location_id": "lk_navix_st_clairs_falls",
+    "name": "St Clair's Falls",
+    "coordinates": { "type": "Point", "coordinates": [80.5833, 6.9167] },
+    "category": "attraction",
+    "era": "Natural Heritage",
+    "deep_history": {
+      "summary": "St Clair's Falls, known as the 'Niagara of Sri Lanka,' is a broad, powerful waterfall on the Kothmale Oya river near Dickoya in the Nuwara Eliya highlands. It consists of two adjacent falls — Upper St Clair (80 metres) and Lower St Clair (50 metres) — that together create a wide curtain of white water across a 30-metre-wide rock face, making it the widest waterfall in Sri Lanka.",
+      "architectural_details": "The falls flow over a broad basalt ledge, creating a wide, multi-channelled cascade rather than a single narrow column. The surrounding tea estates of the Bogawantalawa Valley frame the falls with bright green geometric tea rows that contrast dramatically with the white foam. The viewing terrace above the falls is on the main Hatton road, making it one of the most photographed waterfalls in Sri Lanka.",
+      "cultural_significance": "St Clair's is set within the Bogawantalawa Valley — known as the 'Golden Valley of Tea' — which produces some of the finest high-grown Ceylon teas in the world. The estates here, many established in the 1870s, have been producing tea continuously for 150 years. The valley was once an important coffee-growing region before the devastating coffee blight of 1869 wiped out the entire crop and forced a switch to tea."
+    },
+    "tags": ["urban-park", "Nature", "Waterfall", "Hill Country", "Tea Country"],
+    "tts_hints": {
+      "pronunciation_guide": "Saint Clairs Falls, Ni-ag-a-ra of Sri Lanka",
+      "key_facts_short": "Niagara of Sri Lanka, widest waterfall, two falls 80 and 50 metres, Bogawantalawa Golden Valley of Tea, Dickoya highlands"
+    }
+  },
+  {
+    "location_id": "lk_navix_udawattakele",
+    "name": "Udawattakele Forest Reserve",
+    "coordinates": { "type": "Point", "coordinates": [80.6367, 7.2967] },
+    "category": "national_park",
+    "era": "Ancient Royal Forest",
+    "deep_history": {
+      "summary": "Udawattakele (Upper Royal Forest) is a 104-hectare cloud forest reserve directly above Kandy city, serving as the royal forest of the Kandyan kings and later maintained by British colonial governors as a protected natural zone. It shelters endemic birds and giant squirrels within walking distance of Kandy's city centre, and contains two ancient hermitage caves used by meditating monks over centuries.",
+      "architectural_details": "The forest contains two ancient cave hermitages — Lady Horton's Walk cave and the Asgiriya cave — where stone-cut inscriptions record royal donations to forest monks dating to the 1st–3rd centuries AD. The forest canopy reaches 25–30 metres, sheltering an understorey rich in epiphytic orchids, ferns, and mosses characteristic of Sri Lanka's wet zone montane forests.",
+      "cultural_significance": "Udawattakele was the private royal forest of the Kandyan kings, forbidden to commoners and used for the king's leisure and for royal monks' meditation. British Governor Edward Barnes maintained it as a pleasure garden, adding walking paths still used today. The forest is habitat for the Sri Lanka highland bird assemblage — including the Sri Lanka bush warbler, Sri Lanka whistling thrush, and Layard's parakeet — making it one of the best birding spots accessible from any Sri Lankan city."
+    },
+    "tags": ["urban-park", "Wildlife", "Heritage", "Hill Country", "Birdwatching"],
+    "tts_hints": {
+      "pronunciation_guide": "U-da-wat-ta-ke-le For-est Re-serve, Upper Roy-al For-est",
+      "key_facts_short": "Ancient Kandyan royal forest, 104 hectares above Kandy, endemic birds, 1st century cave inscriptions, walking distance from city"
+    }
+  },
+  {
+    "location_id": "lk_navix_weherehena",
+    "name": "Weherehena Temple",
+    "coordinates": { "type": "Point", "coordinates": [80.5333, 5.9400] },
+    "category": "religious_site",
+    "era": "Contemporary (20th Century)",
+    "deep_history": {
+      "summary": "Weherehena Temple near Matara is famous for its extraordinary underground diorama — a series of 80 tunnels decorated with over 3,000 painted plaster figures depicting scenes from the life of the Buddha, Buddhist cosmology, and Jataka tales. The temple is dominated by a 39-metre multi-tiered pagoda tower, the largest in southern Sri Lanka, visible from miles around.",
+      "architectural_details": "The temple complex is architecturally eclectic and visually overwhelming — the main pagoda tower is covered in coloured glass and ceramic tiles, surrounded by a pantheon of large statues of deities and guardian figures. The underground labyrinth consists of narrow passages linking chambers, each completely painted and filled with brightly coloured figures illustrating Buddhist teachings in a folk-art style of extraordinary energy.",
+      "cultural_significance": "Weherehena's underground diorama is unique in Sri Lanka — no other temple has attempted such an immersive visual teaching environment, clearly designed to make Buddhist cosmology accessible through dramatic visual storytelling. The temple draws pilgrims and tourists in equal measure, and its overwhelming visual richness has made it one of the most discussed temples in southern Sri Lanka. The complex is still growing, with new sections added regularly."
+    },
+    "tags": ["religious-temple", "Buddhist", "Heritage", "Unique", "South Coast"],
+    "tts_hints": {
+      "pronunciation_guide": "We-he-re-he-na Tem-ple Ma-ta-ra",
+      "key_facts_short": "3000 plaster figures in 80 underground tunnels, 39-metre pagoda, Buddhist diorama, Matara, visually overwhelming pilgrimage site"
+    }
+  },
+  {
+    "location_id": "lk_navix_maligawila",
+    "name": "Maligawila Buddha Statue",
+    "coordinates": { "type": "Point", "coordinates": [81.2900, 6.9500] },
+    "category": "archaeological_site",
+    "era": "7th Century AD",
+    "deep_history": {
+      "summary": "The Maligawila Buddha is the tallest ancient standing Buddha statue in Sri Lanka — a magnificent 10.5-metre figure carved from a single limestone block in the 7th century AD by Prince Aggabodhi of the Uda Rata kingdom. It stood in the ancient city of Maligawila until it collapsed and lay broken in the jungle for centuries before being painstakingly reassembled and re-erected in 1991.",
+      "architectural_details": "The standing Buddha is carved in the abhaya mudra (blessing) pose from a single Kuruvita limestone block — an extraordinary feat of ancient quarrying and transport, as the stone was brought from a quarry 7 km distant. The statue was broken into 34 fragments when it toppled, and its 1991 restoration using traditional techniques is considered one of Sri Lanka's most remarkable conservation achievements. A Bodhisattva statue of equal magnificence stands nearby.",
+      "cultural_significance": "Maligawila's remote jungle location in the Monaragala District, far from the main tourist circuit, preserves an atmosphere of genuine discovery. The site contains the ruins of the ancient Maligawila monastery — inscriptions reveal it was gifted to the Sangha by Prince Aggabodhi as an act of merit-making. The combination of the colossal restored Buddha and the jungle-engulfed monastery ruins makes Maligawila one of Sri Lanka's most rewarding off-the-beaten-path destinations."
+    },
+    "tags": ["historical-monument", "Buddhist", "Archaeological", "Heritage", "Hidden Gem"],
+    "tts_hints": {
+      "pronunciation_guide": "Ma-li-ga-wi-la Bud-dha Sta-tue",
+      "key_facts_short": "Tallest ancient Buddha in Sri Lanka, 10.5 metres, 7th century single limestone block, broken and restored 1991, remote Monaragala jungle"
+    }
+  },
+  {
+    "location_id": "lk_navix_munneswaram",
+    "name": "Munneswaram Temple",
+    "coordinates": { "type": "Point", "coordinates": [79.8833, 7.7500] },
+    "category": "religious_site",
+    "era": "Ancient (pre-Christian era)",
+    "deep_history": {
+      "summary": "Munneswaram is one of the five ancient pancha Ishwaram Shiva temples of Sri Lanka, located near Chilaw on the northwest coast. It is considered one of the oldest Hindu temples on the island, with origins attributed to the era of the Ramayana — tradition holds that Rama worshipped here to atone for having killed Ravana. The temple complex is among the most important Hindu pilgrimage sites in Sri Lanka.",
+      "architectural_details": "The Munneswaram complex comprises five temples, with the main Munneswaram Shiva temple being the largest and oldest. The complex features a 100-metre-long columned mandapam (hall), a distinctive three-tiered gopuram, and shrines to Ganesh, Kali, and Vishnu within the compound. The Kali shrine is particularly famous for intense devotional practices during festival periods.",
+      "cultural_significance": "Munneswaram's Kali shrine is renowned throughout Sri Lanka for its fire-walking ceremonies (thimithi), held annually in August–September, where thousands of devotees walk across burning coal as an act of devotion. The temple's antiquity — mentioned in Dutch colonial records from the 1660s — and its association with the Ramayana make it a site of pan-Asian Hindu significance. The temple serves the large Tamil and Sinhalese Hindu communities of the northwest coast."
+    },
+    "tags": ["religious-temple", "Hindu", "Heritage", "Pilgrimage", "West Coast"],
+    "tts_hints": {
+      "pronunciation_guide": "Mun-nes-wa-ram Tem-ple Chi-law",
+      "key_facts_short": "Ancient Pancha Ishwaram Shiva temple, Rama worshipped here Ramayana, fire-walking festival, Chilaw northwest coast, 100-metre columned hall"
+    }
+  },
+  {
+    "location_id": "lk_navix_wasgamuwa",
+    "name": "Wasgamuwa National Park",
+    "coordinates": { "type": "Point", "coordinates": [80.9833, 7.7833] },
+    "category": "national_park",
+    "era": "Established 1984",
+    "deep_history": {
+      "summary": "Wasgamuwa National Park is a relatively undiscovered wildlife sanctuary in central Sri Lanka, centred on the Mahaweli River — the longest river in Sri Lanka. The park is home to one of the densest concentrations of Sri Lanka elephants outside Minneriya, with herds of 100+ regularly sighted. It also shelters leopards, sloth bears, mugger crocodiles, and an extraordinary diversity of waterbirds along the river.",
+      "architectural_details": "The park's landscape is shaped by the Mahaweli River and its tributaries, creating rich riparian habitats of riverine forest, reed beds, and sandy banks. Ancient irrigation tank ruins within the park reveal that this area was once cultivated land, abandoned over 1,000 years ago as political instability reduced the population. The park is accessible from Habarana or Kandy, with fewer visitor vehicles than Yala or Minneriya.",
+      "cultural_significance": "Wasgamuwa's elephant population includes a significant proportion of tuskers — large male elephants with full ivory tusks — making it one of the best places in Asia to observe tusked bulls in the wild. The park's low visitor numbers mean wildlife encounters are unhurried and intimate compared to Sri Lanka's more famous parks. The riverside landscape at sunset, with elephants bathing in the Mahaweli River, is considered one of the finest wildlife spectacles in the country."
+    },
+    "tags": ["urban-park", "Wildlife", "Elephant", "Safari", "Central Sri Lanka"],
+    "tts_hints": {
+      "pronunciation_guide": "Was-ga-mu-wa Na-tion-al Park",
+      "key_facts_short": "Undiscovered elephant park, 100-plus herds, tusked bulls, Mahaweli River, less crowded than Yala, leopards and sloth bears"
+    }
+  },
+  {
+    "location_id": "lk_navix_gal_oya",
+    "name": "Gal Oya National Park",
+    "coordinates": { "type": "Point", "coordinates": [81.5000, 7.0000] },
+    "category": "national_park",
+    "era": "Established 1954",
+    "deep_history": {
+      "summary": "Gal Oya National Park is the only park in Sri Lanka where safaris are conducted by boat, floating across the vast Senanayake Samudraya reservoir — the largest inland water body in the country. The reservoir is dotted with jungle-covered islands, and boat passengers observe elephants swimming between islands, crocodiles basking on shores, and rare waterbirds in an experience unlike any other safari in Asia.",
+      "architectural_details": "The Senanayake Samudraya reservoir, completed in 1951, covers 9,085 hectares and was Sri Lanka's first major post-independence irrigation project. The ancient Gal Oya Oya valley beneath the reservoir contained important archaeological sites — traces of the ancient Gal Oya civilisation — that were submerged during construction. The surrounding park protects 54,000 hectares of dry zone forest.",
+      "cultural_significance": "Gal Oya's boat safari experience is considered one of the most extraordinary wildlife encounters in Asia — watching a herd of 30 elephants swim across a reservoir from island to island, with no roads or vehicles, creates a sense of witnessing nature completely on its own terms. The park shelters one of Sri Lanka's most significant populations of the endemic purple-faced langur and is the eastern anchor of a critical wildlife corridor."
+    },
+    "tags": ["urban-park", "Wildlife", "Elephant", "Boat Safari", "East Sri Lanka"],
+    "tts_hints": {
+      "pronunciation_guide": "Gal O-ya Na-tion-al Park",
+      "key_facts_short": "Sri Lanka's only boat safari, elephants swimming between islands, largest reservoir, 54,000 hectares, unique Asia experience"
+    }
+  },
+  {
+    "location_id": "lk_navix_dambadeniya",
+    "name": "Dambadeniya Ancient City",
+    "coordinates": { "type": "Point", "coordinates": [80.0700, 7.6600] },
+    "category": "archaeological_site",
+    "era": "13th Century AD",
+    "deep_history": {
+      "summary": "Dambadeniya served as the royal capital of Sri Lanka from 1220 to 1272 AD, during the turbulent period of repeated South Indian invasions. King Vijayabahu III established the court here on a naturally fortified rocky outcrop, and his successors including Parakramabahu II — considered the greatest king of the medieval period — ruled from Dambadeniya and composed the celebrated Sinhala literary work Kavsilumina.",
+      "architectural_details": "The ancient city features a two-storey image house with original paintings, a 300-metre relic house on the summit, the ruins of the royal palace complex, ancient stone steps carved into the rock face, and a well-preserved stupa. The surrounding rock face drops steeply on three sides, providing natural fortification. The Dalada Maligawa (Tooth Relic shrine) here predates the more famous Kandy temple by two centuries.",
+      "cultural_significance": "Dambadeniya is significant as the capital from which Sri Lanka successfully resisted Magha's South Indian occupation and preserved the Tooth Relic. King Parakramabahu II's achievement in expelling the Tamil Chandrabhanu's invasions and reunifying the island is celebrated in the Sinhala chronicle Pujavaliya. The city also marks the beginning of Sri Lanka's medieval Sinhalese literary renaissance."
+    },
+    "tags": ["historical-monument", "Archaeological", "Heritage", "Medieval", "Cultural Triangle"],
+    "tts_hints": {
+      "pronunciation_guide": "Dam-ba-de-ni-ya An-cient Ci-ty",
+      "key_facts_short": "13th century royal capital, Parakramabahu II, Tooth Relic shrine, rock fortress, Sinhala literary renaissance, South Indian resistance"
+    }
+  },
+  {
+    "location_id": "lk_navix_peak_wilderness",
+    "name": "Peak Wilderness Sanctuary",
+    "coordinates": { "type": "Point", "coordinates": [80.6667, 6.7500] },
+    "category": "national_park",
+    "era": "Natural Heritage",
+    "deep_history": {
+      "summary": "Peak Wilderness Sanctuary (Sri Pada Wildlife Sanctuary) is a 224 square-kilometre protected zone surrounding Adam's Peak in Sri Lanka's central highlands, forming part of the UNESCO Central Highlands World Heritage Site. The sanctuary protects some of the richest biodiversity in Sri Lanka — over 100 endemic plant species grow here — and forms a critical watershed feeding numerous rivers.",
+      "architectural_details": "The sanctuary's terrain is dramatically varied — from lowland rainforest at 600 metres rising to the highland cloud forest zone above 1,800 metres surrounding Adam's Peak summit. Ancient pilgrimage paths cutting through the sanctuary have been maintained for 1,000 years by successive generations of devotees. The forest contains several ancient rest houses (ambalamas) built for pilgrims that function to this day.",
+      "cultural_significance": "Peak Wilderness is significant both ecologically and spiritually — it protects the forest surrounding the most sacred peak in Sri Lanka while sheltering populations of leopard, sambar deer, purple-faced langurs, and hundreds of endemic bird species. The sanctuary also harbours several remote villages of traditional Veddah communities who maintain ancient forest-dwelling lifestyles. The combination of spiritual significance and biodiversity makes it one of the most complex landscapes in South Asia."
+    },
+    "tags": ["urban-park", "UNESCO", "Wildlife", "Pilgrimage", "Hill Country"],
+    "tts_hints": {
+      "pronunciation_guide": "Peak Wil-der-ness Sanc-tu-a-ry, Sri Pa-da Wild-life",
+      "key_facts_short": "UNESCO Central Highlands, surrounds Adam's Peak, 100 endemic plant species, ancient pilgrimage paths, Veddah communities"
+    }
+  },
+  {
+    "location_id": "lk_navix_habarana",
+    "name": "Habarana Village",
+    "coordinates": { "type": "Point", "coordinates": [80.7500, 8.0333] },
+    "category": "attraction",
+    "era": "Ancient to Contemporary",
+    "deep_history": {
+      "summary": "Habarana is the strategic hub of the Cultural Triangle — a small village equidistant from Sigiriya, Polonnaruwa, Dambulla, and Anuradhapura, making it the ideal base for exploring Sri Lanka's ancient sites. The Habarana Lake is famous for elephant sightings at dusk, and the surrounding village offers authentic Sri Lankan rural experiences including jeep safaris to Minneriya and Kaudulla national parks.",
+      "architectural_details": "Habarana's village character is shaped by its ancient tank (reservoir) system, paddy fields, and the surrounding dry zone scrub forest through which wild elephants move freely. The Habarana wewa (tank) is an ancient irrigation reservoir still functioning for rice cultivation. Traditional wattle-and-daub village houses and bullock-cart pathways through paddy give a vivid picture of timeless Sri Lankan rural life.",
+      "cultural_significance": "Habarana sits at the intersection of ancient Sri Lanka's most important trade and pilgrimage routes. The surrounding jungle was historically the domain of the ancient Veddah people — Sri Lanka's indigenous inhabitants — and traditional Veddah communities in nearby Dambana maintain cultural practices including honey-gathering, forest hunting, and ceremonial drumming that trace back thousands of years."
+    },
+    "tags": ["urban-park", "Wildlife", "Heritage", "Cultural Triangle", "Safari"],
+    "tts_hints": {
+      "pronunciation_guide": "Ha-ba-ra-na Vil-lage",
+      "key_facts_short": "Cultural Triangle safari hub, wild elephants at dusk, gateway to Sigiriya Polonnaruwa Dambulla Anuradhapura, ancient tank village"
+    }
+  },
+  {
+    "location_id": "lk_navix_kurunegala",
+    "name": "Kurunegala Elephant Rock",
+    "coordinates": { "type": "Point", "coordinates": [80.3667, 7.4833] },
+    "category": "attraction",
+    "era": "Medieval (13th–14th Century)",
+    "deep_history": {
+      "summary": "Kurunegala served as the royal capital of Sri Lanka for 50 years in the 13th–14th centuries and is dominated by a series of massive granite boulders rising above the city, each named after the animal it resembles — Elephant Rock (Ethagala), Tortoise Rock, Beetle Rock, and several others. Ethagala, the largest, towers 325 metres above the town with a dagoba and Bo tree on its summit.",
+      "architectural_details": "Ethagala Rock is accessed by stone steps carved into its face, leading to a small dagoba at the summit and sweeping panoramic views across the agricultural plains of the North Western Province. The ancient royal city ruins at Kurunegala — including the Parakramabahu IV palace complex and Embekke Devalaya (famous for its extraordinary woodcarvings) nearby — are among the finest medieval Sinhalese sites.",
+      "cultural_significance": "The Embekke Devalaya at Ambakke, 3 km from Kurunegala, is celebrated for its medieval wooden pillars covered in extraordinarily intricate carvings — wrestlers, musicians, dancing girls, mythical beasts, and double-headed eagles — considered the pinnacle of Kandyan woodcarving art. The complex was built by King Vikramabahu III in the 14th century and remains one of the most important decorative art sites in Sri Lanka."
+    },
+    "tags": ["historical-monument", "Heritage", "Archaeological", "Medieval", "North West"],
+    "tts_hints": {
+      "pronunciation_guide": "Ku-ru-ne-ga-la El-e-phant Rock, Eth-a-ga-la",
+      "key_facts_short": "Medieval capital, 325-metre Elephant Rock, animal-shaped boulders, Embekke woodcarvings, North Western Province"
+    }
   }
 ]
