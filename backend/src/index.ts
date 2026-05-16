@@ -16,9 +16,10 @@ import { runResponseAgent, toVoiceScript } from "./agents/response";
 import { runTourismAgent } from "./agents/tourism";
 import { runWeatherAgent } from "./agents/weather";
 import {
-  findNearestPlaces,
-  findPlaceByName,
-  searchPlacesByName,
+  findNearbyLocations,
+  findNearestHeritage,
+  findPlaces,
+  type HeritageContext,
 } from "./db";
 import {
   ChatRequest,
@@ -38,6 +39,34 @@ const CORS_HEADERS: Record<string, string> = {
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
   "Access-Control-Max-Age": "86400",
 };
+
+function parseNearbyRadiusMeters(url: URL): number {
+  const radiusRaw = (url.searchParams.get("radius") ?? "").trim().toLowerCase();
+  const unit = (url.searchParams.get("unit") ?? "").trim().toLowerCase();
+
+  if (!radiusRaw) {
+    throw new Error("radius is required");
+  }
+
+  const kmSuffix = radiusRaw.endsWith("km");
+  const mSuffix = radiusRaw.endsWith("m");
+  const numericPart = radiusRaw.replace(/km$|m$/g, "");
+  const numeric = Number(numericPart);
+
+  if (!Number.isFinite(numeric) || numeric <= 0) {
+    throw new Error("radius must be a positive number");
+  }
+
+  if (kmSuffix || unit === "km") {
+    return numeric * 1000;
+  }
+  if (mSuffix || unit === "m" || unit === "meter" || unit === "meters") {
+    return numeric;
+  }
+
+  // If no unit provided, treat small values as km and larger values as meters.
+  return numeric <= 100 ? numeric * 1000 : numeric;
+}
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
@@ -72,17 +101,44 @@ export default {
 
 // ───────────────────────────────────────── Handlers
 
-async function healthHandler(env: Env) {
-  let d1 = "missing";
-  if (env.DB) {
-    try {
-      const row = await env.DB.prepare("SELECT COUNT(*) AS n FROM places")
-        .first<{ n: number }>();
-      d1 = row && typeof row.n === "number" ? `ok (${row.n} places)` : "ok";
-    } catch (e) {
-      d1 = `error: ${(e as Error).message}`;
-    }
-  }
+      if (
+        (url.pathname === "/api/nearby" || url.pathname === "/nearby") &&
+        request.method === "GET"
+      ) {
+        const lat = Number(url.searchParams.get("lat"));
+        const lng = Number(
+          url.searchParams.get("lng") ?? url.searchParams.get("lon")
+        );
+        if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
+          return json({ error: "lat and lng are required numbers" }, 400);
+        }
+
+        let radiusMeters: number;
+        try {
+          radiusMeters = parseNearbyRadiusMeters(url);
+        } catch (err) {
+          return json(
+            { error: err instanceof Error ? err.message : "invalid radius" },
+            400
+          );
+        }
+
+        const limitRaw = Number(url.searchParams.get("limit") ?? "50");
+        const limit = Number.isFinite(limitRaw) ? limitRaw : 50;
+
+        const rows = await findNearbyLocations(
+          env,
+          lat,
+          lng,
+          radiusMeters,
+          limit
+        );
+        return json({
+          count: rows.length,
+          radius_meters: radiusMeters,
+          data: rows,
+        });
+      }
 
   return {
     status: "ok",
