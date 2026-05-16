@@ -2,24 +2,36 @@
  * NaviX Cloudflare Worker — entrypoint.
  *
  * Routes (CORS-enabled, JSON):
- *   GET  /health                       Worker + service status
- *   GET  /weather?lat&lon              Live weather for a coordinate
- *   GET  /nearby?lat&lon&limit         Nearest places from D1 (Haversine)
- *   POST /chat                         Multi-agent answer pipeline
+ *   PUBLIC:
+ *     GET  /health                       Worker + service status
+ *     GET  /weather?lat&lon              Live weather for a coordinate
+ *     POST /auth/register | login | google | logout
+ *     GET  /auth/me                      Current user + access summary
+ *     POST /billing/webhook              Stripe webhook (signature-verified)
  *
- * The API contract intentionally matches the legacy FastAPI backend so the
- * frontend only needs VITE_API_BASE_URL pointed at this Worker.
+ *   GATED (require active trial or paid subscription):
+ *     POST /chat                         Multi-agent answer pipeline
+ *     GET  /nearby?lat&lon&limit         Nearest places from D1
+ *     POST /billing/checkout | portal
+ *     GET  /billing/status
+ *
+ * The chat/nearby contract intentionally matches the legacy FastAPI backend
+ * so the frontend only needs VITE_API_BASE_URL pointed at this Worker.
  */
 
 import { classifyIntent } from "./agents/intent";
 import { runResponseAgent, toVoiceScript } from "./agents/response";
 import { runTourismAgent } from "./agents/tourism";
 import { runWeatherAgent } from "./agents/weather";
+import { computeAccess, requireActiveAccess } from "./auth/middleware";
+import { loadSession } from "./auth/middleware";
 import {
   findNearestPlaces,
   findPlaceByName,
   searchPlacesByName,
 } from "./db";
+import { dispatchAuth } from "./routes/auth";
+import { dispatchBilling } from "./routes/billing";
 import {
   ChatRequest,
   ChatResponse,
@@ -35,37 +47,10 @@ import { getWeather } from "./weather";
 const CORS_HEADERS: Record<string, string> = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization, Stripe-Signature",
+  "Access-Control-Expose-Headers": "WWW-Authenticate",
   "Access-Control-Max-Age": "86400",
 };
-
-function parseNearbyRadiusMeters(url: URL): number {
-  const radiusRaw = (url.searchParams.get("radius") ?? "").trim().toLowerCase();
-  const unit = (url.searchParams.get("unit") ?? "").trim().toLowerCase();
-
-  if (!radiusRaw) {
-    throw new Error("radius is required");
-  }
-
-  const kmSuffix = radiusRaw.endsWith("km");
-  const mSuffix = radiusRaw.endsWith("m");
-  const numericPart = radiusRaw.replace(/km$|m$/g, "");
-  const numeric = Number(numericPart);
-
-  if (!Number.isFinite(numeric) || numeric <= 0) {
-    throw new Error("radius must be a positive number");
-  }
-
-  if (kmSuffix || unit === "km") {
-    return numeric * 1000;
-  }
-  if (mSuffix || unit === "m" || unit === "meter" || unit === "meters") {
-    return numeric;
-  }
-
-  // If no unit provided, treat small values as km and larger values as meters.
-  return numeric <= 100 ? numeric * 1000 : numeric;
-}
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
@@ -75,25 +60,54 @@ export default {
 
     const url = new URL(request.url);
     try {
+      // /auth/* — delegated module
+      if (url.pathname.startsWith("/auth/")) {
+        const payload = await dispatchAuth(env, request, url);
+        if (payload === null) {
+          throw new HttpError(404, `Route not found: ${url.pathname}`);
+        }
+        return json(payload);
+      }
+
+      // /billing/* — webhook returns its own Response (must not be re-wrapped),
+      //               other endpoints return data we wrap with json().
+      if (url.pathname.startsWith("/billing/")) {
+        if (url.pathname === "/billing/webhook" && request.method === "POST") {
+          const res = await dispatchBilling(env, request, url);
+          if (res instanceof Response) {
+            return withCors(res);
+          }
+        }
+        const payload = await dispatchBilling(env, request, url);
+        if (payload === null) {
+          throw new HttpError(404, `Route not found: ${url.pathname}`);
+        }
+        if (payload instanceof Response) return withCors(payload);
+        return json(payload);
+      }
+
       switch (url.pathname) {
         case "/":
         case "/health":
           return json(await healthHandler(env));
         case "/weather":
           return json(await weatherHandler(env, url));
-        case "/nearby":
+        case "/nearby": {
+          await requireActiveAccess(env, request);
           return json(await nearbyHandler(env, url));
+        }
         case "/chat": {
           if (request.method !== "POST") {
             throw new HttpError(405, "Use POST for /chat.");
           }
+          await requireActiveAccess(env, request);
           return json(await chatHandler(env, request));
         }
         default:
           throw new HttpError(404, `Route not found: ${url.pathname}`);
       }
     } catch (err) {
-      return errorResponse(err);
+      return errorResponse(env, request, err);
     }
   },
 };
@@ -101,7 +115,18 @@ export default {
 // ───────────────────────────────────────── Handlers
 
 async function healthHandler(env: Env): Promise<Record<string, unknown>> {
-  const d1 = env.DB ? "configured" : "missing";
+  let d1: string = env.DB ? "configured" : "missing";
+  if (env.DB) {
+    try {
+      const row = await env.DB.prepare("SELECT COUNT(*) AS n FROM places").first<{
+        n: number;
+      }>();
+      d1 = row && typeof row.n === "number" ? `ok (${row.n} places)` : "ok";
+    } catch (e) {
+      d1 = `error: ${(e as Error).message}`;
+    }
+  }
+
   return {
     status: "ok",
     services: {
@@ -110,6 +135,9 @@ async function healthHandler(env: Env): Promise<Record<string, unknown>> {
       openai: env.OPENAI_API_KEY ? "configured" : "missing",
       gemini: env.GEMINI_API_KEY ? "configured" : "missing",
       weather: env.WEATHER_API_KEY ? "configured" : "mock",
+      google_auth: env.GOOGLE_CLIENT_ID ? "configured" : "missing",
+      stripe: env.STRIPE_SECRET_KEY ? "configured" : "missing",
+      stripe_webhook: env.STRIPE_WEBHOOK_SECRET ? "configured" : "missing",
     },
   };
 }
@@ -139,10 +167,8 @@ async function chatHandler(env: Env, request: Request): Promise<ChatResponse> {
   const lat = parseOptionalFloat(body.lat);
   const lon = parseOptionalFloat(body.lon ?? body.lng);
 
-  // Intent (best-effort with heuristic fallback inside the agent)
   const intent = await classifyIntent(env, query);
 
-  // Nearby places — requires lat/lon and D1
   let nearby: NearbyPlace[] = [];
   if (lat !== null && lon !== null && env.DB) {
     try {
@@ -152,7 +178,6 @@ async function chatHandler(env: Env, request: Request): Promise<ChatResponse> {
     }
   }
 
-  // Weather — only if we have coords; never break the whole chat if it fails
   let weather: WeatherResponse | null = null;
   if (lat !== null && lon !== null) {
     try {
@@ -162,17 +187,15 @@ async function chatHandler(env: Env, request: Request): Promise<ChatResponse> {
     }
   }
 
-  // Tourism knowledge synthesis (LLM with fallback inside the agent)
   let tourismText = "";
   try {
     tourismText = await runTourismAgent(env, query, intent, nearby);
-  } catch (e) {
+  } catch {
     tourismText = nearby[0]?.deep_history.summary ?? "";
   }
 
   const weatherAdvice = runWeatherAgent(weather);
 
-  // Final voice-friendly response (this one is allowed to surface 503)
   const answer = await runResponseAgent(
     env,
     query,
@@ -205,7 +228,6 @@ async function resolveMatchedCoordinates(
 ): Promise<Coordinates | null> {
   if (!env.DB) return nearby[0]?.coordinates ?? null;
 
-  // 1. Try entities reported by intent agent
   const entityNames = Object.values(intent.entities ?? {})
     .filter((v): v is string => typeof v === "string" && v.length > 1);
   for (const name of entityNames) {
@@ -213,14 +235,12 @@ async function resolveMatchedCoordinates(
     if (hit) return hit.coordinates;
   }
 
-  // 2. Try substring search against the query itself
   const cleaned = query.replace(/[^\w\s]/g, " ").trim();
   if (cleaned.length >= 3) {
     const matches = await searchPlacesByName(env.DB, cleaned, 1);
     if (matches.length > 0) return matches[0].coordinates;
   }
 
-  // 3. Fall back to the closest nearby place
   return nearby[0]?.coordinates ?? null;
 }
 
@@ -269,8 +289,34 @@ function json(payload: unknown, status = 200): Response {
   });
 }
 
-function errorResponse(err: unknown): Response {
+function withCors(res: Response): Response {
+  const headers = new Headers(res.headers);
+  for (const [k, v] of Object.entries(CORS_HEADERS)) headers.set(k, v);
+  return new Response(res.body, { status: res.status, headers });
+}
+
+async function errorResponse(
+  env: Env,
+  request: Request,
+  err: unknown
+): Promise<Response> {
   if (err instanceof HttpError) {
+    // Special-case 402 so the frontend can show the upgrade UI with context.
+    if (err.status === 402 && err.message === "subscription_required") {
+      const session = await loadSession(env, request).catch(() => null);
+      const access = session
+        ? computeAccess(session.user, session.subscription)
+        : null;
+      return json(
+        {
+          error: "subscription_required",
+          status: 402,
+          trial_expired: access ? !access.is_trial && !access.is_paid : true,
+          access,
+        },
+        402
+      );
+    }
     return json({ error: err.message, status: err.status }, err.status);
   }
   const message = err instanceof Error ? err.message : "Unknown error";
