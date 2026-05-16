@@ -96,8 +96,12 @@ function mapNearbyRow(row: NearbyRow): NearbyLocation {
   };
 }
 
-export async function findPlaces(env: Env): Promise<PlaceDocument[]> {
-  if (!env.DB) return [];
+export async function findAllPlaces(db: D1Database): Promise<Place[]> {
+  const { results } = await db
+    .prepare(`SELECT ${SELECT_COLUMNS} FROM places`)
+    .all<PlaceRow>();
+  return (results ?? []).map(rowToPlace);
+}
 
 export async function findPlaceByName(
   db: D1Database,
@@ -258,21 +262,14 @@ export async function findNearbyLocations(
   return (result.results ?? []).map(mapNearbyRow);
 }
 
-export function toNearbyResponse(
-  places: PlaceDocument[],
-  lat: number,
-  lng: number
-): Array<PlaceDocument & { distanceKm: number }> {
-  return places
-    .map((place) => {
-      const coords = place.coordinates ?? {
-        lat: place.location?.coordinates?.[1] ?? 0,
-        lng: place.location?.coordinates?.[0] ?? 0,
-      };
-      const distanceKm = haversineKm(lat, lng, coords.lat, coords.lng);
-      return { ...place, distanceKm };
-    })
-    .sort((a, b) => a.distanceKm - b.distanceKm);
+function parseTags(json: string | null): string[] {
+  if (!json) return [];
+  try {
+    const parsed = JSON.parse(json);
+    return Array.isArray(parsed) ? parsed.map(String) : [];
+  } catch {
+    return [];
+  }
 }
 
 export function haversineKm(
