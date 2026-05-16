@@ -1,4 +1,4 @@
-import { NearbyPlace, Place } from "./types";
+import { Env, NearbyPlace, Place } from "./types";
 
 type PlaceRow = {
   location_id: string;
@@ -13,6 +13,32 @@ type PlaceRow = {
   tts_key_facts: string | null;
   lat: number;
   lng: number;
+};
+
+type NearbyRow = {
+  id: string;
+  name: string;
+  longitude: number;
+  latitude: number;
+  category: string | null;
+  era: string | null;
+  deep_history: string | null;
+  tags: string | null;
+  tts_hints: string | null;
+  distance_meters: number;
+};
+
+export type NearbyLocation = {
+  id: string;
+  name: string;
+  longitude: number;
+  latitude: number;
+  category: string | null;
+  era: string | null;
+  deep_history: unknown;
+  tags: unknown;
+  tts_hints: unknown;
+  distance_meters: number;
 };
 
 const SELECT_COLUMNS =
@@ -79,7 +105,9 @@ export async function findNearestPlaces(
   lng: number,
   limit = 5
 ): Promise<NearbyPlace[]> {
-  const { results } = await db.prepare(`SELECT ${SELECT_COLUMNS} FROM places`).all<PlaceRow>();
+  const { results } = await db
+    .prepare(`SELECT ${SELECT_COLUMNS} FROM places`)
+    .all<PlaceRow>();
 
   const ranked: NearbyPlace[] = (results ?? []).map((row) => {
     const place = rowToPlace(row);
@@ -100,37 +128,6 @@ export async function findNearestPlaces(
   return ranked.slice(0, Math.max(1, limit));
 }
 
-function rowToPlace(row: PlaceRow): Place {
-  return {
-    id: row.location_id,
-    name: row.name,
-    category: row.category ?? "attraction",
-    era: row.era ?? undefined,
-    tags: parseTags(row.tags_json),
-    coordinates: { lat: row.lat, lng: row.lng },
-    deep_history: {
-      summary: row.summary ?? "",
-      architectural_details: row.architectural_details ?? "",
-      cultural_significance: row.cultural_significance ?? "",
-    },
-    tts_hints: {
-      pronunciation_guide: row.tts_pronunciation ?? "",
-      key_facts_short: row.tts_key_facts ?? "",
-    },
-  };
-}
-
-function parseTags(raw: string | null): string[] {
-  if (!raw) return [];
-  try {
-    const parsed = JSON.parse(raw) as unknown;
-    if (Array.isArray(parsed)) {
-      return parsed.filter((item): item is string => typeof item === "string");
-    }
-  } catch {
-    // Ignore parse failures and fall back below.
-  }
-  return [];
 export async function findNearbyLocations(
   env: Env,
   lat: number,
@@ -142,8 +139,6 @@ export async function findNearbyLocations(
 
   const safeRadius = Math.max(1, radiusMeters);
   const safeLimit = Math.min(Math.max(1, Math.floor(limit)), 500);
-
-  // Fast bounding-box prefilter to reduce expensive trig operations.
   const earthMetersPerDegree = 111320;
   const latDelta = safeRadius / earthMetersPerDegree;
   const cosLat = Math.cos((lat * Math.PI) / 180);
@@ -208,14 +203,37 @@ export async function findNearbyLocations(
   return (result.results ?? []).map(mapNearbyRow);
 }
 
-function parseTags(json: string | null): string[] {
-  if (!json) return [];
+function rowToPlace(row: PlaceRow): Place {
+  return {
+    id: row.location_id,
+    name: row.name,
+    category: row.category ?? "attraction",
+    era: row.era ?? undefined,
+    tags: parseTags(row.tags_json),
+    coordinates: { lat: row.lat, lng: row.lng },
+    deep_history: {
+      summary: row.summary ?? "",
+      architectural_details: row.architectural_details ?? "",
+      cultural_significance: row.cultural_significance ?? "",
+    },
+    tts_hints: {
+      pronunciation_guide: row.tts_pronunciation ?? "",
+      key_facts_short: row.tts_key_facts ?? "",
+    },
+  };
+}
+
+function parseTags(raw: string | null): string[] {
+  if (!raw) return [];
   try {
-    const parsed = JSON.parse(json);
-    return Array.isArray(parsed) ? parsed.map(String) : [];
+    const parsed = JSON.parse(raw) as unknown;
+    if (Array.isArray(parsed)) {
+      return parsed.filter((item): item is string => typeof item === "string");
+    }
   } catch {
-    return [];
+    // Ignore parse failures and fall back below.
   }
+  return [];
 }
 
 function haversineKm(
