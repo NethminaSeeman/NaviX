@@ -7,7 +7,6 @@ import { useWeather } from "@/context/WeatherContext";
 import { ceygoApi } from "@/services/ceygoApi";
 import { getTagStyle } from "@/utils/mapConfig";
 import {
-  getProvinceFromCoordinates,
   resolveProvince,
   resolveDistrict,
   SRI_LANKA_PROVINCES,
@@ -25,17 +24,6 @@ const LiveMapPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedProvince, setSelectedProvince] = useState("All Provinces");
   const [selectedPlace, setSelectedPlace] = useState(null);
-  const [provinceAutoSet, setProvinceAutoSet] = useState(false);
-
-  // Auto-detect user's province from GPS and pre-select it (only once)
-  useEffect(() => {
-    if (!location || provinceAutoSet) return;
-    const detected = getProvinceFromCoordinates(location);
-    if (detected && detected !== "Unknown Province") {
-      setSelectedProvince(detected);
-      setProvinceAutoSet(true);
-    }
-  }, [location, provinceAutoSet]);
 
   // Load all Sri Lanka locations once on mount
   useEffect(() => {
@@ -116,19 +104,8 @@ const LiveMapPage = () => {
         <div>
           <h1 className="section-title">Live Map Explorer</h1>
           <p className="text-sm text-slate-600 dark:text-slate-300">
-            {selectedProvince !== "All Provinces"
-              ? `Showing locations in ${selectedProvince}`
-              : "All Sri Lanka heritage & tourism locations, grouped by province."}
+            All Sri Lanka heritage & tourism locations, grouped by province.
           </p>
-          {selectedProvince !== "All Provinces" && (
-            <button
-              type="button"
-              onClick={() => { setSelectedProvince("All Provinces"); setSearchQuery(""); }}
-              className="mt-1 text-xs text-cyan-600 underline hover:text-cyan-500 dark:text-cyan-400"
-            >
-              Show all provinces
-            </button>
-          )}
         </div>
         <button type="button" onClick={getCurrentLocation} className="tech-button">
           Refresh My Location
