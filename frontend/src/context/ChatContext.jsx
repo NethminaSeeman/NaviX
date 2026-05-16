@@ -6,7 +6,7 @@ const ChatContext = createContext(null);
 const initialMessage = {
   id: "welcome",
   role: "assistant",
-  text: "Ayubowan! I am CeyGo. Ask me about routes, culture, weather, and must-visit places in Sri Lanka.",
+  text: "Ayubowan! I am NaviX. Ask me about routes, culture, weather, and must-visit places in Sri Lanka.",
   timestamp: new Date().toISOString(),
 };
 
