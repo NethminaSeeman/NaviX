@@ -5,6 +5,7 @@ import WeatherCard from "@/components/WeatherCard";
 import { useLocation } from "@/context/LocationContext";
 import { useWeather } from "@/context/WeatherContext";
 import { ceygoApi } from "@/services/ceygoApi";
+import { getTagStyle } from "@/utils/mapConfig";
 
 const LiveMapPage = () => {
   const {
@@ -16,6 +17,7 @@ const LiveMapPage = () => {
   } = useLocation();
   const { weather } = useWeather();
   const [places, setPlaces] = useState([]);
+  const [selectedPlace, setSelectedPlace] = useState(null);
   const [loadingPlaces, setLoadingPlaces] = useState(true);
   const [placesError, setPlacesError] = useState("");
 
@@ -64,20 +66,68 @@ const LiveMapPage = () => {
       {error && <p className="text-sm text-red-500">{error}</p>}
       {placesError && <p className="text-sm text-red-500">{placesError}</p>}
 
-      <MapView userLocation={location} places={places} weather={weather} />
+      <MapView
+        userLocation={location}
+        places={places}
+        weather={weather}
+        selectedPlace={selectedPlace}
+        onPlaceSelect={setSelectedPlace}
+      />
 
       {loadingPlaces ? (
         <LoadingSpinner text="Finding nearby places..." />
       ) : (
-        <div className="glass-card p-4">
-          <h3 className="mb-2 font-semibold">Nearest Attractions</h3>
-          <ul className="space-y-1 text-sm text-slate-600 dark:text-slate-200">
+        <div className="tech-panel p-4">
+          <h3 className="mono-label mb-2 text-[11px] text-slate-500 dark:text-cyan-300/80">
+            Nearest Attractions
+          </h3>
+          <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-200">
             {places.slice(0, 5).map((place) => (
-              <li key={place.id}>
-                {place.name} {place.distanceKm ? `- ${place.distanceKm} km` : ""}
+              <li
+                key={place.id}
+                className="cursor-pointer rounded-md border border-slate-200 px-3 py-2 hover:border-cyan-500/40 hover:bg-cyan-500/5 dark:border-slate-700"
+                onClick={() => setSelectedPlace(place)}
+              >
+                <p className="font-medium">
+                  {place.name} {place.distanceKm ? `- ${place.distanceKm} km` : ""}
+                </p>
+                <div className="mt-1 flex flex-wrap gap-1">
+                  {(place.tags || []).map((tag) => {
+                    const tagStyle = getTagStyle(tag);
+                    return (
+                      <span
+                        key={tag}
+                        className={`mono-label rounded-md border px-1.5 py-0.5 text-[9px] ${tagStyle.badgeClass}`}
+                      >
+                        {tagStyle.label}
+                      </span>
+                    );
+                  })}
+                </div>
               </li>
             ))}
           </ul>
+        </div>
+      )}
+
+      {selectedPlace && (
+        <div className="tech-panel space-y-2 p-4">
+          <div className="flex items-center justify-between">
+            <h3 className="text-base font-semibold">{selectedPlace.name}</h3>
+            <button
+              type="button"
+              onClick={() => setSelectedPlace(null)}
+              className="mono-label text-[10px] text-cyan-600 hover:underline dark:text-cyan-300"
+            >
+              Close
+            </button>
+          </div>
+          <p className="text-sm text-slate-600 dark:text-slate-200">
+            {selectedPlace?.deep_history?.summary}
+          </p>
+          <p className="text-sm text-slate-600 dark:text-slate-300">
+            {selectedPlace?.deep_history?.architectural_details}
+          </p>
         </div>
       )}
 

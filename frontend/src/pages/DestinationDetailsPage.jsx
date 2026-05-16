@@ -55,8 +55,8 @@ const DestinationDetailsPage = () => {
         </div>
         <button
           type="button"
-          onClick={() => speak(`${destination.name}. ${destination.history}`)}
-          className="inline-flex items-center gap-2 rounded-full bg-ceygo-accent px-4 py-2 text-sm font-semibold text-slate-900"
+          onClick={() => speak(destination)}
+          className="inline-flex items-center gap-2 rounded-md border border-cyan-500/40 bg-gradient-to-r from-cyan-500 to-teal-500 px-4 py-2 text-sm font-semibold text-slate-950 shadow-sm active:scale-95"
         >
           <FiVolume2 />
           Play Audio Narration
