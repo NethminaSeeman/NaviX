@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { FiCheck, FiNavigation, FiSun } from "react-icons/fi";
-import bgHills from "@/assets/destinations/nuwara-eliya.jpg";
-import bgCoast from "@/assets/destinations/galle.jpg";
+import bgTeaSunrise from "@/assets/about/about-tea-sunrise.png";
+import bgCollageSigiriya from "@/assets/about/about-collage-sigiriya.png";
 
 const sections = [
   {
@@ -33,15 +33,15 @@ const AboutPage = () => (
       className="relative overflow-hidden rounded-2xl border border-slate-200/80 dark:border-cyan-500/20"
     >
       <img
-        src={bgHills}
+        src={bgTeaSunrise}
         alt=""
-        className="absolute inset-0 h-full w-full object-cover opacity-40 dark:opacity-30"
+        className="absolute inset-0 h-full w-full object-cover opacity-48 dark:opacity-36"
       />
       <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/88 to-teal-50/40 dark:from-zinc-950/95 dark:via-zinc-950/88 dark:to-cyan-950/40" />
       <div className="relative p-6 md:p-10">
         <p className="mono-label mb-2 text-[11px] text-cyan-600 dark:text-cyan-300">DISCOVER_SRI_LANKA</p>
         <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white md:text-4xl">
-          NavX: Your Digital Sherpa for Sri Lanka.
+          NaviX: Your Digital Sherpa for Sri Lanka.
         </h1>
         <p className="mt-3 max-w-2xl text-base text-slate-700 dark:text-slate-200">
           A sensory-first companion for travelers who want clarity without a clipboard — voice, maps,
@@ -81,9 +81,9 @@ const AboutPage = () => (
       className="relative overflow-hidden rounded-2xl border border-slate-200/80 dark:border-cyan-500/20"
     >
       <img
-        src={bgCoast}
+        src={bgCollageSigiriya}
         alt=""
-        className="absolute inset-0 h-full w-full object-cover opacity-35 dark:opacity-25"
+        className="absolute inset-0 h-full w-full scale-110 object-cover object-[88%_12%] opacity-42 dark:opacity-32 sm:object-[82%_10%]"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-900/88 to-slate-900/35" />
       <div className="relative grid gap-6 p-6 md:grid-cols-2 md:p-10">
