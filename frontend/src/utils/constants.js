@@ -1,25 +1,15 @@
 export const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
-const sanitizeApiKey = (value) => {
-  if (!value) return "";
-  const normalized = `${value}`.trim().replace(/^['"]|['"]$/g, "");
-  if (!normalized || normalized === "your_google_maps_api_key") return "";
-  return normalized;
-};
-
-export const MAPS_API_KEY = sanitizeApiKey(
-  import.meta.env.VITE_GOOGLE_MAPS_API_KEY ||
-    import.meta.env.VITE_MAPS_API_KEY ||
-    import.meta.env.GOOGLE_MAPS_API_KEY ||
-    ""
-);
+export const MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || "";
+export const SRI_LANKA_CENTER = { lat: 7.8731, lng: 80.7718 };
+export const APP_NAME = "CeyGo";
 
 export const SUGGESTED_PROMPTS = [
-  "Plan a 3-day trip in Kandy",
-  "Best beaches near Galle today",
-  "Suggest places with less rain now",
-  "Tell me the history of Sigiriya",
+  "Plan a 4-day cultural trip across Kandy and Sigiriya",
+  "What are the best sunset beaches near Galle today?",
+  "Suggest rainy-day activities around Colombo",
+  "Tell me the history behind Sigiriya frescoes",
 ];
 
 export const WEATHER_LABELS = {

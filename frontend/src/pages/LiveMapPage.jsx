@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import MapContainer from "@/components/MapContainer";
+import MapView from "@/components/MapView";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import WeatherCard from "@/components/WeatherCard";
 import { useLocation } from "@/context/LocationContext";
@@ -7,18 +7,32 @@ import { useWeather } from "@/context/WeatherContext";
 import { ceygoApi } from "@/services/ceygoApi";
 
 const LiveMapPage = () => {
-  const { location, loading: locating, error, getCurrentLocation } = useLocation();
+  const {
+    location,
+    loading: locating,
+    error,
+    permissionState,
+    getCurrentLocation,
+  } = useLocation();
   const { weather } = useWeather();
   const [places, setPlaces] = useState([]);
   const [loadingPlaces, setLoadingPlaces] = useState(true);
+  const [placesError, setPlacesError] = useState("");
 
   useEffect(() => {
     const loadPlaces = async () => {
-      const results = location
-        ? await ceygoApi.nearby(location)
-        : await ceygoApi.places();
-      setPlaces(results);
-      setLoadingPlaces(false);
+      setLoadingPlaces(true);
+      setPlacesError("");
+      try {
+        const results = location
+          ? await ceygoApi.nearby(location)
+          : await ceygoApi.places();
+        setPlaces(results);
+      } catch (err) {
+        setPlacesError(err.message);
+      } finally {
+        setLoadingPlaces(false);
+      }
     };
     loadPlaces();
   }, [location]);
@@ -41,10 +55,16 @@ const LiveMapPage = () => {
         </button>
       </div>
 
+      {permissionState === "denied" && (
+        <p className="rounded-xl bg-amber-100 px-3 py-2 text-sm text-amber-800 dark:bg-amber-500/10 dark:text-amber-200">
+          GPS permission is currently denied in your browser.
+        </p>
+      )}
       {locating && <LoadingSpinner text="Detecting your location..." />}
       {error && <p className="text-sm text-red-500">{error}</p>}
+      {placesError && <p className="text-sm text-red-500">{placesError}</p>}
 
-      <MapContainer userLocation={location} places={places} weather={weather} />
+      <MapView userLocation={location} places={places} weather={weather} />
 
       {loadingPlaces ? (
         <LoadingSpinner text="Finding nearby places..." />

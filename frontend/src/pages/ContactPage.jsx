@@ -1,5 +1,5 @@
 import { useState } from "react";
-import MapContainer from "@/components/MapContainer";
+import MapView from "@/components/MapView";
 import { socialLinks } from "@/utils/mockData";
 
 const ContactPage = () => {
@@ -69,7 +69,7 @@ const ContactPage = () => {
             </div>
           </div>
         </form>
-        <MapContainer places={[]} />
+        <MapView places={[]} />
       </div>
     </section>
   );
