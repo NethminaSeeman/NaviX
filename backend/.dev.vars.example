@@ -1,11 +1,2 @@
 GEMINI_API_KEY=
 WEATHER_API_KEY=
-
-# MongoDB Atlas (hosted separately — Workers use Data API over HTTPS)
-MONGODB_DATA_API_URL=https://data.mongodb-api.com/app/<APP_ID>/endpoint/data/v1
-MONGODB_DATA_API_KEY=
-MONGODB_DATA_SOURCE=Cluster0
-MONGODB_DATABASE=navix
-
-# Optional: connection string for Atlas dashboard / future Hyperdrive
-MONGODB_URI=
