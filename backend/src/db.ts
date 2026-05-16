@@ -19,6 +19,19 @@ export type HeritageContext = {
   cultural_rules: string;
 };
 
+export type NearbyLocation = {
+  id: string;
+  name: string;
+  longitude: number;
+  latitude: number;
+  category: string | null;
+  era: string | null;
+  deep_history: unknown;
+  tags: unknown;
+  tts_hints: unknown;
+  distance_meters: number;
+};
+
 type PlaceRow = {
   id: number;
   name: string;
@@ -28,6 +41,19 @@ type PlaceRow = {
   cultural_rules: string | null;
   lat: number;
   lng: number;
+};
+
+type NearbyRow = {
+  id: string;
+  name: string;
+  longitude: number;
+  latitude: number;
+  category: string | null;
+  era: string | null;
+  deep_history: string | null;
+  tags: string | null;
+  tts_hints: string | null;
+  distance_meters: number;
 };
 
 function parseCulturalRules(rules: string | null): string | string[] {
@@ -54,6 +80,30 @@ function mapRowToPlace(row: PlaceRow): PlaceDocument {
     cultural_rules: parsedRules,
     coordinates: { lat: row.lat, lng: row.lng },
     location: { type: "Point", coordinates: [row.lng, row.lat] },
+  };
+}
+
+function parseJsonField<T>(value: string | null, fallback: T): T {
+  if (!value) return fallback;
+  try {
+    return JSON.parse(value) as T;
+  } catch {
+    return fallback;
+  }
+}
+
+function mapNearbyRow(row: NearbyRow): NearbyLocation {
+  return {
+    id: row.id,
+    name: row.name,
+    longitude: row.longitude,
+    latitude: row.latitude,
+    category: row.category,
+    era: row.era,
+    deep_history: parseJsonField(row.deep_history, null),
+    tags: parseJsonField(row.tags, [] as unknown[]),
+    tts_hints: parseJsonField(row.tts_hints, null),
+    distance_meters: row.distance_meters,
   };
 }
 
@@ -124,6 +174,83 @@ export async function findNearestHeritage(
     verified_history: nearest.verified_history || "",
     cultural_rules: culturalRules,
   };
+}
+
+export async function findNearbyLocations(
+  env: Env,
+  lat: number,
+  lng: number,
+  radiusMeters: number,
+  limit = 50
+): Promise<NearbyLocation[]> {
+  if (!env.DB) return [];
+
+  const safeRadius = Math.max(1, radiusMeters);
+  const safeLimit = Math.min(Math.max(1, Math.floor(limit)), 200);
+
+  // Fast bounding-box prefilter to reduce expensive trig operations.
+  const earthMetersPerDegree = 111320;
+  const latDelta = safeRadius / earthMetersPerDegree;
+  const cosLat = Math.cos((lat * Math.PI) / 180);
+  const lngDelta =
+    safeRadius / (earthMetersPerDegree * Math.max(Math.abs(cosLat), 0.1));
+
+  const rad = 0.017453292519943295;
+  const query = `
+    SELECT
+      id,
+      name,
+      longitude,
+      latitude,
+      category,
+      era,
+      deep_history,
+      tags,
+      tts_hints,
+      distance_meters
+    FROM (
+      SELECT
+        id,
+        name,
+        longitude,
+        latitude,
+        category,
+        era,
+        deep_history,
+        tags,
+        tts_hints,
+        (
+          2 * 6371000 * ASIN(
+            SQRT(
+              POW(SIN(((?1 - latitude) * ${rad}) / 2), 2) +
+              COS(latitude * ${rad}) * COS(?1 * ${rad}) *
+              POW(SIN(((?2 - longitude) * ${rad}) / 2), 2)
+            )
+          )
+        ) AS distance_meters
+      FROM heritage_locations
+      WHERE latitude BETWEEN ?3 AND ?4
+        AND longitude BETWEEN ?5 AND ?6
+    )
+    WHERE distance_meters <= ?7
+    ORDER BY distance_meters ASC
+    LIMIT ?8
+  `;
+
+  const result = await env.DB.prepare(query)
+    .bind(
+      lat,
+      lng,
+      lat - latDelta,
+      lat + latDelta,
+      lng - lngDelta,
+      lng + lngDelta,
+      safeRadius,
+      safeLimit
+    )
+    .all<NearbyRow>();
+
+  return (result.results ?? []).map(mapNearbyRow);
 }
 
 export function toNearbyResponse(
