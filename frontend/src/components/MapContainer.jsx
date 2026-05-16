@@ -51,12 +51,16 @@ const MapContainer = ({ userLocation, places = [], weather }) => {
       .sort((a, b) => a.dist - b.dist)[0];
   }, [placesInSriLanka, userLocation]);
   const userInSriLanka = isWithinSriLankaBounds(userLocation);
-  const mapCenter = userInSriLanka ? userLocation : defaultCenter;
-  const defaultZoom = userInSriLanka ? 9 : 7;
 
   const handleMapLoad = useCallback(
     (map) => {
-      if (userInSriLanka || !window.google?.maps?.LatLngBounds) return;
+      if (!window.google?.maps?.LatLngBounds) return;
+
+      if (userInSriLanka) {
+        map.setCenter(userLocation);
+        map.setZoom(9);
+        return;
+      }
 
       const bounds = new window.google.maps.LatLngBounds(
         { lat: sriLankaBounds.south, lng: sriLankaBounds.west },
@@ -64,7 +68,7 @@ const MapContainer = ({ userLocation, places = [], weather }) => {
       );
       map.fitBounds(bounds);
     },
-    [userInSriLanka]
+    [userInSriLanka, userLocation]
   );
 
   if (!MAPS_API_KEY) {
@@ -96,8 +100,8 @@ const MapContainer = ({ userLocation, places = [], weather }) => {
     <div className="glass-card h-[440px] overflow-hidden md:h-[520px]">
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
-        center={mapCenter}
-        zoom={defaultZoom}
+        defaultCenter={defaultCenter}
+        defaultZoom={6}
         onLoad={handleMapLoad}
         options={{
           disableDefaultUI: false,
