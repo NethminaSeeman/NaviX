@@ -1,0 +1,11 @@
+{
+  "name": "Sigiriya Rock Fortress",
+  "nearest_site": "Sigiriya Rock Fortress",
+  "district": "Matale",
+  "verified_history": "Built by King Kashyapa in the 5th century AD.",
+  "cultural_rules": ["No graffiti", "Moderate climbing stamina required"],
+  "location": {
+    "type": "Point",
+    "coordinates": [80.7603, 7.957]
+  }
+}

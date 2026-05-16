@@ -8,7 +8,9 @@
     "types": "wrangler types",
     "cf:login": "wrangler login",
     "cf:whoami": "wrangler whoami",
-    "cf:secrets": "powershell -ExecutionPolicy Bypass -File ./scripts/sync-secrets.ps1"
+    "cf:secrets": "powershell -ExecutionPolicy Bypass -File ./scripts/sync-secrets.ps1",
+    "cf:deploy:all": "powershell -ExecutionPolicy Bypass -File ./scripts/deploy-all.ps1",
+    "pages:deploy": "npm run build --prefix ../frontend && npx wrangler pages deploy ../frontend/dist --project-name=navix-frontend"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240512.0",
