@@ -1,4 +1,4 @@
-import { askGemini } from "./ai";
+import { askGemini, runNaviXPipeline } from "./ai";
 import { getWeather } from "./weather";
 
 export interface Env {
@@ -39,6 +39,56 @@ export default {
         }
         const answer = await askGemini(env, body.prompt, body.context);
         return json({ answer });
+      }
+
+      if (url.pathname === "/api/navix/chat" && request.method === "POST") {
+        const body = (await request.json()) as {
+          message?: string;
+          lat?: number;
+          lng?: number;
+          weather_data?: Record<string, unknown>;
+        };
+
+        if (!body.message) {
+          return json({ error: "message required" }, 400);
+        }
+
+        if (typeof body.lat !== "number" || typeof body.lng !== "number") {
+          return json({ error: "lat and lng are required numbers" }, 400);
+        }
+
+        const mockMongodbPayload = {
+          nearest_site: "Sigiriya Rock Fortress",
+          district: "Matale",
+          distance_meters: 45,
+          verified_history:
+            "Built by King Kashyapa in the 5th century AD. Features a gateway shaped like an enormous lion, and advanced ancient hydraulic infrastructure.",
+          cultural_rules:
+            "No graffiti allowed. Moderate climbing stamina required. Keep hold of loose personal belongings due to high winds and local wildlife.",
+        };
+
+        let weatherContext: Record<string, unknown>;
+        if (body.weather_data && typeof body.weather_data === "object") {
+          weatherContext = body.weather_data;
+        } else {
+          const weather = await getWeather(env, body.lat, body.lng);
+          weatherContext = {
+            temp: weather.temp,
+            condition: weather.description,
+          };
+        }
+
+        const orchestrationResult = await runNaviXPipeline(
+          env,
+          body.message,
+          mockMongodbPayload,
+          weatherContext
+        );
+
+        return json({
+          status: "success",
+          payload: orchestrationResult,
+        });
       }
 
       if (url.pathname === "/health") {

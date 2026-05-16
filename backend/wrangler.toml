@@ -1,6 +1,8 @@
 name = "navix-api"
 main = "src/index.ts"
 compatibility_date = "2024-05-01"
+workers_dev = true
+account_id = "72f7f49f94fd223a4d11c28588c23266"
 
-[vars]
-# Non-secret defaults; override in dashboard or .dev.vars locally
+[observability]
+enabled = true
