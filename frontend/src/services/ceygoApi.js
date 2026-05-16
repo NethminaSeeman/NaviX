@@ -30,6 +30,7 @@ const normalizePlace = (place, index) => {
   return {
     id: place.id || `${place.name || "place"}-${index}`,
     name: place.name || "Unknown attraction",
+    province: place.province || null,
     district: place.district || place.region || "Sri Lanka",
     history: place.history || place.description || "Popular travel attraction.",
     image: place.image || featuredDestinations[index % featuredDestinations.length].image,
@@ -121,14 +122,15 @@ export const ceygoApi = {
     }
   },
 
-  nearby: async ({ lat, lng }) => {
+  nearby: async ({ lat, lng, radius = 50000, limit = 500 }) => {
     try {
       const { data } = await retry(() =>
-        apiClient.get("/nearby", { params: { lat, lng, lon: lng } })
+        apiClient.get("/nearby", { params: { lat, lng, lon: lng, radius, limit } })
       );
-      if (!Array.isArray(data)) return [];
+      const payload = Array.isArray(data) ? data : data?.data;
+      if (!Array.isArray(payload)) return [];
 
-      return data
+      return payload
         .map((place, index) => normalizePlace(place, index))
         .filter(Boolean)
         .map((place) => ({
