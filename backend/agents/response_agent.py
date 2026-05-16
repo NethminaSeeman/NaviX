@@ -2,6 +2,7 @@ import json
 from typing import Optional
 
 from models.request_models import IntentResult, NearbyPlace, WeatherResponse
+from services.agent_store import AgentStore
 from services.openai_service import OpenAIService
 
 
@@ -18,8 +19,11 @@ Always reply in the same language as the user's query.
 
 
 class FinalResponseAgent:
-    def __init__(self, openai_service: OpenAIService) -> None:
+    def __init__(
+        self, openai_service: OpenAIService, agent_store: AgentStore | None = None
+    ) -> None:
         self.openai = openai_service
+        self.agent_store = agent_store
 
     async def run(
         self,
@@ -38,8 +42,30 @@ class FinalResponseAgent:
             "weather_advice": weather_advice,
             "nearby_places": [place.model_dump() for place in nearby],
         }
-        return await self.openai.complete(
-            SYSTEM_PROMPT,
-            json.dumps(payload, ensure_ascii=False),
-            temperature=0.45,
-        )
+        prompt = json.dumps(payload, ensure_ascii=False)
+        try:
+            output = await self.openai.complete(
+                SYSTEM_PROMPT,
+                prompt,
+                temperature=0.45,
+            )
+            if self.agent_store:
+                self.agent_store.log(
+                    "response_agent",
+                    query,
+                    payload,
+                    {"text": output},
+                    status="success",
+                )
+            return output
+        except Exception as exc:
+            if self.agent_store:
+                self.agent_store.log(
+                    "response_agent",
+                    query,
+                    payload,
+                    {"text": ""},
+                    status="error",
+                    error_text=str(exc),
+                )
+            raise

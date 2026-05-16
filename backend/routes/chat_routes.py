@@ -16,6 +16,7 @@ from models.request_models import (
     WeatherResponse,
 )
 from services.location_service import LocationService
+from services.agent_store import AgentStore
 from services.maps_service import MapsService
 from services.openai_service import OpenAIService
 from services.weather_service import WeatherService
@@ -29,12 +30,13 @@ openai_service = OpenAIService()
 location_service = LocationService()
 weather_service = WeatherService()
 maps_service = MapsService()
+agent_store = AgentStore()
 
-intent_agent = IntentAgent(openai_service)
-nearby_agent = NearbyPlacesAgent(location_service)
-tourism_agent = TourismKnowledgeAgent(openai_service)
-weather_agent = WeatherAnalysisAgent()
-response_agent = FinalResponseAgent(openai_service)
+intent_agent = IntentAgent(openai_service, agent_store)
+nearby_agent = NearbyPlacesAgent(location_service, agent_store)
+tourism_agent = TourismKnowledgeAgent(openai_service, agent_store)
+weather_agent = WeatherAnalysisAgent(agent_store)
+response_agent = FinalResponseAgent(openai_service, agent_store)
 
 
 async def _safe_intent(query: str) -> IntentResult:
@@ -156,3 +158,8 @@ async def nearby(lat: float = Query(...), lon: float = Query(...)):
 @router.get("/health")
 async def health():
     return {"status": "ok", "service": "navix-fastapi-agents"}
+
+
+@router.get("/agents/logs")
+async def agent_logs(limit: int = Query(50, ge=1, le=500)):
+    return {"count": limit, "data": agent_store.recent(limit)}
