@@ -4,6 +4,18 @@ export const useGeolocation = (autoFetch = true) => {
   const [location, setLocation] = useState(null);
   const [loading, setLoading] = useState(autoFetch);
   const [error, setError] = useState("");
+  const [permissionState, setPermissionState] = useState("prompt");
+
+  const resolvePermission = useCallback(async () => {
+    if (!navigator.permissions?.query) return;
+    try {
+      const status = await navigator.permissions.query({ name: "geolocation" });
+      setPermissionState(status.state);
+      status.onchange = () => setPermissionState(status.state);
+    } catch (_error) {
+      // Some browsers block permission querying; keep graceful defaults.
+    }
+  }, []);
 
   const getCurrentLocation = useCallback(() => {
     if (!navigator.geolocation) {
@@ -26,7 +38,11 @@ export const useGeolocation = (autoFetch = true) => {
       (err) => {
         const message =
           err.code === 1
-            ? "Location permission denied."
+            ? "Location permission denied. Enable GPS access to discover nearby attractions."
+            : err.code === 2
+              ? "Location unavailable. Please check your device GPS."
+              : err.code === 3
+                ? "Location request timed out. Please retry."
             : "Unable to fetch current location.";
         setError(message);
         setLoading(false);
@@ -39,5 +55,9 @@ export const useGeolocation = (autoFetch = true) => {
     if (autoFetch) getCurrentLocation();
   }, [autoFetch, getCurrentLocation]);
 
-  return { location, loading, error, getCurrentLocation };
+  useEffect(() => {
+    resolvePermission();
+  }, [resolvePermission]);
+
+  return { location, loading, error, permissionState, getCurrentLocation };
 };

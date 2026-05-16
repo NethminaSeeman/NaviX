@@ -6,7 +6,7 @@ Voice-guided travel companion for exploring Sri Lanka — map navigation, weathe
 
 | Folder | Purpose |
 |--------|---------|
-| `frontend/` | Next.js web app (map, voice UI, weather widgets) |
+| `frontend/` | Vite + React web app (map, voice UI, weather widgets) |
 | `backend/` | Cloudflare Workers API (AI, weather, database) |
 | `data/` | Knowledge base for AI context (raw docs → processed JSON) |
 | `.github/workflows/` | CI/CD to Cloudflare Pages & Workers |
@@ -29,7 +29,7 @@ cp .env.example .env.local   # then fill in values
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open [http://localhost:5173](http://localhost:5173).
 
 ### Backend
 
@@ -46,22 +46,68 @@ Worker runs at `http://localhost:8787` by default.
 
 **Frontend** (`frontend/.env.local`):
 
-- `NEXT_PUBLIC_API_URL` — Backend API base URL
+- `VITE_API_BASE_URL` — Backend Worker URL (local: `http://localhost:8787`)
+- `VITE_GOOGLE_MAPS_API_KEY` — Google Maps key
 
 **Backend** (`backend/.dev.vars`):
 
 - `GEMINI_API_KEY` — Google Gemini API key
-- `MONGODB_URI` — MongoDB connection string
-- `WEATHER_API_KEY` — External weather provider key (optional)
+- `MONGODB_DATA_API_URL` — MongoDB Atlas Data API base URL
+- `MONGODB_DATA_API_KEY` — MongoDB Atlas Data API key
+- `MONGODB_DATA_SOURCE` — Atlas cluster data source name (default `Cluster0`)
+- `MONGODB_DATABASE` — Database name (default `navix`)
+- `WEATHER_API_KEY` — OpenWeather key (optional)
 
-## Deployment
+## Cloudflare hosting architecture
 
-Pushes to `main` trigger GitHub Actions:
+| Layer | Platform | Notes |
+|-------|----------|-------|
+| Frontend | **Cloudflare Pages** | Static Vite build (`frontend/dist`) |
+| Backend API | **Cloudflare Workers** | Worker name: `navix-api` |
+| Database | **MongoDB Atlas** | Hosted on MongoDB; Worker connects via Atlas Data API |
 
-- `frontend.yml` → Cloudflare Pages
+MongoDB cannot run inside Cloudflare. Create a free [MongoDB Atlas](https://www.mongodb.com/atlas) cluster, enable **Data API**, import `data/mongodb/places.sample.json` into a `places` collection, and add a `2dsphere` index on `location`.
+
+### One-time Cloudflare setup
+
+```bash
+cd backend
+npm install
+cp .dev.vars.example .dev.vars   # fill secrets
+npm run cf:login
+npm run cf:secrets               # push secrets to Worker
+```
+
+Register a workers.dev subdomain (first time only):  
+https://dash.cloudflare.com → Workers → onboarding
+
+### Deploy manually (Wrangler)
+
+```bash
+# Backend Worker
+npm run deploy:backend
+
+# Frontend Pages (set VITE_API_BASE_URL to your Worker URL first)
+cd frontend && cp .env.example .env.local
+npm run deploy:frontend
+```
+
+### Deploy via GitHub Actions
+
+Pushes to `main` or `developer` trigger:
+
 - `backend.yml` → Cloudflare Workers
+- `frontend.yml` → Cloudflare Pages (`navix-frontend`)
 
-Configure repository secrets: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, and any build-time env vars your workflows need.
+**GitHub repository secrets**
+
+- `CLOUDFLARE_API_TOKEN`
+- `CLOUDFLARE_ACCOUNT_ID`
+- `VITE_GOOGLE_MAPS_API_KEY` (optional, for maps)
+
+**GitHub repository variables**
+
+- `VITE_API_BASE_URL` — e.g. `https://navix-api.<subdomain>.workers.dev`
 
 ## Data pipeline
 

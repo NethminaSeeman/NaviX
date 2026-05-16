@@ -4,11 +4,12 @@ import { useGeolocation } from "@/hooks/useGeolocation";
 const LocationContext = createContext(null);
 
 export const LocationProvider = ({ children }) => {
-  const { location, loading, error, getCurrentLocation } = useGeolocation(true);
+  const { location, loading, error, permissionState, getCurrentLocation } =
+    useGeolocation(true);
 
   const value = useMemo(
-    () => ({ location, loading, error, getCurrentLocation }),
-    [location, loading, error, getCurrentLocation]
+    () => ({ location, loading, error, permissionState, getCurrentLocation }),
+    [location, loading, error, permissionState, getCurrentLocation]
   );
 
   return (
