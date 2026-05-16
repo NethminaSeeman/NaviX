@@ -18,6 +18,37 @@ type PlaceRow = {
 const SELECT_COLUMNS =
   "location_id, name, category, era, summary, architectural_details, cultural_significance, tags_json, tts_pronunciation, tts_key_facts, lat, lng";
 
+function parseJsonField<T>(value: string | null, fallback: T): T {
+  if (!value) return fallback;
+  try {
+    return JSON.parse(value) as T;
+  } catch {
+    return fallback;
+  }
+}
+
+function mapNearbyRow(row: NearbyRow): NearbyLocation {
+  return {
+    id: row.id,
+    name: row.name,
+    longitude: row.longitude,
+    latitude: row.latitude,
+    category: row.category,
+    era: row.era,
+    deep_history: parseJsonField(row.deep_history, null),
+    tags: parseJsonField(row.tags, [] as unknown[]),
+    tts_hints: parseJsonField(row.tts_hints, null),
+    distance_meters: row.distance_meters,
+  };
+}
+
+export async function findAllPlaces(db: D1Database): Promise<Place[]> {
+  const { results } = await db
+    .prepare(`SELECT ${SELECT_COLUMNS} FROM places`)
+    .all<PlaceRow>();
+  return (results ?? []).map(rowToPlace);
+}
+
 export async function findPlaceByName(
   db: D1Database,
   name: string
@@ -100,6 +131,91 @@ function parseTags(raw: string | null): string[] {
     // Ignore parse failures and fall back below.
   }
   return [];
+export async function findNearbyLocations(
+  env: Env,
+  lat: number,
+  lng: number,
+  radiusMeters: number,
+  limit = 50
+): Promise<NearbyLocation[]> {
+  if (!env.DB) return [];
+
+  const safeRadius = Math.max(1, radiusMeters);
+  const safeLimit = Math.min(Math.max(1, Math.floor(limit)), 200);
+
+  // Fast bounding-box prefilter to reduce expensive trig operations.
+  const earthMetersPerDegree = 111320;
+  const latDelta = safeRadius / earthMetersPerDegree;
+  const cosLat = Math.cos((lat * Math.PI) / 180);
+  const lngDelta =
+    safeRadius / (earthMetersPerDegree * Math.max(Math.abs(cosLat), 0.1));
+
+  const rad = 0.017453292519943295;
+  const query = `
+    SELECT
+      id,
+      name,
+      longitude,
+      latitude,
+      category,
+      era,
+      deep_history,
+      tags,
+      tts_hints,
+      distance_meters
+    FROM (
+      SELECT
+        id,
+        name,
+        longitude,
+        latitude,
+        category,
+        era,
+        deep_history,
+        tags,
+        tts_hints,
+        (
+          2 * 6371000 * ASIN(
+            SQRT(
+              POW(SIN(((?1 - latitude) * ${rad}) / 2), 2) +
+              COS(latitude * ${rad}) * COS(?1 * ${rad}) *
+              POW(SIN(((?2 - longitude) * ${rad}) / 2), 2)
+            )
+          )
+        ) AS distance_meters
+      FROM heritage_locations
+      WHERE latitude BETWEEN ?3 AND ?4
+        AND longitude BETWEEN ?5 AND ?6
+    )
+    WHERE distance_meters <= ?7
+    ORDER BY distance_meters ASC
+    LIMIT ?8
+  `;
+
+  const result = await env.DB.prepare(query)
+    .bind(
+      lat,
+      lng,
+      lat - latDelta,
+      lat + latDelta,
+      lng - lngDelta,
+      lng + lngDelta,
+      safeRadius,
+      safeLimit
+    )
+    .all<NearbyRow>();
+
+  return (result.results ?? []).map(mapNearbyRow);
+}
+
+function parseTags(json: string | null): string[] {
+  if (!json) return [];
+  try {
+    const parsed = JSON.parse(json);
+    return Array.isArray(parsed) ? parsed.map(String) : [];
+  } catch {
+    return [];
+  }
 }
 
 function haversineKm(
