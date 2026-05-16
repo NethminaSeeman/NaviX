@@ -11,7 +11,10 @@
     "frontend:build": "npm --prefix frontend run build",
     "frontend:lint": "npm --prefix frontend run lint",
     "backend:dev": "npm --prefix backend run dev",
-    "backend:deploy": "npm --prefix backend run deploy"
+    "backend:deploy": "npm --prefix backend run deploy",
+    "deploy:backend": "npm --prefix backend run cf:deploy:all",
+    "deploy:frontend": "npm --prefix frontend run build && npm --prefix backend exec wrangler pages deploy ../frontend/dist --project-name=navix-frontend",
+    "deploy:all": "npm run deploy:backend && npm run deploy:frontend"
   },
   "workspaces": [
     "frontend",
