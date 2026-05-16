@@ -77,8 +77,10 @@ const GoogleSignInButton = ({ onCredential, onError, label = "Continue with Goog
       <div className="rounded-md border border-amber-400/40 bg-amber-500/5 p-3 text-xs text-amber-700 dark:text-amber-300">
         <p className="font-semibold">Google sign-in not configured</p>
         <p className="mt-1 opacity-80">
-          Set <code className="rounded bg-amber-500/10 px-1">VITE_GOOGLE_CLIENT_ID</code> in
-          {" "}<code className="rounded bg-amber-500/10 px-1">.env.local</code> to enable {label.toLowerCase()}.
+          Set <code className="rounded bg-amber-500/10 px-1">VITE_GOOGLE_CLIENT_ID</code>
+          {" "}for your frontend environment (or{" "}
+          <code className="rounded bg-amber-500/10 px-1">NEXT_PUBLIC_GOOGLE_CLIENT_ID</code>)
+          {" "}to enable {label.toLowerCase()}.
         </p>
       </div>
     );
