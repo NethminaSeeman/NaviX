@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   GoogleMap,
   InfoWindow,
@@ -9,6 +9,7 @@ import {
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { distanceKm } from "@/utils/geo";
 import { MAPS_API_KEY, SRI_LANKA_CENTER } from "@/utils/constants";
+import { getMarkerIcon, getPrimaryTag, getTagStyle } from "@/utils/mapConfig";
 
 const mapContainerStyle = { width: "100%", height: "100%" };
 const sriLankaBounds = {
@@ -18,7 +19,8 @@ const sriLankaBounds = {
   west: 79.4,
 };
 
-const MapView = ({ userLocation, places = [], weather }) => {
+const MapView = ({ userLocation, places = [], weather, selectedPlace, onPlaceSelect }) => {
+  const mapRef = useRef(null);
   const [activePlace, setActivePlace] = useState(null);
   const { isLoaded, loadError } = useJsApiLoader({
     id: "navix-map-script",
@@ -34,6 +36,15 @@ const MapView = ({ userLocation, places = [], weather }) => {
       }))
       .sort((a, b) => a.dist - b.dist)[0];
   }, [userLocation, places]);
+
+  useEffect(() => {
+    if (!selectedPlace) return;
+    setActivePlace(selectedPlace);
+    if (mapRef.current && selectedPlace.coordinates) {
+      mapRef.current.panTo(selectedPlace.coordinates);
+      mapRef.current.setZoom(Math.max(mapRef.current.getZoom() || 7, 9));
+    }
+  }, [selectedPlace]);
 
   if (!MAPS_API_KEY) {
     return (
@@ -68,6 +79,9 @@ const MapView = ({ userLocation, places = [], weather }) => {
         mapContainerStyle={mapContainerStyle}
         center={userLocation || SRI_LANKA_CENTER}
         zoom={userLocation ? 10 : 7}
+        onLoad={(map) => {
+          mapRef.current = map;
+        }}
         options={{
           zoomControl: true,
           fullscreenControl: true,
@@ -99,7 +113,17 @@ const MapView = ({ userLocation, places = [], weather }) => {
           <MarkerF
             key={place.id}
             position={place.coordinates}
-            onClick={() => setActivePlace(place)}
+            onClick={() => {
+              setActivePlace(place);
+              onPlaceSelect?.(place);
+            }}
+            icon={getMarkerIcon(window.google?.maps, getPrimaryTag(place))}
+            label={{
+              text: getTagStyle(getPrimaryTag(place)).shortCode,
+              color: "#ffffff",
+              fontSize: "9px",
+              fontWeight: "700",
+            }}
           />
         ))}
 
@@ -122,9 +146,28 @@ const MapView = ({ userLocation, places = [], weather }) => {
             <div className="max-w-56 space-y-1 text-sm">
               <p className="font-semibold">{activePlace.name}</p>
               <p className="text-xs text-slate-600">{activePlace.district}</p>
+              <div className="flex flex-wrap gap-1">
+                {(activePlace.tags || []).map((tag) => {
+                  const tagStyle = getTagStyle(tag);
+                  return (
+                    <span
+                      key={tag}
+                      className={`mono-label rounded-md border px-1.5 py-0.5 text-[9px] ${tagStyle.badgeClass}`}
+                    >
+                      {tagStyle.label}
+                    </span>
+                  );
+                })}
+              </div>
               {userLocation && (
                 <p>{distanceKm(userLocation, activePlace.coordinates)} km away</p>
               )}
+              <p className="text-xs font-medium text-slate-700">
+                {activePlace?.deep_history?.summary}
+              </p>
+              <p className="text-xs text-slate-600">
+                {activePlace?.deep_history?.architectural_details}
+              </p>
               {weather?.description && (
                 <p className="text-xs text-slate-500">
                   Weather context: {weather.description}
