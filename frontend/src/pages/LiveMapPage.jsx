@@ -1,0 +1,69 @@
+import { useEffect, useState } from "react";
+import MapContainer from "@/components/MapContainer";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import WeatherCard from "@/components/WeatherCard";
+import { useLocation } from "@/context/LocationContext";
+import { useWeather } from "@/context/WeatherContext";
+import { ceygoApi } from "@/services/ceygoApi";
+
+const LiveMapPage = () => {
+  const { location, loading: locating, error, getCurrentLocation } = useLocation();
+  const { weather } = useWeather();
+  const [places, setPlaces] = useState([]);
+  const [loadingPlaces, setLoadingPlaces] = useState(true);
+
+  useEffect(() => {
+    const loadPlaces = async () => {
+      const results = location
+        ? await ceygoApi.nearby(location)
+        : await ceygoApi.places();
+      setPlaces(results);
+      setLoadingPlaces(false);
+    };
+    loadPlaces();
+  }, [location]);
+
+  return (
+    <section className="space-y-4">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h1 className="section-title">Live Map Explorer</h1>
+          <p className="text-sm text-slate-600 dark:text-slate-300">
+            Discover nearby attractions, route lines, and location-aware weather.
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={getCurrentLocation}
+          className="rounded-full bg-ceygo-secondary px-4 py-2 text-sm font-semibold text-white"
+        >
+          Refresh GPS
+        </button>
+      </div>
+
+      {locating && <LoadingSpinner text="Detecting your location..." />}
+      {error && <p className="text-sm text-red-500">{error}</p>}
+
+      <MapContainer userLocation={location} places={places} weather={weather} />
+
+      {loadingPlaces ? (
+        <LoadingSpinner text="Finding nearby places..." />
+      ) : (
+        <div className="glass-card p-4">
+          <h3 className="mb-2 font-semibold">Nearest Attractions</h3>
+          <ul className="space-y-1 text-sm text-slate-600 dark:text-slate-200">
+            {places.slice(0, 5).map((place) => (
+              <li key={place.id}>
+                {place.name} {place.distanceKm ? `- ${place.distanceKm} km` : ""}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <WeatherCard weather={weather} />
+    </section>
+  );
+};
+
+export default LiveMapPage;
