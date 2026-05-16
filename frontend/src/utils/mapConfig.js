@@ -44,7 +44,7 @@ const DEFAULT_STYLE = {
 };
 
 export const getPrimaryTag = (place) => {
-  const tag = Array.isArray(place?.tags) ? place.tags[0] : null;
+  const tag = place?.categoryTag || place?.category || (Array.isArray(place?.tags) ? place.tags[0] : null);
   return tag && CATEGORY_TAG_STYLES[tag] ? tag : null;
 };
 
