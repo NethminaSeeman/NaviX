@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 import { FiSend, FiVolume2 } from "react-icons/fi";
-import ChatMessage from "@/components/ChatMessage";
+import MessageBubble from "@/components/MessageBubble";
 import AIThinkingAnimation from "@/components/AIThinkingAnimation";
-import VoiceRecorderButton from "@/components/VoiceRecorderButton";
+import VoiceButton from "@/components/VoiceButton";
 import { useChat } from "@/context/ChatContext";
 import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
 import { useSpeechSynthesis } from "@/hooks/useSpeechSynthesis";
@@ -36,12 +37,19 @@ const ChatBox = () => {
 
   return (
     <div className="glass-card flex h-[72vh] flex-col overflow-hidden">
+      <motion.div
+        initial={{ opacity: 0, y: -6 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="border-b border-slate-200/70 bg-white/60 px-4 py-3 text-sm font-medium text-slate-600 backdrop-blur-xl dark:border-slate-700 dark:bg-slate-900/40 dark:text-slate-200"
+      >
+        CeyGo Assistant is online for live Sri Lanka guidance.
+      </motion.div>
       <div
         ref={listRef}
         className="flex-1 space-y-4 overflow-y-auto p-4 md:p-6"
       >
         {messages.map((message) => (
-          <ChatMessage key={message.id} message={message} />
+          <MessageBubble key={message.id} message={message} />
         ))}
         {loading && <AIThinkingAnimation />}
       </div>
@@ -68,7 +76,7 @@ const ChatBox = () => {
             placeholder="Ask CeyGo about destinations, culture, weather, or routes..."
             className="flex-1 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ceygo-primary dark:border-slate-700 dark:bg-slate-900"
           />
-          <VoiceRecorderButton
+          <VoiceButton
             listening={speech.listening}
             onStart={speech.startListening}
             onStop={speech.stopListening}

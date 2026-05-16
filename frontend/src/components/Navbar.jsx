@@ -14,7 +14,7 @@ const Navbar = () => (
   <header className="sticky top-0 z-40 border-b border-slate-200/70 bg-white/80 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/70">
     <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
       <Link to="/" className="flex items-center gap-2">
-        <span className="rounded-lg bg-ceygo-primary p-2 text-white">
+        <span className="rounded-lg bg-gradient-to-br from-ceygo-primary to-ceygo-secondary p-2 text-white shadow">
           <FiMapPin />
         </span>
         <div>
