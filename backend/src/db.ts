@@ -1,35 +1,7 @@
-/**
- * D1 access layer for the `places` table (rich schema from
- * migrations/0003_rich_places.sql). All functions return objects in the
- * shape expected by the frontend (lat/lng coords, tags array, deep_history,
- * tts_hints) — never raw DB rows.
- */
-
 import { NearbyPlace, Place } from "./types";
 
-export type HeritageContext = {
-  nearest_site: string;
-  district: string;
-  distance_meters: number;
-  verified_history: string;
-  cultural_rules: string;
-};
-
-export type NearbyLocation = {
-  id: string;
-  name: string;
-  longitude: number;
-  latitude: number;
-  category: string | null;
-  era: string | null;
-  deep_history: unknown;
-  tags: unknown;
-  tts_hints: unknown;
-  distance_meters: number;
-};
-
 type PlaceRow = {
-  id: number;
+  location_id: string;
   name: string;
   category: string | null;
   era: string | null;
@@ -42,32 +14,6 @@ type PlaceRow = {
   lat: number;
   lng: number;
 };
-
-type NearbyRow = {
-  id: string;
-  name: string;
-  longitude: number;
-  latitude: number;
-  category: string | null;
-  era: string | null;
-  deep_history: string | null;
-  tags: string | null;
-  tts_hints: string | null;
-  distance_meters: number;
-};
-
-function parseCulturalRules(rules: string | null): string | string[] {
-  if (!rules) return "";
-  try {
-    const parsed = JSON.parse(rules) as unknown;
-    if (Array.isArray(parsed)) {
-      return parsed.filter((item): item is string => typeof item === "string");
-    }
-  } catch {
-    // Keep original string value when not JSON.
-  }
-  return rules;
-}
 
 const SELECT_COLUMNS =
   "location_id, name, category, era, summary, architectural_details, cultural_significance, tags_json, tts_pronunciation, tts_key_facts, lat, lng";
@@ -121,28 +67,19 @@ export async function searchPlacesByName(
 ): Promise<Place[]> {
   const like = `%${query.replace(/[%_]/g, "")}%`;
   const { results } = await db
-    .prepare(
-      `SELECT ${SELECT_COLUMNS} FROM places WHERE name LIKE ? COLLATE NOCASE LIMIT ?`
-    )
+    .prepare(`SELECT ${SELECT_COLUMNS} FROM places WHERE name LIKE ? COLLATE NOCASE LIMIT ?`)
     .bind(like, limit)
     .all<PlaceRow>();
   return (results ?? []).map(rowToPlace);
 }
 
-/**
- * Returns the N nearest places to (lat, lon) ordered ascending by distance.
- * SQLite has no haversine built-in, so we compute it in JS over all rows.
- * With ~140 rows this is trivial (< 1 ms).
- */
 export async function findNearestPlaces(
   db: D1Database,
   lat: number,
   lng: number,
   limit = 5
 ): Promise<NearbyPlace[]> {
-  const { results } = await db
-    .prepare(`SELECT ${SELECT_COLUMNS} FROM places`)
-    .all<PlaceRow>();
+  const { results } = await db.prepare(`SELECT ${SELECT_COLUMNS} FROM places`).all<PlaceRow>();
 
   const ranked: NearbyPlace[] = (results ?? []).map((row) => {
     const place = rowToPlace(row);
@@ -162,8 +99,6 @@ export async function findNearestPlaces(
   ranked.sort((a, b) => a.distance_km - b.distance_km);
   return ranked.slice(0, Math.max(1, limit));
 }
-
-// ─────────────────────────────────────────────────────────────────────
 
 function rowToPlace(row: PlaceRow): Place {
   return {
@@ -185,6 +120,17 @@ function rowToPlace(row: PlaceRow): Place {
   };
 }
 
+function parseTags(raw: string | null): string[] {
+  if (!raw) return [];
+  try {
+    const parsed = JSON.parse(raw) as unknown;
+    if (Array.isArray(parsed)) {
+      return parsed.filter((item): item is string => typeof item === "string");
+    }
+  } catch {
+    // Ignore parse failures and fall back below.
+  }
+  return [];
 export async function findNearbyLocations(
   env: Env,
   lat: number,
@@ -272,7 +218,7 @@ function parseTags(json: string | null): string[] {
   }
 }
 
-export function haversineKm(
+function haversineKm(
   lat1: number,
   lng1: number,
   lat2: number,
