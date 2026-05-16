@@ -12,12 +12,18 @@ import { MAPS_API_KEY, SRI_LANKA_CENTER } from "@/utils/constants";
 import { getMarkerIcon, getPrimaryTag, getTagStyle } from "@/utils/mapConfig";
 
 const mapContainerStyle = { width: "100%", height: "100%" };
+const sriLankaBounds = {
+  north: 9.95,
+  south: 5.7,
+  east: 82.1,
+  west: 79.4,
+};
 
 const MapView = ({ userLocation, places = [], weather, selectedPlace, onPlaceSelect }) => {
   const mapRef = useRef(null);
   const [activePlace, setActivePlace] = useState(null);
   const { isLoaded, loadError } = useJsApiLoader({
-    id: "ceygo-map-script",
+    id: "navix-map-script",
     googleMapsApiKey: MAPS_API_KEY,
   });
 
@@ -42,8 +48,8 @@ const MapView = ({ userLocation, places = [], weather, selectedPlace, onPlaceSel
 
   if (!MAPS_API_KEY) {
     return (
-      <div className="glass-card flex h-[440px] items-center justify-center p-6 text-center text-sm text-slate-600 dark:text-slate-300">
-        Add `VITE_GOOGLE_MAPS_API_KEY` in `.env` to load the live CeyGo map.
+      <div className="tech-panel flex h-[460px] items-center justify-center p-6 text-center text-sm text-slate-600 dark:text-slate-300">
+        Add `VITE_GOOGLE_MAPS_API_KEY` in `.env` to load the live NaviX map.
       </div>
     );
   }
@@ -65,7 +71,10 @@ const MapView = ({ userLocation, places = [], weather, selectedPlace, onPlaceSel
   }
 
   return (
-    <div className="glass-card h-[440px] overflow-hidden md:h-[520px]">
+    <div className="tech-panel relative h-[460px] overflow-hidden md:h-[590px]">
+      <div className="mono-label absolute left-3 top-3 z-10 rounded-md border border-cyan-500/40 bg-slate-900/80 px-2 py-1 text-[10px] text-cyan-200 backdrop-blur-md">
+        Sri Lanka Grid
+      </div>
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         center={userLocation || SRI_LANKA_CENTER}
@@ -79,6 +88,10 @@ const MapView = ({ userLocation, places = [], weather, selectedPlace, onPlaceSel
           streetViewControl: false,
           mapTypeControl: true,
           clickableIcons: true,
+          restriction: {
+            latLngBounds: sriLankaBounds,
+            strictBounds: false,
+          },
         }}
       >
         {userLocation && (

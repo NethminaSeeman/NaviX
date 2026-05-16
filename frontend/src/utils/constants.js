@@ -3,7 +3,7 @@ export const API_BASE_URL =
 
 export const MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || "";
 export const SRI_LANKA_CENTER = { lat: 7.8731, lng: 80.7718 };
-export const APP_NAME = "CeyGo";
+export const APP_NAME = "NaviX";
 
 export const SUGGESTED_PROMPTS = [
   "Plan a 4-day cultural trip across Kandy and Sigiriya",

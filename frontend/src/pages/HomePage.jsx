@@ -62,7 +62,7 @@ const HomePage = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
-            className="text-sm text-slate-500 dark:text-slate-300"
+            className="mono-label text-[11px] text-slate-500 dark:text-cyan-300/80"
           >
             AI-curated places across Sri Lanka
           </motion.p>
@@ -95,18 +95,18 @@ const HomePage = () => {
         )}
       </section>
 
-      <section className="glass-card flex flex-wrap items-center justify-between gap-4 p-5">
+      <section className="tech-panel flex flex-wrap items-center justify-between gap-4 p-5">
         <div>
           <h3 className="text-lg font-semibold">Ready for a guided trip plan?</h3>
           <p className="text-sm text-slate-500">
-            Ask CeyGo for live route advice, weather-safe schedules, and hidden
+            Ask NaviX for live route advice, weather-safe schedules, and hidden
             gems.
           </p>
         </div>
         <button
           type="button"
           onClick={() => navigate("/chat")}
-          className="rounded-full bg-ceygo-primary px-5 py-2 text-sm font-semibold text-white"
+          className="tech-button"
         >
           Open Assistant
         </button>
