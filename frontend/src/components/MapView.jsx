@@ -7,6 +7,7 @@ import {
   useJsApiLoader,
 } from "@react-google-maps/api";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import { useSpeechSynthesis } from "@/hooks/useSpeechSynthesis";
 import { distanceKm } from "@/utils/geo";
 import { MAPS_API_KEY, SRI_LANKA_CENTER } from "@/utils/constants";
 import { getMarkerIcon, getPrimaryTag, getTagStyle } from "@/utils/mapConfig";
@@ -22,6 +23,7 @@ const sriLankaBounds = {
 const MapView = ({ userLocation, places = [], weather, selectedPlace, onPlaceSelect }) => {
   const mapRef = useRef(null);
   const [activePlace, setActivePlace] = useState(null);
+  const { speak, speaking } = useSpeechSynthesis();
   const { isLoaded, loadError } = useJsApiLoader({
     id: "navix-map-script",
     googleMapsApiKey: MAPS_API_KEY,
@@ -45,6 +47,18 @@ const MapView = ({ userLocation, places = [], weather, selectedPlace, onPlaceSel
       mapRef.current.setZoom(Math.max(mapRef.current.getZoom() || 7, 9));
     }
   }, [selectedPlace]);
+
+  useEffect(() => {
+    if (!mapRef.current || places.length === 0 || !window.google?.maps?.LatLngBounds) {
+      return;
+    }
+
+    const bounds = new window.google.maps.LatLngBounds();
+    places.forEach((place) => {
+      if (place.coordinates) bounds.extend(place.coordinates);
+    });
+    mapRef.current.fitBounds(bounds);
+  }, [places]);
 
   if (!MAPS_API_KEY) {
     return (
@@ -143,11 +157,13 @@ const MapView = ({ userLocation, places = [], weather, selectedPlace, onPlaceSel
             position={activePlace.coordinates}
             onCloseClick={() => setActivePlace(null)}
           >
-            <div className="max-w-56 space-y-1 text-sm">
+            <div className="max-w-72 space-y-2 text-sm">
               <p className="font-semibold">{activePlace.name}</p>
-              <p className="text-xs text-slate-600">{activePlace.district}</p>
+              <p className="mono-label text-[10px] text-slate-600">
+                {getTagStyle(getPrimaryTag(activePlace)).label}
+              </p>
               <div className="flex flex-wrap gap-1">
-                {(activePlace.tags || []).map((tag) => {
+                {(activePlace.tags || []).slice(0, 6).map((tag) => {
                   const tagStyle = getTagStyle(tag);
                   return (
                     <span
@@ -165,6 +181,13 @@ const MapView = ({ userLocation, places = [], weather, selectedPlace, onPlaceSel
               <p className="text-xs font-medium text-slate-700">
                 {activePlace?.deep_history?.summary}
               </p>
+              <button
+                type="button"
+                onClick={() => speak(activePlace)}
+                className="mono-label rounded-md border border-cyan-500/40 bg-cyan-500/10 px-2 py-1 text-[10px] text-cyan-700"
+              >
+                {speaking ? "Playing..." : "Listen"}
+              </button>
               <p className="text-xs text-slate-600">
                 {activePlace?.deep_history?.architectural_details}
               </p>
