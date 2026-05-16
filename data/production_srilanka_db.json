@@ -375,5 +375,37 @@
       "pronunciation_guide": "Tee shop-fak-tuh-ree",
       "key_facts_short": "Tea processing, colonial legacy, economic backbone, industrial heritage, Ceylon Tea"
     }
+  },
+  {
+    "location_id": "lk_osm_node_6273572085",
+    "name": "Paid Palm Rope Swing",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        80.2600697,
+        6.0013739
+      ]
+    },
+    "category": "attraction",
+    "era": "Contemporary Sri Lanka",
+    "deep_history": {
+      "summary": "This attraction is a contemporary feature, popular with tourists seeking recreational activities along Sri Lanka's scenic coastlines. It represents a modern adaptation of traditional leisure, offering visitors a unique photo opportunity and experience. Its emergence is tied to the growth of coastal tourism in recent decades.",
+      "architectural_details": "Constructed primarily from natural materials such as sturdy palm trees and durable ropes, often with a simple wooden seat. Its structural form is rudimentary, designed for temporary recreational use rather than permanent architectural significance, emphasizing safety and simplicity.",
+      "cultural_significance": "While not a site of ancient heritage, the palm rope swing reflects a contemporary aspect of Sri Lankan tourism, blending local natural resources with recreational demand. It symbolizes the evolving landscape of leisure activities offered to visitors, contributing to the local tourism economy and providing unique photo opportunities."
+    },
+    "tags": [
+      "Tourist attraction",
+      "Recreational",
+      "Coastal activity",
+      "Photo spot",
+      "Modern leisure",
+      "Palm tree swing",
+      "Beach experience",
+      "Contemporary tourism"
+    ],
+    "tts_hints": {
+      "pronunciation_guide": "Payd Palm Rohp Swing",
+      "key_facts_short": "Modern tourist attraction, recreational activity, popular photo spot, uses natural materials, contributes to local tourism"
+    }
   }
 ]
