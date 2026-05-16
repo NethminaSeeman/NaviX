@@ -9,11 +9,11 @@ const items = [
 ];
 
 const Sidebar = () => (
-  <aside className="hidden w-64 shrink-0 border-r border-slate-200 bg-white/50 p-4 dark:border-slate-800 dark:bg-slate-900/40 lg:block">
-    <p className="mb-4 text-sm font-semibold text-slate-500 dark:text-slate-300">
+  <aside className="tech-panel sticky top-[78px] hidden h-[calc(100vh-108px)] w-72 shrink-0 p-4 lg:block">
+    <p className="mono-label mb-4 text-[11px] text-slate-500 dark:text-cyan-300/80">
       Quick Access
     </p>
-    <div className="space-y-2">
+    <div className="space-y-1.5">
       {items.map((item) => {
         const Icon = item.icon;
         return (
@@ -21,14 +21,15 @@ const Sidebar = () => (
             key={item.to}
             to={item.to}
             className={({ isActive }) =>
-              `flex items-center gap-3 rounded-xl px-3 py-2 text-sm transition ${
+              `group relative flex items-center gap-3 rounded-md border px-3 py-2.5 text-sm transition ${
                 isActive
-                  ? "bg-ceygo-primary text-white"
-                  : "text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+                  ? "border-cyan-400/40 bg-cyan-500/10 text-cyan-700 shadow-[inset_3px_0_0_0_rgba(34,211,238,1)] dark:text-cyan-200"
+                  : "border-transparent text-slate-600 hover:border-slate-200 hover:bg-slate-100 dark:text-slate-300 dark:hover:border-cyan-500/20 dark:hover:bg-slate-800/50"
               }`
             }
           >
-            <Icon /> {item.label}
+            <Icon className="text-base" />
+            <span className="font-medium">{item.label}</span>
           </NavLink>
         );
       })}
