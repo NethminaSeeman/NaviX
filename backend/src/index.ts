@@ -16,6 +16,7 @@ import { runResponseAgent, toVoiceScript } from "./agents/response";
 import { runTourismAgent } from "./agents/tourism";
 import { runWeatherAgent } from "./agents/weather";
 import {
+  findNearbyLocations,
   findNearestPlaces,
   findPlaceByName,
   searchPlacesByName,
@@ -120,15 +121,27 @@ async function weatherHandler(env: Env, url: URL): Promise<WeatherResponse> {
   return getWeather(env, lat, lon);
 }
 
-async function nearbyHandler(env: Env, url: URL): Promise<NearbyPlace[]> {
+async function nearbyHandler(env: Env, url: URL) {
   const lat = requireFloat(url.searchParams.get("lat"), "lat");
-  const lon = requireFloat(url.searchParams.get("lon"), "lon");
+  const lonRaw =
+    url.searchParams.get("lon") ?? url.searchParams.get("lng");
+  if (lonRaw === null) {
+    throw new HttpError(400, "Query parameter 'lon' (or 'lng') is required.");
+  }
+  const lon = Number(lonRaw);
+  if (!Number.isFinite(lon)) {
+    throw new HttpError(400, "Query parameter 'lon' must be a number.");
+  }
+
+  const radiusMeters = parseNearbyRadiusMeters(url);
   const limit = Math.min(
-    20,
-    Math.max(1, Number(url.searchParams.get("limit") ?? 5) || 5)
+    500,
+    Math.max(1, Number(url.searchParams.get("limit") ?? 500) || 500)
   );
-  const db = requireDb(env);
-  return findNearestPlaces(db, lat, lon, limit);
+
+  requireDb(env);
+  const rows = await findNearbyLocations(env, lat, lon, radiusMeters, limit);
+  return { count: rows.length, radius_meters: radiusMeters, data: rows };
 }
 
 async function chatHandler(env: Env, request: Request): Promise<ChatResponse> {
