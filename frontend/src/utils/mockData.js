@@ -1,11 +1,16 @@
+import sigiriyaImage from "@/assets/destinations/sigiriya.png";
+import ellaImage from "@/assets/destinations/ella.png";
+import galleImage from "@/assets/destinations/galle.png";
+import kandyImage from "@/assets/destinations/kandy.png";
+import nuwaraEliyaImage from "@/assets/destinations/nuwara-eliya.png";
+
 export const featuredDestinations = [
   {
     id: "sigiriya",
     name: "Sigiriya Rock Fortress",
     district: "Matale",
     category: "Heritage",
-    image:
-      "https://images.unsplash.com/photo-1593693411515-c20261bcad6e?auto=format&fit=crop&w=1200&q=80",
+    image: sigiriyaImage,
     duration: "2-3 hours",
     history:
       "An ancient rock fortress built by King Kashyapa in the 5th century with frescoes and landscaped gardens.",
@@ -17,8 +22,7 @@ export const featuredDestinations = [
     name: "Ella Scenic Highlands",
     district: "Badulla",
     category: "Nature",
-    image:
-      "https://images.unsplash.com/photo-1590658006821-04f032f9f39b?auto=format&fit=crop&w=1200&q=80",
+    image: ellaImage,
     duration: "Full day",
     history:
       "Ella is known for tea estates, colonial-era rail heritage, and panoramic viewpoints.",
@@ -30,8 +34,7 @@ export const featuredDestinations = [
     name: "Galle Fort",
     district: "Southern Province",
     category: "Coastal Heritage",
-    image:
-      "https://images.unsplash.com/photo-1626335470376-34df79f6a6a7?auto=format&fit=crop&w=1200&q=80",
+    image: galleImage,
     duration: "3-4 hours",
     history:
       "A UNESCO World Heritage fort city with Portuguese and Dutch-era architecture.",
@@ -43,8 +46,7 @@ export const featuredDestinations = [
     name: "Temple of the Sacred Tooth Relic",
     district: "Kandy",
     category: "Cultural",
-    image:
-      "https://images.unsplash.com/photo-1693129095922-e95bf40f5e4e?auto=format&fit=crop&w=1200&q=80",
+    image: kandyImage,
     duration: "2 hours",
     history:
       "One of Sri Lanka's most sacred Buddhist temples and a cornerstone of Kandyan royal history.",
@@ -56,8 +58,7 @@ export const featuredDestinations = [
     name: "Nuwara Eliya Tea Country",
     district: "Nuwara Eliya",
     category: "Hill Country",
-    image:
-      "https://images.unsplash.com/photo-1593164786790-bcf1f0f8970b?auto=format&fit=crop&w=1200&q=80",
+    image: nuwaraEliyaImage,
     duration: "Full day",
     history:
       "A cool-climate highland town shaped by tea plantations and colonial architecture.",

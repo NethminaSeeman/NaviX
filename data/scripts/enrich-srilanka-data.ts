@@ -1,6 +1,6 @@
 import { promises as fs } from "fs";
 import * as path from "path";
-import { GoogleGenAI } from "@google/genai";
+import OpenAI from "openai";
 
 type SkeletonLocation = {
   location_id: string;
@@ -14,12 +14,9 @@ type SkeletonLocation = {
 
 type GeneratedHistory = {
   era: string;
-  deep_history: {
-    summary: string;
-    architectural_details: string;
-    cultural_significance: string;
-  };
-  tags: string[];
+  summary: string;
+  architectural_details: string;
+  cultural_significance: string;
   tts_hints: {
     pronunciation_guide: string;
     key_facts_short: string;
@@ -52,7 +49,7 @@ const DATA_DIR = path.basename(cwd).toLowerCase() === "data" ? cwd : path.resolv
 const RAW_PATH = path.resolve(DATA_DIR, "raw_srilanka_skeleton.json");
 const OUTPUT_PATH = path.resolve(DATA_DIR, "production_srilanka_db.json");
 
-const MODEL = "gemini-2.5-flash";
+const MODEL = "gpt-4o-mini";
 const BATCH_START = Number.parseInt(process.env.BATCH_START ?? "0", 10);
 const BATCH_LIMIT = Number.parseInt(process.env.BATCH_LIMIT ?? "20", 10);
 const REQUEST_DELAY_MS = Number.parseInt(process.env.REQUEST_DELAY_MS ?? "300", 10);
@@ -103,7 +100,7 @@ function getRetryDelayMs(error: unknown): number {
 
 function isRateLimitError(error: unknown): boolean {
   const message = error instanceof Error ? error.message : String(error);
-  return message.includes("\"code\":429") || /RESOURCE_EXHAUSTED|quota/i.test(message);
+  return /429|rate.?limit|quota|too many requests/i.test(message);
 }
 
 async function writeProductionFile(rows: ProductionLocation[]): Promise<void> {
@@ -118,14 +115,11 @@ function validateGeneratedHistory(data: unknown): GeneratedHistory {
     throw new Error("Invalid era.");
   }
   if (
-    typeof candidate?.deep_history?.summary !== "string" ||
-    typeof candidate?.deep_history?.architectural_details !== "string" ||
-    typeof candidate?.deep_history?.cultural_significance !== "string"
+    typeof candidate?.summary !== "string" ||
+    typeof candidate?.architectural_details !== "string" ||
+    typeof candidate?.cultural_significance !== "string"
   ) {
-    throw new Error("Invalid deep_history fields.");
-  }
-  if (!Array.isArray(candidate?.tags) || candidate.tags.some((tag) => typeof tag !== "string")) {
-    throw new Error("Invalid tags.");
+    throw new Error("Invalid summary/architectural_details/cultural_significance fields.");
   }
   if (
     typeof candidate?.tts_hints?.pronunciation_guide !== "string" ||
@@ -136,12 +130,9 @@ function validateGeneratedHistory(data: unknown): GeneratedHistory {
 
   return {
     era: candidate.era.trim(),
-    deep_history: {
-      summary: candidate.deep_history.summary.trim(),
-      architectural_details: candidate.deep_history.architectural_details.trim(),
-      cultural_significance: candidate.deep_history.cultural_significance.trim(),
-    },
-    tags: candidate.tags.map((tag) => tag.trim()).filter(Boolean),
+    summary: candidate.summary.trim(),
+    architectural_details: candidate.architectural_details.trim(),
+    cultural_significance: candidate.cultural_significance.trim(),
     tts_hints: {
       pronunciation_guide: candidate.tts_hints.pronunciation_guide.trim(),
       key_facts_short: candidate.tts_hints.key_facts_short.trim(),
@@ -153,52 +144,53 @@ function buildPrompt(location: SkeletonLocation): string {
   const [lon, lat] = location.coordinates.coordinates;
 
   return `
-You are a Sri Lankan heritage researcher writing factual, concise content for a tourism data platform.
-Create historically grounded information for this landmark:
+Return ONLY a strict JSON object with this exact structure (no markdown, no prose):
+{
+  "era": "string",
+  "summary": "string",
+  "architectural_details": "string",
+  "cultural_significance": "string",
+  "tts_hints": {
+    "pronunciation_guide": "string",
+    "key_facts_short": "string"
+  }
+}
+
+Landmark context:
 - location_id: ${location.location_id}
 - name: ${location.name}
 - category: ${location.category}
 - latitude: ${lat}
 - longitude: ${lon}
 
-Return ONLY a strict JSON object with this schema (no markdown, no prose):
-{
-  "era": "string (example: Anuradhapura Period, British Colonial)",
-  "deep_history": {
-    "summary": "2-3 concise sentences",
-    "architectural_details": "construction materials, structural form, and style",
-    "cultural_significance": "why this place matters in Sri Lanka"
-  },
-  "tags": ["5 to 8 short descriptive tags"],
-  "tts_hints": {
-    "pronunciation_guide": "hyphenated pronunciation optimized for TTS",
-    "key_facts_short": "comma separated short facts"
-  }
-}
-
 Requirements:
-- Be specific and realistic for Sri Lanka.
-- Keep the summary concise and avoid fabricated certainty.
-- If exact details are uncertain, use careful wording without inventing dates.
+- Write historically grounded, concise, realistic content for Sri Lanka.
+- Keep summary to 2-3 concise sentences.
+- Avoid fabricated certainty; if uncertain, use careful wording.
 `.trim();
 }
 
-async function enrichOne(ai: GoogleGenAI, location: SkeletonLocation): Promise<GeneratedHistory> {
+async function enrichOne(client: OpenAI, location: SkeletonLocation): Promise<GeneratedHistory> {
   let attempt = 0;
   let lastError: unknown;
 
   while (attempt <= MAX_RETRIES) {
     try {
-      const response = await ai.models.generateContent({
+      const response = await client.chat.completions.create({
         model: MODEL,
-        contents: buildPrompt(location),
-        config: {
-          responseMimeType: "application/json",
-          temperature: 0.3,
-        },
+        temperature: 0.3,
+        response_format: { type: "json_object" },
+        messages: [
+          {
+            role: "system",
+            content:
+              "You are a Sri Lankan heritage researcher writing factual, concise tourism data. Always return valid JSON only.",
+          },
+          { role: "user", content: buildPrompt(location) },
+        ],
       });
 
-      const text = response.text;
+      const text = response.choices[0]?.message?.content ?? "";
       if (!text) {
         throw new Error("Empty model response.");
       }
@@ -276,16 +268,16 @@ async function run(): Promise<void> {
   );
 
   if (DRY_RUN) {
-    console.log("Dry run enabled. Exiting before Gemini API calls and without writing output.");
+    console.log("Dry run enabled. Exiting before OpenAI API calls and without writing output.");
     return;
   }
 
-  const apiKey = process.env.GOOGLE_API_KEY ?? process.env.GEMINI_API_KEY;
+  const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
-    throw new Error("Missing API key. Set GOOGLE_API_KEY or GEMINI_API_KEY.");
+    throw new Error("Missing API key. Set OPENAI_API_KEY.");
   }
 
-  const ai = new GoogleGenAI({ apiKey });
+  const client = new OpenAI({ apiKey });
   let successCount = 0;
   let failureCount = 0;
 
@@ -294,7 +286,7 @@ async function run(): Promise<void> {
     console.log(`[${i + 1}/${pending.length}] ${location.name}`);
 
     try {
-      const generated = await enrichOne(ai, location);
+      const generated = await enrichOne(client, location);
 
       const enrichedRow: ProductionLocation = {
         location_id: location.location_id,
@@ -302,8 +294,12 @@ async function run(): Promise<void> {
         coordinates: location.coordinates,
         category: location.category,
         era: generated.era,
-        deep_history: generated.deep_history,
-        tags: generated.tags,
+        deep_history: {
+          summary: generated.summary,
+          architectural_details: generated.architectural_details,
+          cultural_significance: generated.cultural_significance,
+        },
+        tags: [],
         tts_hints: generated.tts_hints,
       };
 

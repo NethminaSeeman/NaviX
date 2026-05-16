@@ -66,13 +66,15 @@ const normalizePlace = (place, index) => {
 };
 
 export const ceygoApi = {
-  chat: async ({ prompt, context }) => {
-    const response = await retry(() =>
-      apiClient.post("/chat", {
-        prompt,
-        context,
-      })
-    );
+  chat: async ({ prompt, location, context }) => {
+    const payload = { query: prompt };
+    if (location?.lat != null && (location?.lng != null || location?.lon != null)) {
+      payload.lat = Number(location.lat);
+      payload.lon = Number(location.lng ?? location.lon);
+    }
+    if (context !== undefined) payload.context = context;
+
+    const response = await retry(() => apiClient.post("/chat", payload));
     const data = response.data;
 
     return {
@@ -81,6 +83,11 @@ export const ceygoApi = {
         data?.response ||
         data?.message ||
         "I am here to help with your Sri Lanka trip.",
+      voiceScript: data?.voice_script,
+      intent: data?.intent,
+      weather: data?.weather,
+      nearby: data?.nearby || [],
+      matchedLocation: data?.matched_location_coordinates,
     };
   },
 

@@ -7,6 +7,7 @@ import {
   useJsApiLoader,
 } from "@react-google-maps/api";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import { useSpeechSynthesis } from "@/hooks/useSpeechSynthesis";
 import { distanceKm } from "@/utils/geo";
 import { MAPS_API_KEY, SRI_LANKA_CENTER } from "@/utils/constants";
 import { getMarkerIcon, getPrimaryTag, getTagStyle } from "@/utils/mapConfig";
@@ -22,6 +23,7 @@ const sriLankaBounds = {
 const MapView = ({ userLocation, places = [], weather, selectedPlace, onPlaceSelect }) => {
   const mapRef = useRef(null);
   const [activePlace, setActivePlace] = useState(null);
+  const { speak, speaking } = useSpeechSynthesis();
   const { isLoaded, loadError } = useJsApiLoader({
     id: "navix-map-script",
     googleMapsApiKey: MAPS_API_KEY,
@@ -46,18 +48,66 @@ const MapView = ({ userLocation, places = [], weather, selectedPlace, onPlaceSel
     }
   }, [selectedPlace]);
 
+  useEffect(() => {
+    if (!mapRef.current || places.length === 0 || !window.google?.maps?.LatLngBounds) {
+      return;
+    }
+
+    const bounds = new window.google.maps.LatLngBounds();
+    places.forEach((place) => {
+      if (place.coordinates) bounds.extend(place.coordinates);
+    });
+    mapRef.current.fitBounds(bounds);
+  }, [places]);
+
   if (!MAPS_API_KEY) {
     return (
-      <div className="tech-panel flex h-[460px] items-center justify-center p-6 text-center text-sm text-slate-600 dark:text-slate-300">
-        Add `VITE_GOOGLE_MAPS_API_KEY` in `.env` to load the live NaviX map.
+      <div className="tech-panel flex h-[460px] flex-col items-center justify-center gap-4 p-8 text-center">
+        <div className="text-3xl">🗺️</div>
+        <p className="mono-label text-xs text-cyan-500">MAP_KEY_MISSING</p>
+        <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">
+          Google Maps API key not configured
+        </p>
+        <p className="max-w-xs text-xs text-slate-500 dark:text-slate-400">
+          Copy <code className="rounded bg-slate-200 px-1 dark:bg-slate-700">.env.example</code> to{" "}
+          <code className="rounded bg-slate-200 px-1 dark:bg-slate-700">.env.local</code> and add your{" "}
+          <code className="rounded bg-slate-200 px-1 dark:bg-slate-700">VITE_GOOGLE_MAPS_API_KEY</code>.
+        </p>
       </div>
     );
   }
 
   if (loadError) {
+    const isRefererError =
+      loadError.message?.toLowerCase().includes("referer") ||
+      loadError.message?.toLowerCase().includes("referrer") ||
+      loadError.message?.toLowerCase().includes("not authorized") ||
+      loadError.message?.toLowerCase().includes("api key");
+
     return (
-      <div className="glass-card flex h-[440px] items-center justify-center p-6 text-sm text-red-500">
-        Google Maps failed to load. Please check API key restrictions and billing.
+      <div className="tech-panel flex h-[460px] flex-col items-center justify-center gap-4 p-8 text-center">
+        <div className="text-3xl">⚠️</div>
+        <p className="mono-label text-xs text-red-400">MAP_LOAD_ERROR</p>
+        <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">
+          {isRefererError
+            ? "API key not authorised for this domain"
+            : "Google Maps failed to load"}
+        </p>
+        <div className="max-w-sm rounded-md border border-red-400/30 bg-red-500/10 p-3 text-left text-xs text-red-400 dark:text-red-300">
+          {isRefererError ? (
+            <ol className="list-decimal space-y-1 pl-4">
+              <li>Open <strong>Google Cloud Console</strong> → APIs &amp; Services → Credentials</li>
+              <li>Find your Maps API key and click Edit</li>
+              <li>Under <strong>Application restrictions</strong>, add this domain to the allowed list</li>
+              <li>Save and wait ~5 minutes for changes to take effect</li>
+            </ol>
+          ) : (
+            <p>{loadError.message || "Unknown error — check browser console for details."}</p>
+          )}
+        </div>
+        <p className="text-xs text-slate-500 dark:text-slate-400">
+          Error detail: <code className="opacity-70">{loadError.message?.slice(0, 80)}</code>
+        </p>
       </div>
     );
   }
@@ -143,11 +193,13 @@ const MapView = ({ userLocation, places = [], weather, selectedPlace, onPlaceSel
             position={activePlace.coordinates}
             onCloseClick={() => setActivePlace(null)}
           >
-            <div className="max-w-56 space-y-1 text-sm">
+            <div className="max-w-72 space-y-2 text-sm">
               <p className="font-semibold">{activePlace.name}</p>
-              <p className="text-xs text-slate-600">{activePlace.district}</p>
+              <p className="mono-label text-[10px] text-slate-600">
+                {getTagStyle(getPrimaryTag(activePlace)).label}
+              </p>
               <div className="flex flex-wrap gap-1">
-                {(activePlace.tags || []).map((tag) => {
+                {(activePlace.tags || []).slice(0, 6).map((tag) => {
                   const tagStyle = getTagStyle(tag);
                   return (
                     <span
@@ -165,6 +217,13 @@ const MapView = ({ userLocation, places = [], weather, selectedPlace, onPlaceSel
               <p className="text-xs font-medium text-slate-700">
                 {activePlace?.deep_history?.summary}
               </p>
+              <button
+                type="button"
+                onClick={() => speak(activePlace)}
+                className="mono-label rounded-md border border-cyan-500/40 bg-cyan-500/10 px-2 py-1 text-[10px] text-cyan-700"
+              >
+                {speaking ? "Playing..." : "Listen"}
+              </button>
               <p className="text-xs text-slate-600">
                 {activePlace?.deep_history?.architectural_details}
               </p>
