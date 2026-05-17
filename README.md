@@ -1,6 +1,6 @@
 # NaviX
 
-Voice-guided travel companion for exploring Sri Lanka — interactive maps, live weather, and AI-powered historical context powered by Google Gemini.
+Voice-guided travel companion for exploring Sri Lanka — interactive maps, live weather, and AI-powered historical context powered by OpenAI with Gemini fallback.
 
 ## Features
 
@@ -15,13 +15,15 @@ Voice-guided travel companion for exploring Sri Lanka — interactive maps, live
 
 | Layer | Technology |
 |-------|------------|
-| Frontend | Vite, React 18, React Router, Tailwind CSS, Framer Motion |
-| Backend | Cloudflare Workers, TypeScript |
-| AI | Google Gemini 1.5 Flash (structured JSON) |
+| Frontend | React 18, Vite, React Router, Tailwind CSS, Framer Motion, Axios |
+| Backend | Cloudflare Workers, TypeScript, Wrangler |
+| AI | OpenAI (primary) + Google Gemini 1.5 Flash (fallback) |
 | Database | Cloudflare D1 (SQLite) |
-| Maps | Google Maps JavaScript API |
+| Auth | Google OAuth 2.0 (Sign-In) + Worker session auth |
+| Billing | Stripe Checkout, Customer Portal, Webhooks |
+| Maps | Google Maps JavaScript API (`@react-google-maps/api`) |
 | Weather | OpenWeatherMap |
-| Hosting | Cloudflare Pages (frontend) + Workers (API) |
+| Hosting | Cloudflare Pages (frontend) + Cloudflare Workers (API) |
 | CI/CD | GitHub Actions |
 
 ## Project structure
@@ -105,6 +107,12 @@ App runs at **http://localhost:5173**
 |----------|-------------|
 | `VITE_API_BASE_URL` | Backend URL (`http://localhost:8787` locally) |
 | `VITE_GOOGLE_MAPS_API_KEY` | Google Maps JavaScript API key |
+| `VITE_FIREBASE_API_KEY` | Firebase web app API key |
+| `VITE_FIREBASE_AUTH_DOMAIN` | Firebase auth domain (`<project>.firebaseapp.com`) |
+| `VITE_FIREBASE_PROJECT_ID` | Firebase project ID |
+| `VITE_FIREBASE_APP_ID` | Firebase web app ID |
+| `VITE_FIREBASE_MESSAGING_SENDER_ID` | Firebase sender ID |
+| `VITE_GOOGLE_CLIENT_ID` | Google OAuth Web Client ID (must match Worker `GOOGLE_CLIENT_ID`) |
 
 ### Backend (`backend/.dev.vars`)
 
@@ -112,10 +120,11 @@ App runs at **http://localhost:5173**
 |----------|----------|-------------|
 | `GEMINI_API_KEY` | Yes | Google Gemini API key |
 | `WEATHER_API_KEY` | No | OpenWeather API key (mock weather if omitted) |
+| `GOOGLE_CLIENT_ID` | Yes (for Google login) | Google OAuth Web Client ID used to validate `/auth/google` id tokens |
 
 ## API reference
 
-Base URL: `https://navix-api.<your-subdomain>.workers.dev` (production) or `http://localhost:8787` (local).
+Base URL: `https://navix-api.nethminamalshan5.workers.dev` (production) or `http://localhost:8787` (local).
 
 | Method | Path | Description |
 |--------|------|-------------|
@@ -192,8 +201,8 @@ npm run deploy:frontend
 
 Production URLs:
 
-- API: `https://navix-api.<your-subdomain>.workers.dev`
-- Pages: URL shown in Cloudflare Dashboard after first deploy
+- App: `https://navix-frontend.pages.dev`
+- API: `https://navix-api.nethminamalshan5.workers.dev`
 
 ## CI/CD (GitHub Actions)
 
@@ -212,7 +221,7 @@ Pushes to **`main`** or **`developer`** trigger:
 
 ### GitHub variables
 
-- `VITE_API_BASE_URL` — e.g. `https://navix-api.<subdomain>.workers.dev`
+- `VITE_API_BASE_URL` — e.g. `https://navix-api.nethminamalshan5.workers.dev`
 
 Also add Worker secrets in the Cloudflare Dashboard (same keys as `.dev.vars`).
 
