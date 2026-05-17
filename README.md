@@ -58,7 +58,95 @@ NaviX/
 - [Google Cloud](https://console.cloud.google.com/) Maps API key
 - [OpenWeather](https://openweathermap.org/api) API key (optional)
 
-## Quick start (local)
+---
+
+## Docker (recommended for local dev)
+
+The fastest way to run the full stack locally with no manual setup.
+
+### Prerequisites
+
+- [Docker](https://docs.docker.com/get-docker/) 24+
+- [Docker Compose](https://docs.docker.com/compose/) v2 (bundled with Docker Desktop)
+
+### 1. Configure environment
+
+```bash
+cp .env.example .env
+# Open .env and fill in at minimum:
+#   GEMINI_API_KEY or OPENAI_API_KEY
+#   VITE_GOOGLE_MAPS_API_KEY
+#   VITE_GOOGLE_CLIENT_ID + GOOGLE_CLIENT_ID (same value)
+#   ADMIN_BOOTSTRAP_TOKEN (any long random string)
+```
+
+### 2. Start dev stack
+
+```bash
+docker compose up --build
+```
+
+| Service | URL |
+|---------|-----|
+| Frontend (Vite HMR) | http://localhost:5173 |
+| Backend (Wrangler) | http://localhost:8787 |
+
+The backend container automatically:
+- Generates `backend/.dev.vars` from your `.env` variables
+- Applies D1 SQLite migrations (local Miniflare mode)
+- Starts Wrangler with live-reload on source changes
+
+Hot-reload is enabled — changes to `frontend/src/` and `backend/src/` reflect immediately without rebuilding the image.
+
+### 3. Stop
+
+```bash
+docker compose down
+```
+
+To also wipe the local D1 database volume:
+
+```bash
+docker compose down -v
+```
+
+### Production build (Docker)
+
+Builds the React app as optimised static files served via nginx. The backend continues to run on Cloudflare Workers.
+
+```bash
+# Set your real Cloudflare Worker URL in .env first:
+# VITE_API_BASE_URL=https://navix-api.<subdomain>.workers.dev
+
+docker compose -f docker-compose.prod.yml up --build -d
+```
+
+Frontend is served at **http://localhost:80**.
+
+### Docker architecture
+
+```
+docker-compose.yml          ← local dev
+  frontend (Vite HMR)       port 5173
+  backend  (Wrangler dev)   port 8787   ← Miniflare, local D1
+
+docker-compose.prod.yml     ← production frontend only
+  frontend (nginx)          port 80     ← serves built /dist
+  backend  ──────────────────────────── runs on Cloudflare Workers
+```
+
+| File | Purpose |
+|------|---------|
+| `Dockerfile.frontend` | Multi-stage: `dev` (Vite) + `production` (nginx) |
+| `Dockerfile.backend` | Wrangler local dev server |
+| `docker-entrypoint.sh` | Injects secrets → runs migrations → starts Wrangler |
+| `nginx.conf` | SPA-aware nginx config with asset caching |
+| `.dockerignore` | Excludes `node_modules`, secrets, build artefacts |
+| `.env.example` | Template for Docker Compose env vars |
+
+---
+
+## Quick start (without Docker)
 
 From the repo root:
 

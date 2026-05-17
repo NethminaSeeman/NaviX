@@ -1,0 +1,24 @@
+# NaviX backend — Cloudflare Worker via Wrangler (local Miniflare mode)
+#
+# This image is for LOCAL DEVELOPMENT only. Production deploys to
+# Cloudflare Workers (see README.md → Cloudflare deployment).
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Install dependencies before copying source (better layer caching)
+COPY backend/package.json backend/package-lock.json ./
+RUN npm ci
+
+# Copy Worker source, migrations, and wrangler config
+COPY backend/ ./
+
+# Copy place data for optional seeding scripts
+COPY data/ /data/
+
+# Entrypoint: generates .dev.vars from env, runs migrations, starts Wrangler
+COPY docker-entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+EXPOSE 8787
+ENTRYPOINT ["/entrypoint.sh"]
