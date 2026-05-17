@@ -1,23 +1,24 @@
+import { memo } from "react";
 import { FiHome, FiLogIn, FiMap, FiMessageCircle, FiUser } from "react-icons/fi";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 
+const guestItems = [
+  { to: "/", icon: FiHome, label: "Home" },
+  { to: "/chat", icon: FiMessageCircle, label: "Assistant" },
+  { to: "/map", icon: FiMap, label: "Map" },
+  { to: "/login", icon: FiLogIn, label: "Sign in" },
+];
+
+const authItems = [
+  { to: "/", icon: FiHome, label: "Home" },
+  { to: "/chat", icon: FiMessageCircle, label: "Assistant" },
+  { to: "/map", icon: FiMap, label: "Map" },
+  { to: "/account", icon: FiUser, label: "Account" },
+];
+
 const MobileBottomNav = () => {
   const { isAuthenticated, loading } = useAuth();
-
-  const guestItems = [
-    { to: "/", icon: FiHome, label: "Home" },
-    { to: "/chat", icon: FiMessageCircle, label: "Assistant" },
-    { to: "/map", icon: FiMap, label: "Map" },
-    { to: "/login", icon: FiLogIn, label: "Sign in" },
-  ];
-
-  const authItems = [
-    { to: "/", icon: FiHome, label: "Home" },
-    { to: "/chat", icon: FiMessageCircle, label: "Assistant" },
-    { to: "/map", icon: FiMap, label: "Map" },
-    { to: "/account", icon: FiUser, label: "Account" },
-  ];
 
   if (loading) return null;
 
@@ -51,4 +52,4 @@ const MobileBottomNav = () => {
   );
 };
 
-export default MobileBottomNav;
+export default memo(MobileBottomNav);

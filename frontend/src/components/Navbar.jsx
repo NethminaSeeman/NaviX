@@ -51,6 +51,18 @@ const Navbar = () => {
     return () => document.removeEventListener("mousedown", close);
   }, []);
 
+  // Close menus with Escape for keyboard/mobile accessibility.
+  useEffect(() => {
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setAccountMenuOpen(false);
+        setMobileOpen(false);
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, []);
+
   const handleLogout = async () => {
     setAccountMenuOpen(false);
     setMobileOpen(false);
@@ -220,9 +232,10 @@ const Navbar = () => {
 
       {/* Mobile drawer panel */}
       <aside
-        className={`fixed right-0 top-0 z-40 flex h-full w-[280px] max-w-[85vw] flex-col bg-white shadow-2xl transition-transform duration-300 ease-in-out dark:bg-zinc-950 lg:hidden ${
-          mobileOpen ? "translate-x-0" : "translate-x-full"
+        className={`fixed right-0 top-0 z-40 flex h-full w-[280px] max-w-[85vw] flex-col bg-white shadow-2xl transition-transform duration-300 ease-in-out will-change-transform dark:bg-zinc-950 lg:hidden ${
+          mobileOpen ? "translate-x-0 pointer-events-auto" : "translate-x-full pointer-events-none"
         }`}
+        aria-hidden={!mobileOpen}
         aria-label="Mobile navigation"
       >
         {/* Drawer header */}
