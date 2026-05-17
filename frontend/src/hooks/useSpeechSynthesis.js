@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const stringifyFacts = (value) => {
   if (Array.isArray(value)) return value.filter(Boolean).join(". ");
@@ -29,6 +29,14 @@ export const useSpeechSynthesis = () => {
   const [speaking, setSpeaking] = useState(false);
   const supported = "speechSynthesis" in window;
 
+  useEffect(() => {
+    if (!supported) return undefined;
+    return () => {
+      window.speechSynthesis.cancel();
+      setSpeaking(false);
+    };
+  }, [supported]);
+
   const speak = (payload) => {
     const text = buildSpeechScript(payload);
     if (!supported || !text) return;
@@ -37,11 +45,13 @@ export const useSpeechSynthesis = () => {
     utterance.pitch = 1;
     utterance.onstart = () => setSpeaking(true);
     utterance.onend = () => setSpeaking(false);
+    utterance.onerror = () => setSpeaking(false);
     window.speechSynthesis.cancel();
     window.speechSynthesis.speak(utterance);
   };
 
   const stop = () => {
+    if (!supported) return;
     window.speechSynthesis.cancel();
     setSpeaking(false);
   };
