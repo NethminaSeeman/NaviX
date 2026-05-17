@@ -32,6 +32,7 @@ import {
   searchPlacesByName,
 } from "./db";
 import { dispatchAuth } from "./routes/auth";
+import { dispatchAdmin } from "./routes/admin";
 import { dispatchBilling } from "./routes/billing";
 import {
   ChatRequest,
@@ -64,6 +65,14 @@ export default {
       // /auth/* — delegated module
       if (url.pathname.startsWith("/auth/")) {
         const payload = await dispatchAuth(env, request, url);
+        if (payload === null) {
+          throw new HttpError(404, `Route not found: ${url.pathname}`);
+        }
+        return json(payload);
+      }
+
+      if (url.pathname.startsWith("/admin/")) {
+        const payload = await dispatchAdmin(env, request, url);
         if (payload === null) {
           throw new HttpError(404, `Route not found: ${url.pathname}`);
         }
