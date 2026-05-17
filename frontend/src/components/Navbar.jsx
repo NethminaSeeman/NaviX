@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useMemo, useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import {
   FiChevronDown,
@@ -14,8 +14,8 @@ import { useAuth } from "@/context/AuthContext";
 
 const navItems = [
   { to: "/", label: "Home" },
-  { to: "/chat", label: "Assistant" },
-  { to: "/map", label: "Live Map" },
+  { to: "/chat", label: "Assistant", requiresAccess: true },
+  { to: "/map", label: "Live Map", requiresAccess: true },
   { to: "/pricing", label: "Pricing" },
   { to: "/about", label: "About" },
   { to: "/contact", label: "Contact" },
@@ -73,6 +73,26 @@ const Navbar = () => {
   const showTrialBadge = isAuthenticated && access?.is_trial && !user?.is_admin;
   const showProBadge = isAuthenticated && access?.is_paid;
   const needsUpgrade = isAuthenticated && !loading && access && !access.allowed;
+  const hasAccess = Boolean(access?.allowed);
+
+  const mobileNavItems = useMemo(() => {
+    return navItems.map((item) => {
+      if (!item.requiresAccess) return item;
+      if (!isAuthenticated) {
+        return {
+          ...item,
+          to: `/login?next=${encodeURIComponent(item.to)}`,
+        };
+      }
+      if (!hasAccess) {
+        return {
+          ...item,
+          to: `/pricing?next=${encodeURIComponent(item.to)}`,
+        };
+      }
+      return item;
+    });
+  }, [isAuthenticated, hasAccess]);
 
   return (
     <>
@@ -296,7 +316,7 @@ const Navbar = () => {
             Navigation
           </p>
           <div className="space-y-0.5">
-            {navItems.map((item) => (
+            {mobileNavItems.map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
