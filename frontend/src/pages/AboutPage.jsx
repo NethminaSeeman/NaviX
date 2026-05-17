@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { FiCheck, FiNavigation, FiSun } from "react-icons/fi";
-import bgTeaSunrise from "@/assets/about/about-tea-sunrise.png";
-import bgCollageSigiriya from "@/assets/about/about-collage-sigiriya.png";
+import bgTopColombo from "@/assets/about/about-top-colombo.png";
+import bgBottomBeach from "@/assets/about/about-bottom-beach.png";
 
 const sections = [
   {
@@ -33,9 +33,9 @@ const AboutPage = () => (
       className="relative overflow-hidden rounded-2xl border border-slate-200/80 dark:border-cyan-500/20"
     >
       <img
-        src={bgTeaSunrise}
+        src={bgTopColombo}
         alt=""
-        className="absolute inset-0 h-full w-full object-cover opacity-48 dark:opacity-36"
+        className="absolute inset-0 h-full min-h-[220px] w-full object-cover object-center opacity-48 dark:opacity-36"
       />
       <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/88 to-teal-50/40 dark:from-zinc-950/95 dark:via-zinc-950/88 dark:to-cyan-950/40" />
       <div className="relative p-6 md:p-10">
@@ -81,14 +81,14 @@ const AboutPage = () => (
       className="relative overflow-hidden rounded-2xl border border-slate-200/80 dark:border-cyan-500/20"
     >
       <img
-        src={bgCollageSigiriya}
+        src={bgBottomBeach}
         alt=""
-        className="absolute inset-0 h-full w-full scale-110 object-cover object-[88%_12%] opacity-42 dark:opacity-32 sm:object-[82%_10%]"
+        className="absolute inset-0 h-full min-h-[200px] w-full object-cover object-[center_40%] opacity-44 dark:opacity-34"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-900/88 to-slate-900/35" />
       <div className="relative grid gap-6 p-6 md:grid-cols-2 md:p-10">
         <div>
-          <h2 className="text-2xl font-bold text-white">Why Choose NavX?</h2>
+          <h2 className="text-2xl font-bold text-white">Why Choose NaviX?</h2>
           <p className="mt-2 text-sm text-slate-200/90">
             The wisdom of Sri Lanka, made portable — curated for first-time visitors and returning
             explorers alike.
