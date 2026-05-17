@@ -1,29 +1,22 @@
-import { lazy, Suspense, useEffect } from "react";
+import { useEffect } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useLocation, Routes, Route } from "react-router-dom";
 import MainLayout from "@/layouts/MainLayout";
+import HomePage from "@/pages/HomePage";
+import ChatAssistantPage from "@/pages/ChatAssistantPage";
+import LiveMapPage from "@/pages/LiveMapPage";
+import DestinationDetailsPage from "@/pages/DestinationDetailsPage";
+import AboutPage from "@/pages/AboutPage";
+import ContactPage from "@/pages/ContactPage";
+import LoginPage from "@/pages/LoginPage";
+import RegisterPage from "@/pages/RegisterPage";
+import PricingPage from "@/pages/PricingPage";
+import AccountPage from "@/pages/AccountPage";
+import BillingResultPage from "@/pages/BillingResultPage";
+import AdminUsersPage from "@/pages/AdminUsersPage";
 import RequireAuth from "@/routes/RequireAuth";
 import RequireAccess from "@/routes/RequireAccess";
 import RequireAdmin from "@/routes/RequireAdmin";
-
-const HomePage = lazy(() => import("@/pages/HomePage"));
-const ChatAssistantPage = lazy(() => import("@/pages/ChatAssistantPage"));
-const LiveMapPage = lazy(() => import("@/pages/LiveMapPage"));
-const DestinationDetailsPage = lazy(() => import("@/pages/DestinationDetailsPage"));
-const AboutPage = lazy(() => import("@/pages/AboutPage"));
-const ContactPage = lazy(() => import("@/pages/ContactPage"));
-const LoginPage = lazy(() => import("@/pages/LoginPage"));
-const RegisterPage = lazy(() => import("@/pages/RegisterPage"));
-const PricingPage = lazy(() => import("@/pages/PricingPage"));
-const AccountPage = lazy(() => import("@/pages/AccountPage"));
-const BillingResultPage = lazy(() => import("@/pages/BillingResultPage"));
-const AdminUsersPage = lazy(() => import("@/pages/AdminUsersPage"));
-
-const RouteFallback = () => (
-  <div className="tech-panel p-6 text-sm text-slate-500 dark:text-slate-300">
-    Loading page...
-  </div>
-);
 
 const PageTransition = ({ children, reducedMotion }) => {
   const initial = reducedMotion ? { opacity: 0 } : { opacity: 0, y: 8 };
@@ -57,9 +50,7 @@ const AppRoutes = () => {
   }, [location.pathname]);
 
   const withTransition = (element) => (
-    <Suspense fallback={<RouteFallback />}>
-      <PageTransition reducedMotion={reducedMotion}>{element}</PageTransition>
-    </Suspense>
+    <PageTransition reducedMotion={reducedMotion}>{element}</PageTransition>
   );
 
   return (
