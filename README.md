@@ -52,7 +52,7 @@ NaviX/
 
 ## Prerequisites
 
-- [Node.js](https://nodejs.org/) 20+
+- [Node.js](https://nodejs.org/) 22+ (Wrangler 4 requires v22)
 - [Cloudflare account](https://dash.cloudflare.com/) (Pages + Workers)
 - [Google AI Studio](https://aistudio.google.com/) API key (Gemini)
 - [Google Cloud](https://console.cloud.google.com/) Maps API key
