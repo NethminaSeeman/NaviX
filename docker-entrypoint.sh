@@ -18,10 +18,12 @@ STRIPE_PRICE_YEARLY=${STRIPE_PRICE_YEARLY:-}
 APP_BASE_URL=${APP_BASE_URL:-http://localhost:5173}
 EOF
 
+cd /app/backend
+
 echo "NaviX ▶ applying D1 migrations (local)..."
 # Apply migrations to the local Miniflare D1 instance.
 # Suppress errors on re-runs (tables already exist).
-npx wrangler d1 migrations apply DB --local 2>/dev/null || true
+node /app/node_modules/.bin/wrangler d1 migrations apply DB --local 2>/dev/null || true
 
 echo "NaviX ▶ starting Wrangler dev server on 0.0.0.0:8787 ..."
-exec npx wrangler dev --ip 0.0.0.0 --port 8787
+exec node /app/node_modules/.bin/wrangler dev --ip 0.0.0.0 --port 8787
