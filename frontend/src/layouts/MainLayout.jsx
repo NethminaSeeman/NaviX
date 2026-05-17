@@ -10,7 +10,7 @@ const MainLayout = () => (
     <Navbar />
     <div className="mx-auto flex w-full max-w-[1560px] gap-4 px-3 py-3 md:px-5">
       <Sidebar />
-      <main className="min-h-[calc(100vh-120px)] flex-1 pb-24 lg:pb-6">
+      <main className="min-h-[calc(100vh-120px)] w-0 flex-1 pb-28 lg:pb-8">
         <Outlet />
       </main>
     </div>
