@@ -5,8 +5,8 @@ import { useAuth } from "@/context/AuthContext";
 
 const guestItems = [
   { to: "/", icon: FiHome, label: "Home" },
-  { to: "/chat", icon: FiMessageCircle, label: "Assistant" },
-  { to: "/map", icon: FiMap, label: "Map" },
+  { to: "/about", icon: FiMessageCircle, label: "About" },
+  { to: "/contact", icon: FiMap, label: "Contact" },
   { to: "/login", icon: FiLogIn, label: "Sign in" },
 ];
 
@@ -18,11 +18,21 @@ const authItems = [
 ];
 
 const MobileBottomNav = () => {
-  const { isAuthenticated, loading } = useAuth();
+  const { isAuthenticated, access, loading } = useAuth();
 
   if (loading) return null;
 
-  const items = isAuthenticated ? authItems : guestItems;
+  const items =
+    isAuthenticated && access?.allowed
+      ? authItems
+      : isAuthenticated
+        ? [
+            { to: "/", icon: FiHome, label: "Home" },
+            { to: "/pricing", icon: FiMessageCircle, label: "Upgrade" },
+            { to: "/map", icon: FiMap, label: "Map" },
+            { to: "/account", icon: FiUser, label: "Account" },
+          ]
+        : guestItems;
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-slate-200 bg-white/95 backdrop-blur-lg dark:border-cyan-500/20 dark:bg-zinc-950/95 lg:hidden">
