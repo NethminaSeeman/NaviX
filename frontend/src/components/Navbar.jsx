@@ -75,7 +75,7 @@ const Navbar = () => {
   const needsUpgrade = isAuthenticated && !loading && access && !access.allowed;
   const hasAccess = Boolean(access?.allowed);
 
-  const mobileNavItems = useMemo(() => {
+  const resolvedNavItems = useMemo(() => {
     return navItems.map((item) => {
       if (!item.requiresAccess) return item;
       if (!isAuthenticated) {
@@ -113,7 +113,7 @@ const Navbar = () => {
 
           {/* Desktop nav */}
           <nav className="hidden flex-1 items-center justify-center gap-4 lg:flex xl:gap-5">
-            {navItems.map((item) => (
+            {resolvedNavItems.map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
@@ -316,7 +316,7 @@ const Navbar = () => {
             Navigation
           </p>
           <div className="space-y-0.5">
-            {mobileNavItems.map((item) => (
+            {resolvedNavItems.map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
