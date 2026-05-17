@@ -13,6 +13,7 @@ export interface Env {
 
   // Auth
   GOOGLE_CLIENT_ID?: string;
+  ADMIN_BOOTSTRAP_TOKEN?: string;
 
   // Stripe
   STRIPE_SECRET_KEY?: string;
@@ -31,11 +32,15 @@ export interface User {
   id: string;
   email: string;
   name: string | null;
+  is_admin: boolean;
+  account_status: AccountStatus;
   trial_ends_at: string; // ISO timestamp
   created_at: string;
   has_password: boolean;
   has_google: boolean;
 }
+
+export type AccountStatus = "active" | "suspended";
 
 export type SubscriptionPlan = "monthly" | "yearly";
 export type SubscriptionStatus =

@@ -139,6 +139,16 @@ const Navbar = () => {
                     >
                       Account
                     </Link>
+                    {user?.is_admin && (
+                      <Link
+                        to="/admin/users"
+                        role="menuitem"
+                        className="block px-3 py-2 text-sm text-cyan-700 hover:bg-cyan-500/10 dark:text-cyan-300 dark:hover:bg-slate-800"
+                        onClick={() => setMenuOpen(false)}
+                      >
+                        Admin panel
+                      </Link>
+                    )}
                     <Link
                       to="/pricing"
                       role="menuitem"
