@@ -44,6 +44,8 @@ const ChatBox = () => {
   const speech = useSpeechRecognition();
   const tts = useSpeechSynthesis();
   const appliedPrompt = useRef(false);
+  const wasListeningRef = useRef(false);
+  const voiceAutoSendRef = useRef(false);
 
   useEffect(() => {
     const raw = searchParams.get("prompt");
@@ -55,6 +57,20 @@ const ChatBox = () => {
   useEffect(() => {
     if (speech.transcript) setInput(speech.transcript);
   }, [speech.transcript]);
+
+  useEffect(() => {
+    const wasListening = wasListeningRef.current;
+    wasListeningRef.current = speech.listening;
+    if (!wasListening || speech.listening) return;
+
+    const spoken = speech.transcript.trim();
+    if (!spoken || loading || voiceAutoSendRef.current) return;
+
+    voiceAutoSendRef.current = true;
+    Promise.resolve(handleSend(spoken)).finally(() => {
+      voiceAutoSendRef.current = false;
+    });
+  }, [speech.listening, speech.transcript, loading]);
 
   useEffect(() => {
     listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: "smooth" });
