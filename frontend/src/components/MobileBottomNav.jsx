@@ -5,8 +5,8 @@ import { useAuth } from "@/context/AuthContext";
 
 const guestItems = [
   { to: "/", icon: FiHome, label: "Home" },
-  { to: "/about", icon: FiMessageCircle, label: "About" },
-  { to: "/contact", icon: FiMap, label: "Contact" },
+  { to: "/chat", icon: FiMessageCircle, label: "Assistant" },
+  { to: "/map", icon: FiMap, label: "Map" },
   { to: "/login", icon: FiLogIn, label: "Sign in" },
 ];
 
@@ -22,17 +22,16 @@ const MobileBottomNav = () => {
 
   if (loading) return null;
 
-  const items =
-    isAuthenticated && access?.allowed
-      ? authItems
-      : isAuthenticated
-        ? [
-            { to: "/", icon: FiHome, label: "Home" },
-            { to: "/pricing", icon: FiMessageCircle, label: "Upgrade" },
-            { to: "/map", icon: FiMap, label: "Map" },
-            { to: "/account", icon: FiUser, label: "Account" },
-          ]
-        : guestItems;
+  const resolveProtectedPath = (path) => {
+    if (!isAuthenticated) return `/login?next=${encodeURIComponent(path)}`;
+    if (!access?.allowed) return `/pricing?next=${encodeURIComponent(path)}`;
+    return path;
+  };
+
+  const items = (isAuthenticated ? authItems : guestItems).map((item) => {
+    if (item.to !== "/chat" && item.to !== "/map") return item;
+    return { ...item, to: resolveProtectedPath(item.to) };
+  });
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-slate-200 bg-white/95 backdrop-blur-lg dark:border-cyan-500/20 dark:bg-zinc-950/95 lg:hidden">
