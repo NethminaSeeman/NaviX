@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FiAlertTriangle, FiSend, FiVolume2, FiX } from "react-icons/fi";
+import { FiAlertTriangle, FiSend, FiVolume2, FiVolumeX, FiX } from "react-icons/fi";
 import MessageBubble from "@/components/MessageBubble";
 import AIThinkingAnimation from "@/components/AIThinkingAnimation";
 import VoiceButton from "@/components/VoiceButton";
@@ -174,11 +174,17 @@ const ChatBox = () => {
           </button>
           <button
             type="button"
-            onClick={() => tts.speak(lastAssistantMessage?.text)}
+            onClick={() => {
+              if (tts.speaking) {
+                tts.stop();
+                return;
+              }
+              tts.speak(lastAssistantMessage?.text);
+            }}
             className="rounded-md border border-slate-300 bg-white p-3 text-slate-700 active:scale-95 dark:border-slate-700 dark:bg-slate-800 dark:text-cyan-200"
-            aria-label="Play voice response"
+            aria-label={tts.speaking ? "Stop voice response" : "Play voice response"}
           >
-            <FiVolume2 />
+            {tts.speaking ? <FiVolumeX /> : <FiVolume2 />}
           </button>
         </div>
         {!speech.supported && (
