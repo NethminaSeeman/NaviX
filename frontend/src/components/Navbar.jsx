@@ -33,7 +33,7 @@ const Navbar = () => {
     navigate("/", { replace: true });
   };
 
-  const showTrialBadge = isAuthenticated && access?.is_trial;
+  const showTrialBadge = isAuthenticated && access?.is_trial && !user?.is_admin;
   const showProBadge = isAuthenticated && access?.is_paid;
   const needsUpgrade =
     isAuthenticated && !loading && access && !access.allowed;
