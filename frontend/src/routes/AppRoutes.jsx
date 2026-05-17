@@ -12,8 +12,10 @@ import RegisterPage from "@/pages/RegisterPage";
 import PricingPage from "@/pages/PricingPage";
 import AccountPage from "@/pages/AccountPage";
 import BillingResultPage from "@/pages/BillingResultPage";
+import AdminUsersPage from "@/pages/AdminUsersPage";
 import RequireAuth from "@/routes/RequireAuth";
 import RequireAccess from "@/routes/RequireAccess";
+import RequireAdmin from "@/routes/RequireAdmin";
 
 const PageTransition = ({ children }) => (
   <motion.div
@@ -54,6 +56,18 @@ const AppRoutes = () => {
               <PageTransition>
                 <RequireAuth>
                   <AccountPage />
+                </RequireAuth>
+              </PageTransition>
+            }
+          />
+          <Route
+            path="/admin/users"
+            element={
+              <PageTransition>
+                <RequireAuth>
+                  <RequireAdmin>
+                    <AdminUsersPage />
+                  </RequireAdmin>
                 </RequireAuth>
               </PageTransition>
             }
