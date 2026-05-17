@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { FiGrid, FiMap } from "react-icons/fi";
@@ -17,11 +17,13 @@ import { vibrateLight } from "@/utils/haptics";
 const HomePage = () => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
+  const [activeSearch, setActiveSearch] = useState("");
   const [viewMode, setViewMode] = useState("cards");
   const [destinations, setDestinations] = useState(featuredDestinations);
   const [loadingDestinations, setLoadingDestinations] = useState(false);
   const { weather, loading } = useWeather();
   const speech = useSpeechRecognition();
+  const wasListeningRef = useRef(false);
 
   useEffect(() => {
     const loadPlaces = async () => {
@@ -39,16 +41,37 @@ const HomePage = () => {
   useEffect(() => {
     if (!speech.transcript) return;
     setSearch(speech.transcript);
+    setActiveSearch(speech.transcript);
   }, [speech.transcript]);
+
+  useEffect(() => {
+    const wasListening = wasListeningRef.current;
+    wasListeningRef.current = speech.listening;
+    if (!wasListening || speech.listening) return;
+
+    const finalQuery = speech.transcript.trim();
+    if (!finalQuery) return;
+
+    // Auto-apply voice query, then clear visible input for next command.
+    setActiveSearch(finalQuery);
+    setViewMode("cards");
+    setSearch("");
+    speech.setTranscript("");
+  }, [speech.listening, speech.transcript, speech.setTranscript]);
+
+  const handleSearchChange = (value) => {
+    setSearch(value);
+    setActiveSearch(value);
+  };
 
   const filteredDestinations = useMemo(
     () =>
       destinations.filter((destination) =>
         `${destination.name} ${destination.district}`
           .toLowerCase()
-          .includes(search.toLowerCase())
+          .includes(activeSearch.toLowerCase())
       ),
-    [search, destinations]
+    [activeSearch, destinations]
   );
 
   return (
@@ -61,7 +84,7 @@ const HomePage = () => {
       />
       <SearchBar
         value={search}
-        onChange={setSearch}
+        onChange={handleSearchChange}
         onSubmit={(event) => event.preventDefault()}
         suggestions={destinations}
       />
