@@ -28,12 +28,22 @@ export async function requireUser(env: Env, request: Request): Promise<User> {
   if (!user) {
     throw new HttpError(401, "Authentication required.");
   }
+  ensureUserIsActive(user);
+  return user;
+}
+
+export async function requireAdmin(env: Env, request: Request): Promise<User> {
+  const user = await requireUser(env, request);
+  if (!user.is_admin) {
+    throw new HttpError(403, "Admin access required.");
+  }
   return user;
 }
 
 export async function loadSession(env: Env, request: Request): Promise<AuthSession | null> {
   const user = await resolveSession(env, request);
   if (!user) return null;
+  ensureUserIsActive(user);
   const db = requireDb(env);
   const subscription = await getSubscription(db, user.id);
   return { user, subscription };
@@ -82,4 +92,10 @@ export function computeAccess(
     plan: subscription?.plan ?? null,
     status,
   };
+}
+
+function ensureUserIsActive(user: User): void {
+  if (user.account_status === "suspended") {
+    throw new HttpError(403, "Account suspended.");
+  }
 }
