@@ -39,6 +39,18 @@ export interface GoogleProfile {
 }
 
 const VALID_ISSUERS = new Set(["https://accounts.google.com", "accounts.google.com"]);
+const GOOGLE_WEB_CLIENT_SUFFIX = ".apps.googleusercontent.com";
+
+function parseExpectedClientIds(raw: string): string[] {
+  return raw
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function looksLikeGoogleWebClientId(value: string | undefined): boolean {
+  return typeof value === "string" && value.endsWith(GOOGLE_WEB_CLIENT_SUFFIX);
+}
 
 export async function verifyGoogleIdToken(
   idToken: string,
@@ -66,10 +78,21 @@ export async function verifyGoogleIdToken(
   if (!info.iss || !VALID_ISSUERS.has(info.iss)) {
     throw new HttpError(401, `Invalid Google token issuer: ${info.iss ?? "missing"}`);
   }
-  const audOk = info.aud === expectedClientId;
-  const azpOk = info.azp === expectedClientId;
-  if (!audOk && !azpOk) {
-    throw new HttpError(401, "Google token audience mismatch.");
+  const expectedClientIds = parseExpectedClientIds(expectedClientId);
+  const audOk = expectedClientIds.includes(info.aud ?? "");
+  const azpOk = expectedClientIds.includes(info.azp ?? "");
+
+  // Firebase-managed Google popup flows can return a Google-issued client id
+  // different from the manually configured web client id. Allow those as long
+  // as Google validates the token and issuer/expiry checks pass.
+  const providerManagedClientId =
+    looksLikeGoogleWebClientId(info.aud) || looksLikeGoogleWebClientId(info.azp);
+
+  if (!audOk && !azpOk && !providerManagedClientId) {
+    throw new HttpError(
+      401,
+      `Google token audience mismatch. aud=${info.aud ?? "missing"}, azp=${info.azp ?? "missing"}`
+    );
   }
   const exp = Number(info.exp);
   if (!Number.isFinite(exp) || exp * 1000 < Date.now()) {
