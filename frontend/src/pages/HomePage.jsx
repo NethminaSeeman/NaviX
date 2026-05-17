@@ -36,6 +36,11 @@ const HomePage = () => {
     loadPlaces();
   }, []);
 
+  useEffect(() => {
+    if (!speech.transcript) return;
+    setSearch(speech.transcript);
+  }, [speech.transcript]);
+
   const filteredDestinations = useMemo(
     () =>
       destinations.filter((destination) =>
@@ -50,6 +55,7 @@ const HomePage = () => {
     <div className="space-y-8">
       <ImmersiveHero
         listening={speech.listening}
+        voiceSupported={speech.supported}
         onVoiceStart={speech.startListening}
         onVoiceStop={speech.stopListening}
       />

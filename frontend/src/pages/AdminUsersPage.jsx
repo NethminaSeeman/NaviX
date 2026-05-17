@@ -227,14 +227,6 @@ const AdminUsersPage = () => {
                             {entry.account_status === "active" ? "Suspend" : "Reactivate"}
                           </span>
                         </button>
-                        <button
-                          type="button"
-                          disabled={busy || isSelf}
-                          onClick={() => updateUser(entry, { is_admin: !entry.is_admin })}
-                          className="rounded-md border border-cyan-500/30 px-2 py-1 text-xs font-semibold text-cyan-700 transition hover:bg-cyan-500/10 disabled:cursor-not-allowed disabled:opacity-50 dark:text-cyan-300"
-                        >
-                          {entry.is_admin ? "Remove admin" : "Make admin"}
-                        </button>
                         {busy && (
                           <span className="inline-flex items-center text-cyan-500">
                             <FiLoader className="animate-spin" />
