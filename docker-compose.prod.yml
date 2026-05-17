@@ -1,0 +1,21 @@
+# Production compose — serves the built frontend on nginx.
+# The backend runs on Cloudflare Workers (not in Docker).
+# Set VITE_API_BASE_URL to your deployed Worker URL before building.
+#
+# Usage:
+#   cp .env.example .env     # fill in real values
+#   docker compose -f docker-compose.prod.yml up --build -d
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+      target: production
+      args:
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-https://navix-api.nethminamalshan5.workers.dev}
+        VITE_GOOGLE_MAPS_API_KEY: ${VITE_GOOGLE_MAPS_API_KEY:-}
+        VITE_GOOGLE_CLIENT_ID: ${VITE_GOOGLE_CLIENT_ID:-}
+    ports:
+      - "80:80"
+    restart: unless-stopped
