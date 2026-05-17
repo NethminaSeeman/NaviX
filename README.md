@@ -120,7 +120,30 @@ App runs at **http://localhost:5173**
 |----------|----------|-------------|
 | `GEMINI_API_KEY` | Yes | Google Gemini API key |
 | `WEATHER_API_KEY` | No | OpenWeather API key (mock weather if omitted) |
-| `GOOGLE_CLIENT_ID` | Yes (for Google login) | Google OAuth Web Client ID used to validate `/auth/google` id tokens |
+| `ADMIN_BOOTSTRAP_TOKEN` | For first admin only | One-time token used by `POST /admin/bootstrap` to securely create the initial super-admin |
+
+## Admin bootstrap (one-time)
+
+The admin panel route is `GET /admin/users` and requires a user with `is_admin=1`.
+
+1. Set `ADMIN_BOOTSTRAP_TOKEN`:
+   - Local dev: add it in `backend/.dev.vars`
+   - Remote Worker: run `cd backend && npx wrangler secret put ADMIN_BOOTSTRAP_TOKEN`
+2. Start backend (`cd backend && npm run dev`) so `POST /admin/bootstrap` is reachable.
+3. Run this PowerShell command once to create your first admin credentials:
+
+```powershell
+$body = @{
+  token = "your-bootstrap-token"
+  email = "admin@yourdomain.com"
+  password = "UseAVeryStrongPassword123!"
+  name = "Super Admin"
+} | ConvertTo-Json
+
+Invoke-RestMethod -Method Post -Uri "http://localhost:8787/admin/bootstrap" -ContentType "application/json" -Body $body
+```
+
+After the first admin is created, bootstrap is automatically disabled and returns `409` on future calls.
 
 ## API reference
 

@@ -187,6 +187,9 @@ async function handleMe(env: Env, request: Request) {
 // ─────────────────────────────────────────────────────────────────────
 
 async function buildAuthPayload(env: Env, user: User) {
+  if (user.account_status === "suspended") {
+    throw new HttpError(403, "Account suspended.");
+  }
   const db = await ensureAuthSchema(env);
   const subscription: Subscription | null = await getSubscription(db, user.id);
   const session = await createSession(env, user.id);
