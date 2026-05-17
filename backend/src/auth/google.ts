@@ -66,7 +66,9 @@ export async function verifyGoogleIdToken(
   if (!info.iss || !VALID_ISSUERS.has(info.iss)) {
     throw new HttpError(401, `Invalid Google token issuer: ${info.iss ?? "missing"}`);
   }
-  if (!info.aud || info.aud !== expectedClientId) {
+  const audOk = info.aud === expectedClientId;
+  const azpOk = info.azp === expectedClientId;
+  if (!audOk && !azpOk) {
     throw new HttpError(401, "Google token audience mismatch.");
   }
   const exp = Number(info.exp);
