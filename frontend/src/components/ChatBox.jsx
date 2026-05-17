@@ -144,6 +144,7 @@ const ChatBox = () => {
           />
           <VoiceButton
             listening={speech.listening}
+            disabled={!speech.supported}
             onStart={speech.startListening}
             onStop={speech.stopListening}
           />
@@ -164,6 +165,11 @@ const ChatBox = () => {
             <FiVolume2 />
           </button>
         </div>
+        {!speech.supported && (
+          <p className="mt-2 text-xs text-amber-500">
+            Voice input is not supported in this browser.
+          </p>
+        )}
         {speech.error && <p className="mt-2 text-xs text-red-500">{speech.error}</p>}
       </div>
     </div>
