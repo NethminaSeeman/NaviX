@@ -1,27 +1,23 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { FiGrid, FiMap } from "react-icons/fi";
 import ImmersiveHero from "@/components/ImmersiveHero";
-import SearchBar from "@/components/SearchBar";
 import DestinationCard from "@/components/DestinationCard";
 import JourneyMapExplorer from "@/components/JourneyMapExplorer";
 import WeatherCard from "@/components/WeatherCard";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { featuredDestinations } from "@/utils/mockData";
 import { useWeather } from "@/context/WeatherContext";
-import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
 import { ceygoApi } from "@/services/ceygoApi";
 import { vibrateLight } from "@/utils/haptics";
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const [search, setSearch] = useState("");
   const [viewMode, setViewMode] = useState("cards");
   const [destinations, setDestinations] = useState(featuredDestinations);
   const [loadingDestinations, setLoadingDestinations] = useState(false);
   const { weather, loading } = useWeather();
-  const speech = useSpeechRecognition();
 
   useEffect(() => {
     const loadPlaces = async () => {
@@ -36,29 +32,9 @@ const HomePage = () => {
     loadPlaces();
   }, []);
 
-  const filteredDestinations = useMemo(
-    () =>
-      destinations.filter((destination) =>
-        `${destination.name} ${destination.district}`
-          .toLowerCase()
-          .includes(search.toLowerCase())
-      ),
-    [search, destinations]
-  );
-
   return (
     <div className="space-y-8">
-      <ImmersiveHero
-        listening={speech.listening}
-        onVoiceStart={speech.startListening}
-        onVoiceStop={speech.stopListening}
-      />
-      <SearchBar
-        value={search}
-        onChange={setSearch}
-        onSubmit={(event) => event.preventDefault()}
-        suggestions={destinations}
-      />
+      <ImmersiveHero />
 
       <section className="space-y-4">
         <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between">
@@ -119,16 +95,12 @@ const HomePage = () => {
           <LoadingSpinner text="Loading destination highlights..." />
         ) : viewMode === "cards" ? (
           <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-            {filteredDestinations.map((destination) => (
+            {destinations.map((destination) => (
               <DestinationCard key={destination.id} destination={destination} />
             ))}
           </div>
-        ) : filteredDestinations.length > 0 ? (
-          <JourneyMapExplorer destinations={filteredDestinations} />
         ) : (
-          <p className="rounded-xl border border-dashed border-slate-300 p-6 text-center text-sm text-slate-500 dark:border-cyan-500/20 dark:text-slate-400">
-            No destinations match your search — clear the filter to see the Journey Map.
-          </p>
+          <JourneyMapExplorer destinations={destinations} />
         )}
       </section>
 
