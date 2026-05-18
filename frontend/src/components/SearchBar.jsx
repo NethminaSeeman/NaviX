@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FiSearch } from "react-icons/fi";
+import { FiSearch, FiMic, FiMicOff } from "react-icons/fi";
 import { vibrateLight } from "@/utils/haptics";
 
 const SearchBar = ({
@@ -9,6 +9,10 @@ const SearchBar = ({
   onSubmit,
   placeholder = "Search destinations, routes, food, history...",
   suggestions = [],
+  listening = false,
+  onVoiceStart,
+  onVoiceStop,
+  voiceSupported = true,
 }) => {
   const listId = useId();
   const [open, setOpen] = useState(false);
@@ -42,6 +46,15 @@ const SearchBar = ({
     vibrateLight(8);
   };
 
+  const handleVoiceClick = () => {
+    vibrateLight(8);
+    if (listening) {
+      onVoiceStop?.();
+    } else {
+      onVoiceStart?.();
+    }
+  };
+
   return (
     <form
       ref={wrapRef}
@@ -56,13 +69,61 @@ const SearchBar = ({
           setOpen(true);
         }}
         onFocus={() => setOpen(true)}
-        placeholder={placeholder}
+        placeholder={
+          listening ? "🎙 Listening… speak now" : placeholder
+        }
         autoComplete="off"
         role="combobox"
         aria-expanded={open}
         aria-controls={listId}
-        className="w-full rounded-md border border-slate-300 bg-white/90 py-3 pl-11 pr-4 text-sm outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 dark:border-slate-700 dark:bg-slate-900/80"
+        className={`w-full rounded-md border bg-white/90 py-3 pl-11 pr-12 text-sm outline-none transition focus:ring-2 dark:bg-slate-900/80 ${
+          listening
+            ? "border-red-400 focus:border-red-400 focus:ring-red-400/20 dark:border-red-500"
+            : "border-slate-300 focus:border-cyan-500 focus:ring-cyan-500/20 dark:border-slate-700"
+        }`}
       />
+
+      {/* Voice mic button inside search bar */}
+      {voiceSupported && (
+        <motion.button
+          type="button"
+          aria-label={listening ? "Stop voice search" : "Start voice search"}
+          title={listening ? "Stop listening" : "Search by voice"}
+          onClick={handleVoiceClick}
+          whileTap={{ scale: 0.88 }}
+          whileHover={{ scale: 1.1 }}
+          className={`absolute right-4 top-1/2 z-[1] -translate-y-1/2 rounded-full p-1.5 transition-colors ${
+            listening
+              ? "bg-red-500 text-white shadow-lg shadow-red-500/40"
+              : "text-slate-400 hover:bg-cyan-500/15 hover:text-cyan-500"
+          }`}
+        >
+          <AnimatePresence mode="wait" initial={false}>
+            {listening ? (
+              <motion.span
+                key="mic-on"
+                initial={{ scale: 0.7, opacity: 0 }}
+                animate={{ scale: [1, 1.2, 1], opacity: 1 }}
+                exit={{ scale: 0.7, opacity: 0 }}
+                transition={{ duration: 0.9, repeat: Infinity, repeatType: "loop" }}
+              >
+                <FiMicOff size={16} />
+              </motion.span>
+            ) : (
+              <motion.span
+                key="mic-off"
+                initial={{ scale: 0.7, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.7, opacity: 0 }}
+                transition={{ duration: 0.18 }}
+              >
+                <FiMic size={16} />
+              </motion.span>
+            )}
+          </AnimatePresence>
+        </motion.button>
+      )}
+
       <AnimatePresence>
         {open && filtered.length > 0 && (
           <motion.ul

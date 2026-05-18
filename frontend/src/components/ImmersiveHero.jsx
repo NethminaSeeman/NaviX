@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
-import VoiceButton from "@/components/VoiceButton";
 import { vibrateLight } from "@/utils/haptics";
 import heroSigiriya from "@/assets/hero/hero-sigiriya.png";
 import heroStiltFishermen from "@/assets/hero/hero-stilt-fishermen.png";
@@ -49,7 +48,7 @@ const SLIDES = [
 
 const SLIDE_MS = 9500;
 
-const ImmersiveHero = ({ listening, onVoiceStart, onVoiceStop }) => {
+const ImmersiveHero = () => {
   const reduceMotion = useReducedMotion();
   const [index, setIndex] = useState(0);
   const [para, setPara] = useState({ x: 0, y: 0 });
@@ -286,16 +285,6 @@ const ImmersiveHero = ({ listening, onVoiceStart, onVoiceStop }) => {
                 Explore Live Map
               </Link>
             </motion.div>
-
-            <VoiceButton
-              listening={listening}
-              onStart={() => {
-                vibrateLight(8);
-                onVoiceStart?.();
-              }}
-              onStop={onVoiceStop}
-              label="Voice Search"
-            />
           </div>
         </div>
       </div>
