@@ -20,6 +20,7 @@
  */
 
 import { classifyIntent } from "./agents/intent";
+import { runTripOrchestrator } from "./agents/orchestrator";
 import { runResponseAgent, toVoiceScript } from "./agents/response";
 import { runTourismAgent } from "./agents/tourism";
 import { runWeatherAgent } from "./agents/weather";
@@ -29,6 +30,7 @@ import {
   findNearbyLocations,
   findNearestPlaces,
   findPlaceByName,
+  searchPlacesByDistrict,
   searchPlacesByName,
 } from "./db";
 import { dispatchAuth } from "./routes/auth";
@@ -43,7 +45,7 @@ import {
   NearbyPlace,
   WeatherResponse,
 } from "./types";
-import { getWeather } from "./weather";
+import { getWeather, getWeatherForecast } from "./weather";
 
 const CORS_HEADERS: Record<string, string> = {
   "Access-Control-Allow-Origin": "*",
@@ -182,14 +184,31 @@ async function chatHandler(env: Env, request: Request): Promise<ChatResponse> {
 
   const intent = await classifyIntent(env, query);
 
-  let nearby: NearbyPlace[] = [];
+  // GPS-based nearby places
+  let gpsNearby: NearbyPlace[] = [];
   if (lat !== null && lon !== null && env.DB) {
     try {
-      nearby = await findNearestPlaces(env.DB, lat, lon, 5);
+      gpsNearby = await findNearestPlaces(env.DB, lat, lon, 5);
     } catch {
-      nearby = [];
+      gpsNearby = [];
     }
   }
+
+  // District/entity-based search — find places relevant to the named location
+  let districtNearby: NearbyPlace[] = [];
+  if (env.DB) {
+    const locationEntity = extractLocationEntity(intent);
+    if (locationEntity) {
+      try {
+        districtNearby = await searchPlacesByDistrict(env.DB, locationEntity, 10);
+      } catch {
+        districtNearby = [];
+      }
+    }
+  }
+
+  // Merge: district results first (more relevant to the question), then GPS
+  const nearby = mergeNearby(districtNearby, gpsNearby);
 
   let weather: WeatherResponse | null = null;
   if (lat !== null && lon !== null) {
@@ -209,6 +228,14 @@ async function chatHandler(env: Env, request: Request): Promise<ChatResponse> {
 
   const weatherAdvice = runWeatherAgent(weather);
 
+  // Trip orchestration — weather-aware planning for future trips
+  let orchestratorContext: Record<string, unknown> | null = null;
+  try {
+    orchestratorContext = await runTripOrchestrator(env, query, intent, nearby);
+  } catch {
+    orchestratorContext = null;
+  }
+
   const answer = await runResponseAgent(
     env,
     query,
@@ -216,7 +243,8 @@ async function chatHandler(env: Env, request: Request): Promise<ChatResponse> {
     tourismText,
     weather,
     weatherAdvice,
-    nearby
+    nearby,
+    orchestratorContext
   );
 
   const matched = await resolveMatchedCoordinates(env, query, intent, nearby);
@@ -229,6 +257,31 @@ async function chatHandler(env: Env, request: Request): Promise<ChatResponse> {
     nearby,
     matched_location_coordinates: matched,
   };
+}
+
+/** Extract a location/district name from intent entities. */
+function extractLocationEntity(intent: IntentResult): string | null {
+  const entities = intent.entities ?? {};
+  for (const key of ["location", "district", "city", "place", "destination", "area"]) {
+    const value = entities[key];
+    if (typeof value === "string" && value.trim().length > 1) {
+      return value.trim();
+    }
+  }
+  return null;
+}
+
+/** Merge district-search and GPS-nearby results, deduplicating by ID. */
+function mergeNearby(district: NearbyPlace[], gps: NearbyPlace[]): NearbyPlace[] {
+  const seen = new Set<string>();
+  const merged: NearbyPlace[] = [];
+  for (const p of [...district, ...gps]) {
+    if (!seen.has(p.id)) {
+      seen.add(p.id);
+      merged.push(p);
+    }
+  }
+  return merged;
 }
 
 // ───────────────────────────────────────── Helpers
