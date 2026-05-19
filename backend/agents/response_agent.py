@@ -15,6 +15,13 @@ Mention nearest attractions when useful and adapt advice to weather.
 If `weather` is null, do not invent weather facts -- just answer the user's question generally.
 If `nearby_places` is empty, do not invent attractions; offer general Sri Lankan suggestions instead.
 Always reply in the same language as the user's query.
+
+TRIP ORCHESTRATION:
+If `orchestrator_context` is provided, it contains weather forecasts and possibly alternative
+location suggestions. You MUST:
+1. Warn the user about bad weather at their requested destination if the forecast shows rain.
+2. Recommend the alternative locations provided, mentioning them by name.
+3. Be helpful and proactive — suggest rescheduling or indoor activities if weather is poor.
 """
 
 
@@ -33,6 +40,7 @@ class FinalResponseAgent:
         weather: Optional[WeatherResponse],
         weather_advice: Optional[str],
         nearby: list[NearbyPlace],
+        orchestrator_context: Optional[dict] = None,
     ) -> str:
         payload = {
             "query": query,
@@ -42,6 +50,9 @@ class FinalResponseAgent:
             "weather_advice": weather_advice,
             "nearby_places": [place.model_dump() for place in nearby],
         }
+        if orchestrator_context:
+            payload["orchestrator_context"] = orchestrator_context
+
         prompt = json.dumps(payload, ensure_ascii=False)
         try:
             output = await self.openai.complete(
