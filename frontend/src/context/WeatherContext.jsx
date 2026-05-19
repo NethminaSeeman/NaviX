@@ -30,9 +30,13 @@ export const WeatherProvider = ({ children }) => {
         });
         setWeather({
           ...result,
-          recommendation: weatherTravelAdvice(result),
+          // Ensure both description and condition are available
+          description: result.description || result.condition || "Partly cloudy",
+          condition: result.condition || result.description || "Partly cloudy",
+          recommendation: result.recommendation || weatherTravelAdvice(result),
         });
       } catch (err) {
+        console.warn("Weather fetch failed, using defaults:", err.message);
         setError(err.message);
       } finally {
         setLoading(false);

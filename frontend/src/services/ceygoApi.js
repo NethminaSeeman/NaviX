@@ -103,11 +103,23 @@ export const ceygoApi = {
     );
     const data = response.data;
 
+    // Backend returns `condition` (string) and `rain` (boolean).
+    // Frontend components expect `description` (string) and `rainChance` (number).
+    const condition = data?.condition ?? data?.description ?? "Partly cloudy";
+    const rain = data?.rain ?? false;
+    const rainChance =
+      data?.rainChance ??
+      (rain ? 80 : /rain|shower|drizzle/i.test(condition) ? 60 : 10);
+
     return {
       temperature: Math.round(data?.temperature ?? data?.temp ?? 28),
       humidity: data?.humidity ?? 74,
-      rainChance: data?.rainChance ?? 30,
-      description: data?.description ?? "Partly cloudy",
+      rainChance,
+      description: condition,
+      condition,
+      rain,
+      safety_hints: data?.safety_hints ?? [],
+      recommendation: null, // filled by WeatherContext via weatherTravelAdvice()
     };
   },
 
