@@ -1,2 +1,36 @@
+# NaviX Worker secrets for local dev (wrangler dev reads this automatically).
+# Copy to .dev.vars and fill in your real values. Do NOT commit .dev.vars.
+
+# ─── LLM ────────────────────────────────────────────────
+# Primary LLM: OpenAI (gpt-4o-mini). Recommended.
+OPENAI_API_KEY=
+
+# Fallback LLM: Google Gemini (gemini-1.5-flash). Used if OPENAI_API_KEY is missing.
 GEMINI_API_KEY=
+
+# ─── Weather ────────────────────────────────────────────
+# Optional: OpenWeatherMap key. If absent, /weather returns mock data.
 WEATHER_API_KEY=
+
+# ─── Auth: Google Sign-In ───────────────────────────────
+# Google Cloud Console -> Credentials -> OAuth 2.0 Client ID (Web).
+# The SAME value goes into the frontend as VITE_GOOGLE_CLIENT_ID.
+GOOGLE_CLIENT_ID=
+
+# ─── Billing: Stripe ────────────────────────────────────
+# Stripe Dashboard -> Developers -> API keys -> Secret key (sk_live_... or sk_test_...).
+STRIPE_SECRET_KEY=
+
+# Stripe Dashboard -> Developers -> Webhooks -> your endpoint -> Signing secret.
+STRIPE_WEBHOOK_SECRET=
+
+# Stripe Dashboard -> Products -> create two recurring prices:
+#   "NaviX Monthly" 8 USD / month   -> STRIPE_PRICE_MONTHLY=price_xxx
+#   "NaviX Yearly"  60 USD / year   -> STRIPE_PRICE_YEARLY=price_yyy
+STRIPE_PRICE_MONTHLY=
+STRIPE_PRICE_YEARLY=
+
+# Frontend origin used to build Stripe success/cancel redirect URLs.
+# Local dev: http://localhost:5173
+# Production: https://navix-frontend.pages.dev (or your custom domain)
+APP_BASE_URL=http://localhost:5173

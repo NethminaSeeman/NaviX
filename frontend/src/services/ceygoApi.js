@@ -30,7 +30,11 @@ const normalizePlace = (place, index) => {
   return {
     id: place.id || `${place.name || "place"}-${index}`,
     name: place.name || "Unknown attraction",
+    province: place.province || null,
     district: place.district || place.region || "Sri Lanka",
+    category: place.category || place.era || null,
+    immersiveBlurb: place.immersiveBlurb || null,
+    itinerary: Array.isArray(place.itinerary) ? place.itinerary : [],
     history: place.history || place.description || "Popular travel attraction.",
     image: place.image || featuredDestinations[index % featuredDestinations.length].image,
     duration: place.duration || "2-3 hours",
@@ -66,13 +70,15 @@ const normalizePlace = (place, index) => {
 };
 
 export const ceygoApi = {
-  chat: async ({ prompt, context }) => {
-    const response = await retry(() =>
-      apiClient.post("/chat", {
-        prompt,
-        context,
-      })
-    );
+  chat: async ({ prompt, location, context }) => {
+    const payload = { query: prompt };
+    if (location?.lat != null && (location?.lng != null || location?.lon != null)) {
+      payload.lat = Number(location.lat);
+      payload.lon = Number(location.lng ?? location.lon);
+    }
+    if (context !== undefined) payload.context = context;
+
+    const response = await retry(() => apiClient.post("/chat", payload));
     const data = response.data;
 
     return {
@@ -81,6 +87,11 @@ export const ceygoApi = {
         data?.response ||
         data?.message ||
         "I am here to help with your Sri Lanka trip.",
+      voiceScript: data?.voice_script,
+      intent: data?.intent,
+      weather: data?.weather,
+      nearby: data?.nearby || [],
+      matchedLocation: data?.matched_location_coordinates,
     };
   },
 
@@ -92,11 +103,23 @@ export const ceygoApi = {
     );
     const data = response.data;
 
+    // Backend returns `condition` (string) and `rain` (boolean).
+    // Frontend components expect `description` (string) and `rainChance` (number).
+    const condition = data?.condition ?? data?.description ?? "Partly cloudy";
+    const rain = data?.rain ?? false;
+    const rainChance =
+      data?.rainChance ??
+      (rain ? 80 : /rain|shower|drizzle/i.test(condition) ? 60 : 10);
+
     return {
       temperature: Math.round(data?.temperature ?? data?.temp ?? 28),
       humidity: data?.humidity ?? 74,
-      rainChance: data?.rainChance ?? 30,
-      description: data?.description ?? "Partly cloudy",
+      rainChance,
+      description: condition,
+      condition,
+      rain,
+      safety_hints: data?.safety_hints ?? [],
+      recommendation: null, // filled by WeatherContext via weatherTravelAdvice()
     };
   },
 
@@ -114,14 +137,15 @@ export const ceygoApi = {
     }
   },
 
-  nearby: async ({ lat, lng }) => {
+  nearby: async ({ lat, lng, radius = 50000, limit = 500 }) => {
     try {
       const { data } = await retry(() =>
-        apiClient.get("/nearby", { params: { lat, lng, lon: lng } })
+        apiClient.get("/nearby", { params: { lat, lng, lon: lng, radius, limit } })
       );
-      if (!Array.isArray(data)) return [];
+      const payload = Array.isArray(data) ? data : data?.data;
+      if (!Array.isArray(payload)) return [];
 
-      return data
+      return payload
         .map((place, index) => normalizePlace(place, index))
         .filter(Boolean)
         .map((place) => ({

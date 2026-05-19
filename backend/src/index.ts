@@ -1,221 +1,390 @@
-import { askGemini, runNaviXPipeline } from "./ai";
+/**
+ * NaviX Cloudflare Worker — entrypoint.
+ *
+ * Routes (CORS-enabled, JSON):
+ *   PUBLIC:
+ *     GET  /health                       Worker + service status
+ *     GET  /weather?lat&lon              Live weather for a coordinate
+ *     POST /auth/register | login | google | logout
+ *     GET  /auth/me                      Current user + access summary
+ *     POST /billing/webhook              Stripe webhook (signature-verified)
+ *
+ *   GATED (require active trial or paid subscription):
+ *     POST /chat                         Multi-agent answer pipeline
+ *     GET  /nearby?lat&lon&limit         Nearest places from D1
+ *     POST /billing/checkout | portal
+ *     GET  /billing/status
+ *
+ * The chat/nearby contract intentionally matches the legacy FastAPI backend
+ * so the frontend only needs VITE_API_BASE_URL pointed at this Worker.
+ */
+
+import { classifyIntent } from "./agents/intent";
+import { runTripOrchestrator } from "./agents/orchestrator";
+import { runResponseAgent, toVoiceScript } from "./agents/response";
+import { runTourismAgent } from "./agents/tourism";
+import { runWeatherAgent } from "./agents/weather";
+import { computeAccess, requireActiveAccess } from "./auth/middleware";
+import { loadSession } from "./auth/middleware";
 import {
   findNearbyLocations,
-  findNearestHeritage,
-  findPlaces,
-  type HeritageContext,
+  findNearestPlaces,
+  findPlaceByName,
+  searchPlacesByDistrict,
+  searchPlacesByName,
 } from "./db";
-import { getWeather } from "./weather";
+import { dispatchAuth } from "./routes/auth";
+import { dispatchBilling } from "./routes/billing";
+import {
+  ChatRequest,
+  ChatResponse,
+  Coordinates,
+  Env,
+  HttpError,
+  IntentResult,
+  NearbyPlace,
+  WeatherResponse,
+} from "./types";
+import { getWeather, getWeatherForecast } from "./weather";
 
-export interface Env {
-  DB?: D1Database;
-  GEMINI_API_KEY: string;
-  WEATHER_API_KEY?: string;
-}
-
-const corsHeaders = {
+const CORS_HEADERS: Record<string, string> = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization, Stripe-Signature",
+  "Access-Control-Expose-Headers": "WWW-Authenticate",
+  "Access-Control-Max-Age": "86400",
 };
-
-const FALLBACK_HERITAGE: HeritageContext = {
-  nearest_site: "Sigiriya Rock Fortress",
-  district: "Matale",
-  distance_meters: 45,
-  verified_history:
-    "Built by King Kashyapa in the 5th century AD. Features a gateway shaped like an enormous lion, and advanced ancient hydraulic infrastructure.",
-  cultural_rules:
-    "No graffiti allowed. Moderate climbing stamina required. Keep hold of loose personal belongings due to high winds and local wildlife.",
-};
-
-function parseNearbyRadiusMeters(url: URL): number {
-  const radiusRaw = (url.searchParams.get("radius") ?? "").trim().toLowerCase();
-  const unit = (url.searchParams.get("unit") ?? "").trim().toLowerCase();
-
-  if (!radiusRaw) {
-    throw new Error("radius is required");
-  }
-
-  const kmSuffix = radiusRaw.endsWith("km");
-  const mSuffix = radiusRaw.endsWith("m");
-  const numericPart = radiusRaw.replace(/km$|m$/g, "");
-  const numeric = Number(numericPart);
-
-  if (!Number.isFinite(numeric) || numeric <= 0) {
-    throw new Error("radius must be a positive number");
-  }
-
-  if (kmSuffix || unit === "km") {
-    return numeric * 1000;
-  }
-  if (mSuffix || unit === "m" || unit === "meter" || unit === "meters") {
-    return numeric;
-  }
-
-  // If no unit provided, treat small values as km and larger values as meters.
-  return numeric <= 100 ? numeric * 1000 : numeric;
-}
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     if (request.method === "OPTIONS") {
-      return new Response(null, { headers: corsHeaders });
+      return new Response(null, { status: 204, headers: CORS_HEADERS });
     }
 
     const url = new URL(request.url);
-
     try {
-      if (
-        (url.pathname === "/api/weather" || url.pathname === "/weather") &&
-        request.method === "GET"
-      ) {
-        const lat = Number(url.searchParams.get("lat"));
-        const lon = Number(
-          url.searchParams.get("lon") ?? url.searchParams.get("lng")
-        );
-        const data = await getWeather(env, lat, lon);
-        return json({
-          ...data,
-          temperature: data.temp,
-          description: data.description,
-        });
+      // /auth/* — delegated module
+      if (url.pathname.startsWith("/auth/")) {
+        const payload = await dispatchAuth(env, request, url);
+        if (payload === null) {
+          throw new HttpError(404, `Route not found: ${url.pathname}`);
+        }
+        return json(payload);
       }
 
-      if (
-        (url.pathname === "/api/places" || url.pathname === "/places") &&
-        request.method === "GET"
-      ) {
-        const places = await findPlaces(env);
-        return json(places);
+      // /billing/* — webhook returns its own Response (must not be re-wrapped),
+      //               other endpoints return data we wrap with json().
+      if (url.pathname.startsWith("/billing/")) {
+        if (url.pathname === "/billing/webhook" && request.method === "POST") {
+          const res = await dispatchBilling(env, request, url);
+          if (res instanceof Response) {
+            return withCors(res);
+          }
+        }
+        const payload = await dispatchBilling(env, request, url);
+        if (payload === null) {
+          throw new HttpError(404, `Route not found: ${url.pathname}`);
+        }
+        if (payload instanceof Response) return withCors(payload);
+        return json(payload);
       }
 
-      if (
-        (url.pathname === "/api/nearby" || url.pathname === "/nearby") &&
-        request.method === "GET"
-      ) {
-        const lat = Number(url.searchParams.get("lat"));
-        const lng = Number(
-          url.searchParams.get("lng") ?? url.searchParams.get("lon")
-        );
-        if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
-          return json({ error: "lat and lng are required numbers" }, 400);
+      switch (url.pathname) {
+        case "/":
+        case "/health":
+          return json(await healthHandler(env));
+        case "/weather":
+          return json(await weatherHandler(env, url));
+        case "/nearby": {
+          await requireActiveAccess(env, request);
+          return json(await nearbyHandler(env, url));
         }
-
-        let radiusMeters: number;
-        try {
-          radiusMeters = parseNearbyRadiusMeters(url);
-        } catch (err) {
-          return json(
-            { error: err instanceof Error ? err.message : "invalid radius" },
-            400
-          );
+        case "/chat": {
+          if (request.method !== "POST") {
+            throw new HttpError(405, "Use POST for /chat.");
+          }
+          await requireActiveAccess(env, request);
+          return json(await chatHandler(env, request));
         }
-
-        const limitRaw = Number(url.searchParams.get("limit") ?? "50");
-        const limit = Number.isFinite(limitRaw) ? limitRaw : 50;
-
-        const rows = await findNearbyLocations(
-          env,
-          lat,
-          lng,
-          radiusMeters,
-          limit
-        );
-        return json({
-          count: rows.length,
-          radius_meters: radiusMeters,
-          data: rows,
-        });
+        default:
+          throw new HttpError(404, `Route not found: ${url.pathname}`);
       }
-
-      if (
-        (url.pathname === "/api/ask" || url.pathname === "/chat") &&
-        request.method === "POST"
-      ) {
-        const body = (await request.json()) as {
-          prompt?: string;
-          message?: string;
-          context?: string;
-        };
-        const prompt = body.prompt || body.message;
-        if (!prompt) {
-          return json({ error: "prompt required" }, 400);
-        }
-        const answer = await askGemini(env, prompt, body.context);
-        return json({ answer, response: answer, message: answer });
-      }
-
-      if (
-        (url.pathname === "/api/navix/chat" || url.pathname === "/api/chat") &&
-        request.method === "POST"
-      ) {
-        const body = (await request.json()) as {
-          message?: string;
-          lat?: number;
-          lng?: number;
-          weather_data?: Record<string, unknown>;
-        };
-
-        if (!body.message) {
-          return json({ error: "message required" }, 400);
-        }
-
-        if (typeof body.lat !== "number" || typeof body.lng !== "number") {
-          return json({ error: "lat and lng are required numbers" }, 400);
-        }
-
-        const heritageContext =
-          (await findNearestHeritage(env, body.lat, body.lng)) ??
-          FALLBACK_HERITAGE;
-
-        let weatherContext: Record<string, unknown>;
-        if (body.weather_data && typeof body.weather_data === "object") {
-          weatherContext = body.weather_data;
-        } else {
-          const weather = await getWeather(env, body.lat, body.lng);
-          weatherContext = {
-            temp: weather.temp,
-            condition: weather.description,
-          };
-        }
-
-        const orchestrationResult = await runNaviXPipeline(
-          env,
-          body.message,
-          heritageContext,
-          weatherContext
-        );
-
-        return json({
-          status: "success",
-          payload: orchestrationResult,
-          answer: orchestrationResult.voice_script,
-          response: orchestrationResult.voice_script,
-        });
-      }
-
-      if (url.pathname === "/health") {
-        return json({
-          status: "ok",
-          services: {
-            worker: true,
-            d1: Boolean(env.DB),
-          },
-        });
-      }
-
-      return json({ error: "Not found" }, 404);
     } catch (err) {
-      const message = err instanceof Error ? err.message : "Internal error";
-      return json({ error: message }, 500);
+      return errorResponse(env, request, err);
     }
   },
 };
 
-function json(data: unknown, status = 200): Response {
-  return new Response(JSON.stringify(data), {
+// ───────────────────────────────────────── Handlers
+
+async function healthHandler(env: Env): Promise<Record<string, unknown>> {
+  let d1: string = env.DB ? "configured" : "missing";
+  if (env.DB) {
+    try {
+      const row = await env.DB.prepare("SELECT COUNT(*) AS n FROM places").first<{
+        n: number;
+      }>();
+      d1 = row && typeof row.n === "number" ? `ok (${row.n} places)` : "ok";
+    } catch (e) {
+      d1 = `error: ${(e as Error).message}`;
+    }
+  }
+
+  return {
+    status: "ok",
+    services: {
+      worker: "ok",
+      d1,
+      openai: env.OPENAI_API_KEY ? "configured" : "missing",
+      gemini: env.GEMINI_API_KEY ? "configured" : "missing",
+      weather: env.WEATHER_API_KEY ? "configured" : "mock",
+      google_auth: env.GOOGLE_CLIENT_ID ? "configured" : "missing",
+      stripe: env.STRIPE_SECRET_KEY ? "configured" : "missing",
+      stripe_webhook: env.STRIPE_WEBHOOK_SECRET ? "configured" : "missing",
+    },
+  };
+}
+
+async function weatherHandler(env: Env, url: URL): Promise<WeatherResponse> {
+  const lat = requireFloat(url.searchParams.get("lat"), "lat");
+  const lon = requireFloat(url.searchParams.get("lon"), "lon");
+  return getWeather(env, lat, lon);
+}
+
+async function nearbyHandler(env: Env, url: URL) {
+  const lat = requireFloat(url.searchParams.get("lat"), "lat");
+  const lonRaw =
+    url.searchParams.get("lon") ?? url.searchParams.get("lng");
+  if (lonRaw === null) {
+    throw new HttpError(400, "Query parameter 'lon' (or 'lng') is required.");
+  }
+  const lon = Number(lonRaw);
+  if (!Number.isFinite(lon)) {
+    throw new HttpError(400, "Query parameter 'lon' must be a number.");
+  }
+
+  const radiusMeters = parseNearbyRadiusMeters(url);
+  const limit = Math.min(
+    500,
+    Math.max(1, Number(url.searchParams.get("limit") ?? 500) || 500)
+  );
+
+  requireDb(env);
+  const rows = await findNearbyLocations(env, lat, lon, radiusMeters, limit);
+  return { count: rows.length, radius_meters: radiusMeters, data: rows };
+}
+
+async function chatHandler(env: Env, request: Request): Promise<ChatResponse> {
+  const body = (await safeJson(request)) as ChatRequest;
+  const query = (body.query ?? body.prompt ?? "").trim();
+  if (!query) throw new HttpError(400, "Field 'query' (or 'prompt') is required.");
+
+  const lat = parseOptionalFloat(body.lat);
+  const lon = parseOptionalFloat(body.lon ?? body.lng);
+
+  const intent = await classifyIntent(env, query);
+
+  // GPS-based nearby places
+  let gpsNearby: NearbyPlace[] = [];
+  if (lat !== null && lon !== null && env.DB) {
+    try {
+      gpsNearby = await findNearestPlaces(env.DB, lat, lon, 5);
+    } catch {
+      gpsNearby = [];
+    }
+  }
+
+  // District/entity-based search — find places relevant to the named location
+  let districtNearby: NearbyPlace[] = [];
+  if (env.DB) {
+    const locationEntity = extractLocationEntity(intent);
+    if (locationEntity) {
+      try {
+        districtNearby = await searchPlacesByDistrict(env.DB, locationEntity, 10);
+      } catch {
+        districtNearby = [];
+      }
+    }
+  }
+
+  // Merge: district results first (more relevant to the question), then GPS
+  const nearby = mergeNearby(districtNearby, gpsNearby);
+
+  let weather: WeatherResponse | null = null;
+  if (lat !== null && lon !== null) {
+    try {
+      weather = await getWeather(env, lat, lon);
+    } catch {
+      weather = null;
+    }
+  }
+
+  let tourismText = "";
+  try {
+    tourismText = await runTourismAgent(env, query, intent, nearby);
+  } catch {
+    tourismText = nearby[0]?.deep_history.summary ?? "";
+  }
+
+  const weatherAdvice = runWeatherAgent(weather);
+
+  // Trip orchestration — weather-aware planning for future trips
+  let orchestratorContext: Record<string, unknown> | null = null;
+  try {
+    orchestratorContext = await runTripOrchestrator(env, query, intent, nearby);
+  } catch {
+    orchestratorContext = null;
+  }
+
+  const answer = await runResponseAgent(
+    env,
+    query,
+    intent,
+    tourismText,
+    weather,
+    weatherAdvice,
+    nearby,
+    orchestratorContext
+  );
+
+  const matched = await resolveMatchedCoordinates(env, query, intent, nearby);
+
+  return {
+    answer,
+    voice_script: toVoiceScript(answer),
+    intent,
+    weather,
+    nearby,
+    matched_location_coordinates: matched,
+  };
+}
+
+/** Extract a location/district name from intent entities. */
+function extractLocationEntity(intent: IntentResult): string | null {
+  const entities = intent.entities ?? {};
+  for (const key of ["location", "district", "city", "place", "destination", "area"]) {
+    const value = entities[key];
+    if (typeof value === "string" && value.trim().length > 1) {
+      return value.trim();
+    }
+  }
+  return null;
+}
+
+/** Merge district-search and GPS-nearby results, deduplicating by ID. */
+function mergeNearby(district: NearbyPlace[], gps: NearbyPlace[]): NearbyPlace[] {
+  const seen = new Set<string>();
+  const merged: NearbyPlace[] = [];
+  for (const p of [...district, ...gps]) {
+    if (!seen.has(p.id)) {
+      seen.add(p.id);
+      merged.push(p);
+    }
+  }
+  return merged;
+}
+
+// ───────────────────────────────────────── Helpers
+
+async function resolveMatchedCoordinates(
+  env: Env,
+  query: string,
+  intent: IntentResult,
+  nearby: NearbyPlace[]
+): Promise<Coordinates | null> {
+  if (!env.DB) return nearby[0]?.coordinates ?? null;
+
+  const entityNames = Object.values(intent.entities ?? {})
+    .filter((v): v is string => typeof v === "string" && v.length > 1);
+  for (const name of entityNames) {
+    const hit = await findPlaceByName(env.DB, name);
+    if (hit) return hit.coordinates;
+  }
+
+  const cleaned = query.replace(/[^\w\s]/g, " ").trim();
+  if (cleaned.length >= 3) {
+    const matches = await searchPlacesByName(env.DB, cleaned, 1);
+    if (matches.length > 0) return matches[0].coordinates;
+  }
+
+  return nearby[0]?.coordinates ?? null;
+}
+
+function requireDb(env: Env): D1Database {
+  if (!env.DB) {
+    throw new HttpError(
+      503,
+      "D1 binding 'DB' is not configured. Check wrangler.toml [[d1_databases]]."
+    );
+  }
+  return env.DB;
+}
+
+function requireFloat(value: string | null, name: string): number {
+  if (value === null || value === "") {
+    throw new HttpError(400, `Query parameter '${name}' is required.`);
+  }
+  const n = Number(value);
+  if (!Number.isFinite(n)) {
+    throw new HttpError(400, `Query parameter '${name}' must be a number.`);
+  }
+  return n;
+}
+
+function parseOptionalFloat(value: unknown): number | null {
+  if (value === undefined || value === null || value === "") return null;
+  const n = Number(value);
+  return Number.isFinite(n) ? n : null;
+}
+
+async function safeJson(request: Request): Promise<unknown> {
+  try {
+    return await request.json();
+  } catch {
+    throw new HttpError(400, "Request body must be valid JSON.");
+  }
+}
+
+function json(payload: unknown, status = 200): Response {
+  return new Response(JSON.stringify(payload), {
     status,
-    headers: { ...corsHeaders, "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      ...CORS_HEADERS,
+    },
   });
+}
+
+function withCors(res: Response): Response {
+  const headers = new Headers(res.headers);
+  for (const [k, v] of Object.entries(CORS_HEADERS)) headers.set(k, v);
+  return new Response(res.body, { status: res.status, headers });
+}
+
+async function errorResponse(
+  env: Env,
+  request: Request,
+  err: unknown
+): Promise<Response> {
+  if (err instanceof HttpError) {
+    // Special-case 402 so the frontend can show the upgrade UI with context.
+    if (err.status === 402 && err.message === "subscription_required") {
+      const session = await loadSession(env, request).catch(() => null);
+      const access = session
+        ? computeAccess(session.user, session.subscription)
+        : null;
+      return json(
+        {
+          error: "subscription_required",
+          status: 402,
+          trial_expired: access ? !access.is_trial && !access.is_paid : true,
+          access,
+        },
+        402
+      );
+    }
+    return json({ error: err.message, status: err.status }, err.status);
+  }
+  const message = err instanceof Error ? err.message : "Unknown error";
+  return json({ error: message, status: 500 }, 500);
 }

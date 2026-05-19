@@ -1,20 +1,56 @@
 import { useEffect, useRef, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FiSend, FiVolume2 } from "react-icons/fi";
+import { FiAlertTriangle, FiSend, FiVolume2, FiX } from "react-icons/fi";
 import MessageBubble from "@/components/MessageBubble";
 import AIThinkingAnimation from "@/components/AIThinkingAnimation";
 import VoiceButton from "@/components/VoiceButton";
 import { useChat } from "@/context/ChatContext";
 import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
 import { useSpeechSynthesis } from "@/hooks/useSpeechSynthesis";
-import { SUGGESTED_PROMPTS } from "@/utils/constants";
+import { API_BASE_URL, SUGGESTED_PROMPTS } from "@/utils/constants";
+
+const classifyError = (message = "") => {
+  const lower = message.toLowerCase();
+  if (lower.includes("cannot reach") || lower.includes("network")) {
+    return {
+      title: "Cannot reach NaviX backend",
+      hint: `Backend is unreachable at ${API_BASE_URL}. For local FastAPI: cd backend && uvicorn main:app --reload. For deployed app, set VITE_API_BASE_URL in Pages environment variables.`,
+    };
+  }
+  if (lower.includes("openai_api_key") || lower.includes("api key")) {
+    return {
+      title: "OpenAI key missing on the backend",
+      hint: "Add OPENAI_API_KEY to backend/.env and restart the server.",
+    };
+  }
+  if (lower.includes("openai call failed") || lower.includes("rate")) {
+    return {
+      title: "OpenAI service rejected the request",
+      hint: "Check the key validity, billing status, and rate limits in the OpenAI dashboard.",
+    };
+  }
+  return {
+    title: "NaviX could not answer that yet",
+    hint: message,
+  };
+};
 
 const ChatBox = () => {
-  const { messages, loading, error, sendMessage } = useChat();
+  const { messages, loading, error, sendMessage, clearError } = useChat();
+  const [searchParams] = useSearchParams();
   const [input, setInput] = useState("");
   const listRef = useRef(null);
   const speech = useSpeechRecognition();
   const tts = useSpeechSynthesis();
+  const appliedPrompt = useRef(false);
+
+  useEffect(() => {
+    const raw = searchParams.get("prompt");
+    if (!raw || appliedPrompt.current) return;
+    appliedPrompt.current = true;
+    setInput((prev) => (prev ? prev : raw));
+  }, [searchParams]);
 
   useEffect(() => {
     if (speech.transcript) setInput(speech.transcript);
@@ -23,6 +59,12 @@ const ChatBox = () => {
   useEffect(() => {
     listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, loading]);
+
+  // Stop TTS playback when the chat component unmounts (e.g. page navigation)
+  useEffect(() => {
+    return () => tts.stop();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSend = async (message = input) => {
     if (!message.trim()) return;
@@ -57,7 +99,34 @@ const ChatBox = () => {
         {loading && <AIThinkingAnimation />}
       </div>
 
-      {error && <p className="px-4 pb-2 text-xs text-red-500">{error}</p>}
+      {error && (
+        <motion.div
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mx-4 mb-3 flex items-start gap-3 rounded-md border border-red-400/40 bg-red-500/10 px-3 py-2 text-xs text-red-700 dark:border-red-400/30 dark:bg-red-500/10 dark:text-red-200"
+        >
+          <FiAlertTriangle className="mt-0.5 shrink-0 text-base text-red-500 dark:text-red-300" />
+          <div className="flex-1 space-y-1">
+            <p className="mono-label text-[10px] text-red-600 dark:text-red-300">
+              CHAT_ERROR
+            </p>
+            <p className="text-sm font-semibold">
+              {classifyError(error).title}
+            </p>
+            <p className="text-[11px] leading-relaxed opacity-90">
+              {classifyError(error).hint}
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={clearError}
+            className="rounded-md p-1 text-red-500 hover:bg-red-500/10 dark:text-red-300"
+            aria-label="Dismiss error"
+          >
+            <FiX className="text-xs" />
+          </button>
+        </motion.div>
+      )}
 
       <div className="border-t border-slate-200 bg-white/70 p-3 dark:border-cyan-500/20 dark:bg-slate-900/50">
         <div className="mb-3 flex flex-wrap gap-2">
