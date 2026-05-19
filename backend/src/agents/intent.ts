@@ -22,9 +22,12 @@ You receive a tourist's question about Sri Lanka and must return JSON only.
 
 Rules:
 - Classify "intent" as one of: HISTORY, ROUTE, FOOD, WEATHER, BEACH, CULTURE, GENERAL.
-- Set "needs_weather" true for outdoor, beach, hike, route, weather, or trip-timing questions.
+- Set "needs_weather" true for outdoor, beach, hike, route, weather, trip-timing, or any question mentioning a future date.
 - Set "needs_nearby" true whenever location-relevant suggestions help (almost always).
 - Extract entities (location names, food names) into "entities".
+- Extract "travel_date" into entities if the user mentions when they want to go:
+  - "today" → "today", "tomorrow" → "tomorrow"
+  - A specific date → ISO string, "next week"/"this weekend" → the phrase as-is
 - Confidence is between 0 and 1.
 
 Respond with raw JSON only — no markdown, no commentary.

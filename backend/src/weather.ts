@@ -57,12 +57,115 @@ export async function getWeather(
   };
 }
 
+/**
+ * Fetch a weather forecast for a future date using the OWM 5-day/3-hour API.
+ * Falls back to deterministic mock when WEATHER_API_KEY is absent.
+ */
+export async function getWeatherForecast(
+  env: Env,
+  lat: number,
+  lon: number,
+  targetDate?: string
+): Promise<WeatherResponse> {
+  // Resolve target date
+  const now = new Date();
+  let target: Date;
+  if (!targetDate) {
+    target = new Date(now.getTime() + 86400000); // tomorrow
+  } else if (targetDate === "today") {
+    target = now;
+  } else if (targetDate === "tomorrow") {
+    target = new Date(now.getTime() + 86400000);
+  } else {
+    target = new Date(targetDate);
+    if (isNaN(target.getTime())) {
+      target = new Date(now.getTime() + 86400000);
+    }
+  }
+
+  if (!env.WEATHER_API_KEY) {
+    return mockForecast(lat, lon, target);
+  }
+
+  const url = new URL("https://api.openweathermap.org/data/2.5/forecast");
+  url.searchParams.set("lat", String(lat));
+  url.searchParams.set("lon", String(lon));
+  url.searchParams.set("appid", env.WEATHER_API_KEY);
+  url.searchParams.set("units", "metric");
+
+  const res = await fetch(url.toString(), {
+    cf: { cacheTtl: 600, cacheEverything: true },
+  } as RequestInit);
+  if (!res.ok) {
+    return mockForecast(lat, lon, target);
+  }
+
+  interface ForecastEntry {
+    dt: number;
+    main: { temp?: number; humidity?: number };
+    weather: Array<{ description?: string; main?: string }>;
+    rain?: Record<string, number>;
+  }
+  const data = (await res.json()) as { list?: ForecastEntry[] };
+
+  // Find the entry closest to noon on the target date
+  const targetNoon = new Date(target);
+  targetNoon.setUTCHours(12, 0, 0, 0);
+  const targetMs = targetNoon.getTime();
+
+  let bestEntry: ForecastEntry | null = null;
+  let bestDiff = Infinity;
+
+  for (const entry of data.list ?? []) {
+    const diff = Math.abs(entry.dt * 1000 - targetMs);
+    if (diff < bestDiff) {
+      bestDiff = diff;
+      bestEntry = entry;
+    }
+  }
+
+  if (!bestEntry) {
+    return mockForecast(lat, lon, target);
+  }
+
+  const temperature = Number(bestEntry.main?.temp ?? 28);
+  const humidity = Number(bestEntry.main?.humidity ?? 70);
+  const condition = bestEntry.weather?.[0]?.description ?? "partly cloudy";
+  const rain = Boolean(
+    bestEntry.rain &&
+      Object.values(bestEntry.rain).some((v) => typeof v === "number" && v > 0)
+  ) || /rain|shower|drizzle|thunder/i.test(condition);
+
+  return {
+    temperature: round(temperature),
+    humidity: Math.round(humidity),
+    condition: capitalize(condition),
+    rain,
+    safety_hints: buildSafetyHints(temperature, humidity, rain, condition),
+  };
+}
+
 function mockWeather(lat: number, lon: number): WeatherResponse {
   const seed = Math.abs(Math.sin(lat * 12.9898 + lon * 78.233));
   const temperature = round(26 + seed * 6);
   const humidity = 60 + Math.round(seed * 30);
   const rain = seed > 0.7;
   const condition = rain ? "Light rain" : "Partly cloudy";
+  return {
+    temperature,
+    humidity,
+    condition,
+    rain,
+    safety_hints: buildSafetyHints(temperature, humidity, rain, condition),
+  };
+}
+
+function mockForecast(lat: number, lon: number, target: Date): WeatherResponse {
+  const daySeed = Math.abs(Math.sin(lat * 12.9898 + lon * 78.233 + target.getDate() * 3.14));
+  const temperature = round(25 + daySeed * 8);
+  const humidity = 55 + Math.round(daySeed * 35);
+  const rain = daySeed > 0.6;
+  const condition = rain ? "Light rain showers" : "Mostly sunny";
   return {
     temperature,
     humidity,
