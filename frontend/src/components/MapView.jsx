@@ -23,7 +23,7 @@ const sriLankaBounds = {
 const MapView = ({ userLocation, places = [], weather, selectedPlace, onPlaceSelect }) => {
   const mapRef = useRef(null);
   const [activePlace, setActivePlace] = useState(null);
-  const { speak, speaking } = useSpeechSynthesis();
+  const { speak, speaking, stop: stopSpeech } = useSpeechSynthesis();
   const { isLoaded, loadError } = useJsApiLoader({
     id: "navix-map-script",
     googleMapsApiKey: MAPS_API_KEY,
@@ -41,12 +41,14 @@ const MapView = ({ userLocation, places = [], weather, selectedPlace, onPlaceSel
 
   useEffect(() => {
     if (!selectedPlace) return;
+    // Stop any playing speech when switching to a new place
+    stopSpeech();
     setActivePlace(selectedPlace);
     if (mapRef.current && selectedPlace.coordinates) {
       mapRef.current.panTo(selectedPlace.coordinates);
       mapRef.current.setZoom(Math.max(mapRef.current.getZoom() || 7, 9));
     }
-  }, [selectedPlace]);
+  }, [selectedPlace, stopSpeech]);
 
   useEffect(() => {
     if (!mapRef.current || places.length === 0 || !window.google?.maps?.LatLngBounds) {
@@ -191,7 +193,10 @@ const MapView = ({ userLocation, places = [], weather, selectedPlace, onPlaceSel
         {activePlace && (
           <InfoWindow
             position={activePlace.coordinates}
-            onCloseClick={() => setActivePlace(null)}
+            onCloseClick={() => {
+              stopSpeech();
+              setActivePlace(null);
+            }}
           >
             <div className="max-w-72 space-y-2 text-sm">
               <p className="font-semibold">{activePlace.name}</p>

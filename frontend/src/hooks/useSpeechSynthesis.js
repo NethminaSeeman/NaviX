@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const stringifyFacts = (value) => {
   if (Array.isArray(value)) return value.filter(Boolean).join(". ");
@@ -28,23 +28,47 @@ const buildSpeechScript = (payload) => {
 export const useSpeechSynthesis = () => {
   const [speaking, setSpeaking] = useState(false);
   const supported = "speechSynthesis" in window;
+  const utteranceRef = useRef(null);
 
-  const speak = (payload) => {
-    const text = buildSpeechScript(payload);
-    if (!supported || !text) return;
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = 1;
-    utterance.pitch = 1;
-    utterance.onstart = () => setSpeaking(true);
-    utterance.onend = () => setSpeaking(false);
+  const stop = useCallback(() => {
     window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(utterance);
-  };
-
-  const stop = () => {
-    window.speechSynthesis.cancel();
+    utteranceRef.current = null;
     setSpeaking(false);
-  };
+  }, []);
+
+  const speak = useCallback(
+    (payload) => {
+      const text = buildSpeechScript(payload);
+      if (!supported || !text) return;
+
+      // Cancel any currently playing speech first
+      window.speechSynthesis.cancel();
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 1;
+      utterance.pitch = 1;
+      utterance.onstart = () => setSpeaking(true);
+      utterance.onend = () => {
+        utteranceRef.current = null;
+        setSpeaking(false);
+      };
+      utterance.onerror = () => {
+        utteranceRef.current = null;
+        setSpeaking(false);
+      };
+
+      utteranceRef.current = utterance;
+      window.speechSynthesis.speak(utterance);
+    },
+    [supported]
+  );
+
+  // Cleanup: stop speech when the component using this hook unmounts
+  useEffect(() => {
+    return () => {
+      window.speechSynthesis.cancel();
+    };
+  }, []);
 
   return { supported, speaking, speak, stop };
 };
