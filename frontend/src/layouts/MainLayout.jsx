@@ -1,4 +1,5 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
+import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import Footer from "@/components/Footer";
@@ -14,9 +15,7 @@ const MainLayout = () => (
         <Outlet />
       </main>
     </div>
-    <Footer />
-    <MobileBottomNav />
-  </div>
-);
+  );
+};
 
 export default MainLayout;

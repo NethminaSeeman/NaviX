@@ -76,6 +76,12 @@ const ChatBox = () => {
     listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, loading]);
 
+  // Stop TTS playback when the chat component unmounts (e.g. page navigation)
+  useEffect(() => {
+    return () => tts.stop();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleSend = async (message = input) => {
     if (!message.trim()) return;
     await sendMessage(message);
