@@ -8,6 +8,7 @@ from agents.nearby_agent import NearbyPlacesAgent
 from agents.response_agent import FinalResponseAgent
 from agents.tourism_agent import TourismKnowledgeAgent
 from agents.weather_agent import WeatherAnalysisAgent
+from agents.orchestrator import TripOrchestrator
 from models.request_models import (
     ChatRequest,
     ChatResponse,
@@ -37,6 +38,7 @@ nearby_agent = NearbyPlacesAgent(location_service, agent_store)
 tourism_agent = TourismKnowledgeAgent(openai_service, agent_store)
 weather_agent = WeatherAnalysisAgent(agent_store)
 response_agent = FinalResponseAgent(openai_service, agent_store)
+trip_orchestrator = TripOrchestrator(weather_service, location_service, agent_store)
 
 
 async def _safe_intent(query: str) -> IntentResult:
@@ -80,6 +82,53 @@ def _safe_nearby(
         return []
 
 
+def _extract_location_entity(intent: IntentResult) -> Optional[str]:
+    """Extract a location name from intent entities if present."""
+    entities = intent.entities or {}
+    for key in ("location", "district", "city", "place", "destination", "area"):
+        value = entities.get(key)
+        if isinstance(value, str) and len(value.strip()) > 1:
+            return value.strip()
+    return None
+
+
+def _get_district_places(
+    intent: IntentResult, query: str
+) -> list[NearbyPlace]:
+    """Look up places by district/name extracted from intent entities or query."""
+    location_name = _extract_location_entity(intent)
+    if location_name:
+        places = location_service.search_by_district(location_name, limit=10)
+        if places:
+            return places
+
+    # Try name-based search from the query itself for common Sri Lankan place names
+    name_results = location_service.search_by_name(query, limit=5)
+    return name_results
+
+
+def _merge_nearby(
+    gps_nearby: list[NearbyPlace],
+    district_nearby: list[NearbyPlace],
+) -> list[NearbyPlace]:
+    """Merge GPS-nearby and district-search results, deduplicating by ID.
+    District results come first (they're more relevant to the user's question)."""
+    seen_ids: set[str] = set()
+    merged: list[NearbyPlace] = []
+
+    for place in district_nearby:
+        if place.id not in seen_ids:
+            seen_ids.add(place.id)
+            merged.append(place)
+
+    for place in gps_nearby:
+        if place.id not in seen_ids:
+            seen_ids.add(place.id)
+            merged.append(place)
+
+    return merged
+
+
 async def _safe_tourism(query: str, intent: IntentResult, nearby: list[NearbyPlace]) -> str:
     try:
         return await tourism_agent.run(query, intent, nearby)
@@ -95,10 +144,27 @@ async def chat(request: ChatRequest) -> ChatResponse:
     query = request.query or request.prompt or ""
 
     intent = await _safe_intent(query)
+
+    # GPS-based nearby places
+    gps_nearby = _safe_nearby(request.lat, request.lon)
+
+    # District/name-based search from intent entities
+    district_nearby = _get_district_places(intent, query)
+
+    # Merge: district results take priority over GPS results
+    nearby = _merge_nearby(gps_nearby, district_nearby) if district_nearby else gps_nearby
+
     weather = await _safe_weather(request.lat, request.lon)
-    nearby = _safe_nearby(request.lat, request.lon)
     tourism_text = await _safe_tourism(query, intent, nearby)
     weather_advice = weather_agent.run(weather) if weather else None
+
+    # --- Trip Orchestration ---
+    # If the user mentions a travel date and a location, run the orchestrator
+    orchestrator_context = None
+    try:
+        orchestrator_context = await trip_orchestrator.run(query, intent, nearby)
+    except Exception as exc:
+        logger.warning("Trip orchestrator failed: %s", exc)
 
     try:
         answer = await response_agent.run(
@@ -108,6 +174,7 @@ async def chat(request: ChatRequest) -> ChatResponse:
             weather,
             weather_advice,
             nearby,
+            orchestrator_context,
         )
     except HTTPException:
         raise

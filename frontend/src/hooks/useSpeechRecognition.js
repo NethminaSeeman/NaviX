@@ -23,8 +23,8 @@ export const useSpeechRecognition = () => {
     }
 
     const recognition = new SpeechRecognition();
-    recognition.continuous = false;
-    recognition.interimResults = true;
+    recognition.continuous = false;      // Stop automatically when user pauses
+    recognition.interimResults = true;   // Show words as they come in
     recognition.lang = "en-US";
 
     recognition.onresult = (event) => {
@@ -83,6 +83,8 @@ export const useSpeechRecognition = () => {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       stream.getTracks().forEach((track) => track.stop());
       setError("");
+      setTranscript("");
+      finalTranscriptRef.current = "";
       recognitionRef.current?.start();
     } catch (err) {
       if (err?.name === "InvalidStateError") return;

@@ -26,6 +26,26 @@ const emptyAccess = {
   status: "none",
 };
 
+const devBypass = import.meta.env.VITE_DEV_AUTH_BYPASS === "true";
+
+const buildDevSession = () => ({
+  user: {
+    id: "dev",
+    email: "dev@local",
+    name: "Dev Mode",
+  },
+  subscription: null,
+  access: {
+    ...emptyAccess,
+    allowed: true,
+    is_trial: true,
+    trial_days_left: 7,
+    trial_ends_at: null,
+    plan: "dev",
+    status: "dev",
+  },
+});
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [subscription, setSubscription] = useState(null);
@@ -43,6 +63,11 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const refresh = useCallback(async () => {
+    if (devBypass) {
+      const devSession = buildDevSession();
+      applySession(devSession);
+      return devSession;
+    }
     if (!getStoredToken()) {
       applySession(null);
       return null;
@@ -71,6 +96,9 @@ export const AuthProvider = ({ children }) => {
   }, [refresh]);
 
   useEffect(() => {
+    if (devBypass) {
+      return () => {};
+    }
     const offUnauth = subscribeAuthEvent("unauthorized", () => {
       clearStoredToken();
       applySession(null);
@@ -89,6 +117,11 @@ export const AuthProvider = ({ children }) => {
   const register = useCallback(
     async ({ email, password, name }) => {
       setError("");
+      if (devBypass) {
+        const devSession = buildDevSession();
+        applySession(devSession);
+        return devSession;
+      }
       const next = await authApi.register({ email, password, name });
       applySession(next);
       return next;
@@ -99,6 +132,11 @@ export const AuthProvider = ({ children }) => {
   const login = useCallback(
     async ({ email, password }) => {
       setError("");
+      if (devBypass) {
+        const devSession = buildDevSession();
+        applySession(devSession);
+        return devSession;
+      }
       const next = await authApi.login({ email, password });
       applySession(next);
       return next;
@@ -109,6 +147,11 @@ export const AuthProvider = ({ children }) => {
   const loginWithGoogle = useCallback(
     async (idToken) => {
       setError("");
+      if (devBypass) {
+        const devSession = buildDevSession();
+        applySession(devSession);
+        return devSession;
+      }
       const next = await authApi.loginWithGoogle(idToken);
       applySession(next);
       return next;
@@ -117,6 +160,11 @@ export const AuthProvider = ({ children }) => {
   );
 
   const logout = useCallback(async () => {
+    if (devBypass) {
+      applySession(buildDevSession());
+      setSubscriptionRequired(false);
+      return;
+    }
     await authApi.logout();
     applySession(null);
     setSubscriptionRequired(false);

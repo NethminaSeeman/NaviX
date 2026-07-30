@@ -23,8 +23,14 @@ const gated = (element) => (
   </RequireAuth>
 );
 
-const AppRoutes = () => {
-  const location = useLocation();
+const AppRoutes = () => (
+  <Routes>
+    <Route element={<MainLayout />}>
+      {/* Public marketing */}
+      <Route path="/" element={<HomePage />} />
+      <Route path="/about" element={<AboutPage />} />
+      <Route path="/contact" element={<ContactPage />} />
+      <Route path="/pricing" element={<PricingPage />} />
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });

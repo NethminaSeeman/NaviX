@@ -18,7 +18,11 @@ Rules:
 - Tailor depth to the intent: HISTORY -> emphasise era + cultural significance;
   ROUTE -> highlight distance and travel logistics; BEACH/CULTURE/FOOD -> match tone.
 - Keep it concise; the response agent will reformat for voice later.
-- Never use markdown, bullet lists, or headings.`;
+- Never use markdown, bullet lists, or headings.
+
+IMPORTANT: When the user asks about a specific district or city (e.g. "Colombo", "Kandy"),
+you MUST prioritise the locations from the provided context that belong to that district.
+Mention them by name and give concrete details from their summaries.`;
 
 interface Payload {
   query: string;

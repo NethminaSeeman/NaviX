@@ -112,6 +112,38 @@ export async function searchPlacesByName(
 }
 
 /**
+ * Search for places related to a district/city name.
+ * Searches across name, tags_json, and summary columns.
+ */
+export async function searchPlacesByDistrict(
+  db: D1Database,
+  district: string,
+  limit = 10
+): Promise<NearbyPlace[]> {
+  const like = `%${district.replace(/[%_]/g, "")}%`;
+  const { results } = await db
+    .prepare(
+      `SELECT ${SELECT_COLUMNS} FROM places
+       WHERE name LIKE ?1 COLLATE NOCASE
+          OR tags_json LIKE ?1 COLLATE NOCASE
+          OR summary LIKE ?1 COLLATE NOCASE
+          OR cultural_significance LIKE ?1 COLLATE NOCASE
+       LIMIT ?2`
+    )
+    .bind(like, limit)
+    .all<PlaceRow>();
+
+  return (results ?? []).map((row) => {
+    const place = rowToPlace(row);
+    return {
+      ...place,
+      distance_km: 0,
+      directions_url: undefined,
+    };
+  });
+}
+
+/**
  * Returns the N nearest places to (lat, lon) ordered ascending by distance.
  * SQLite has no haversine built-in, so we compute it in JS over all rows.
  * With ~140 rows this is trivial (< 1 ms).
