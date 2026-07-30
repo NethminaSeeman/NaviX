@@ -15,19 +15,6 @@ interface PlaceRow {
   lng: number;
 }
 
-type NearbyRow = {
-  id: string;
-  name: string;
-  longitude: number;
-  latitude: number;
-  category: string | null;
-  era: string | null;
-  deep_history: string | null;
-  tags: string | null;
-  tts_hints: string | null;
-  distance_meters: number;
-};
-
 export type NearbyLocation = {
   id: string;
   name: string;
@@ -39,6 +26,7 @@ export type NearbyLocation = {
   tags: unknown;
   tts_hints: unknown;
   distance_meters: number;
+  distance_km?: number;
 };
 
 const SELECT_COLUMNS =
@@ -51,21 +39,6 @@ function parseJsonField<T>(value: string | null, fallback: T): T {
   } catch {
     return fallback;
   }
-}
-
-function mapNearbyRow(row: NearbyRow): NearbyLocation {
-  return {
-    id: row.id,
-    name: row.name,
-    longitude: row.longitude,
-    latitude: row.latitude,
-    category: row.category,
-    era: row.era,
-    deep_history: parseJsonField(row.deep_history, null),
-    tags: parseJsonField(row.tags, [] as unknown[]),
-    tts_hints: parseJsonField(row.tts_hints, null),
-    distance_meters: row.distance_meters,
-  };
 }
 
 export async function findAllPlaces(db: D1Database): Promise<Place[]> {
@@ -179,6 +152,10 @@ export async function findNearestPlaces(
 
 // ─────────────────────────────────────────────────────────────────────
 
+/**
+ * Returns places within radiusMeters of (lat, lng), nearest first.
+ * Uses the `places` table (D1 schema) — not the legacy heritage_locations name.
+ */
 export async function findNearbyLocations(
   env: Env,
   lat: number,
@@ -190,68 +167,39 @@ export async function findNearbyLocations(
 
   const safeRadius = Math.max(1, radiusMeters);
   const safeLimit = Math.min(Math.max(1, Math.floor(limit)), 500);
-  const earthMetersPerDegree = 111320;
-  const latDelta = safeRadius / earthMetersPerDegree;
-  const cosLat = Math.cos((lat * Math.PI) / 180);
-  const lngDelta =
-    safeRadius / (earthMetersPerDegree * Math.max(Math.abs(cosLat), 0.1));
+  const radiusKm = safeRadius / 1000;
 
-  const rad = 0.017453292519943295;
-  const query = `
-    SELECT
-      id,
-      name,
-      longitude,
-      latitude,
-      category,
-      era,
-      deep_history,
-      tags,
-      tts_hints,
-      distance_meters
-    FROM (
-      SELECT
-        id,
-        name,
-        longitude,
-        latitude,
-        category,
-        era,
-        deep_history,
-        tags,
-        tts_hints,
-        (
-          2 * 6371000 * ASIN(
-            SQRT(
-              POW(SIN(((?1 - latitude) * ${rad}) / 2), 2) +
-              COS(latitude * ${rad}) * COS(?1 * ${rad}) *
-              POW(SIN(((?2 - longitude) * ${rad}) / 2), 2)
-            )
-          )
-        ) AS distance_meters
-      FROM heritage_locations
-      WHERE latitude BETWEEN ?3 AND ?4
-        AND longitude BETWEEN ?5 AND ?6
-    )
-    WHERE distance_meters <= ?7
-    ORDER BY distance_meters ASC
-    LIMIT ?8
-  `;
+  const { results } = await env.DB.prepare(
+    `SELECT ${SELECT_COLUMNS} FROM places`
+  ).all<PlaceRow>();
 
-  const result = await env.DB.prepare(query)
-    .bind(
-      lat,
-      lng,
-      lat - latDelta,
-      lat + latDelta,
-      lng - lngDelta,
-      lng + lngDelta,
-      safeRadius,
-      safeLimit
-    )
-    .all<NearbyRow>();
+  const ranked: NearbyLocation[] = (results ?? [])
+    .map((row) => {
+      const place = rowToPlace(row);
+      const distance_km = haversineKm(
+        lat,
+        lng,
+        place.coordinates.lat,
+        place.coordinates.lng
+      );
+      return {
+        id: place.id,
+        name: place.name,
+        longitude: place.coordinates.lng,
+        latitude: place.coordinates.lat,
+        category: place.category,
+        era: place.era ?? null,
+        deep_history: place.deep_history,
+        tags: place.tags,
+        tts_hints: place.tts_hints,
+        distance_meters: Math.round(distance_km * 1000),
+        distance_km,
+      };
+    })
+    .filter((row) => row.distance_km <= radiusKm);
 
-  return (result.results ?? []).map(mapNearbyRow);
+  ranked.sort((a, b) => a.distance_meters - b.distance_meters);
+  return ranked.slice(0, safeLimit);
 }
 
 function rowToPlace(row: PlaceRow): Place {

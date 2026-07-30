@@ -24,10 +24,10 @@ const classifyError = (message = "") => {
       hint: "Add OPENAI_API_KEY to backend/.env and restart the server.",
     };
   }
-  if (lower.includes("quota") || lower.includes("429") || lower.includes("insufficient_quota")) {
+  if (lower.includes("quota") || lower.includes("429") || lower.includes("insufficient_quota") || lower.includes("whisper error")) {
     return {
       title: "OpenAI quota exceeded",
-      hint: "Add billing credit at platform.openai.com, or set GEMINI_API_KEY on the Worker as a free fallback.",
+      hint: "Voice still works via the browser mic. For chat answers, add OpenAI billing or rely on GEMINI_API_KEY on the Worker.",
     };
   }
   if (lower.includes("openai call failed") || lower.includes("rate")) {

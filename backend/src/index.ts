@@ -5,6 +5,7 @@
  *   PUBLIC:
  *     GET  /health                       Worker + service status
  *     GET  /weather?lat&lon              Live weather for a coordinate
+ *     GET  /places                       All places from D1 (map + home)
  *     POST /auth/register | login | google | logout
  *     GET  /auth/me                      Current user + access summary
  *     POST /billing/webhook              Stripe webhook (signature-verified)
@@ -29,6 +30,7 @@ import { runWeatherAgent } from "./agents/weather";
 import { computeAccess, requireActiveAccess } from "./auth/middleware";
 import { loadSession } from "./auth/middleware";
 import {
+  findAllPlaces,
   findNearbyLocations,
   findNearestPlaces,
   findPlaceByName,
@@ -108,6 +110,8 @@ export default {
           return json(await healthHandler(env));
         case "/weather":
           return json(await weatherHandler(env, url));
+        case "/places":
+          return json(await placesHandler(env));
         case "/nearby":
           return json(await nearbyHandler(env, url));
         case "/chat": {
@@ -176,6 +180,27 @@ async function weatherHandler(env: Env, url: URL): Promise<WeatherResponse> {
   const lat = requireFloat(url.searchParams.get("lat"), "lat");
   const lon = requireFloat(url.searchParams.get("lon"), "lon");
   return getWeather(env, lat, lon);
+}
+
+async function placesHandler(env: Env) {
+  requireDb(env);
+  const places = await findAllPlaces(env.DB!);
+  // Shape expected by frontend normalizePlace / MapView
+  return places.map((p) => ({
+    id: p.id,
+    location_id: p.id,
+    name: p.name,
+    category: p.category,
+    era: p.era,
+    tags: p.tags,
+    coordinates: { lat: p.coordinates.lat, lng: p.coordinates.lng },
+    lat: p.coordinates.lat,
+    lng: p.coordinates.lng,
+    deep_history: p.deep_history,
+    tts_hints: p.tts_hints,
+    history: p.deep_history?.summary,
+    description: p.deep_history?.summary,
+  }));
 }
 
 async function voiceTokenHandler(env: Env, request: Request) {
