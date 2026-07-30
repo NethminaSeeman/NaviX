@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
+import VoiceButton from "@/components/VoiceButton";
 import { vibrateLight } from "@/utils/haptics";
 import heroSigiriya from "@/assets/hero/hero-sigiriya.png";
 import heroStiltFishermen from "@/assets/hero/hero-stilt-fishermen.png";
