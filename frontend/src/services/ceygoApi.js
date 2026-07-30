@@ -164,4 +164,20 @@ export const ceygoApi = {
       }))
       .sort((a, b) => a.distanceKm - b.distanceKm);
   },
+
+  voiceToken: async ({ lat, lon } = {}) => {
+    const payload = {};
+    if (lat != null && Number.isFinite(Number(lat))) payload.lat = Number(lat);
+    if (lon != null && Number.isFinite(Number(lon))) payload.lon = Number(lon);
+    const { data } = await retry(() => apiClient.post("/voice/token", payload));
+    if (!data?.token || !data?.url) {
+      throw new Error(data?.error || "Voice token response was incomplete.");
+    }
+    return {
+      token: data.token,
+      url: data.url,
+      roomName: data.roomName,
+      identity: data.identity,
+    };
+  },
 };

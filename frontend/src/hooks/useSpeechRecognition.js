@@ -84,7 +84,6 @@ export const useSpeechRecognition = () => {
       stream.getTracks().forEach((track) => track.stop());
       setError("");
       setTranscript("");
-      finalTranscriptRef.current = "";
       recognitionRef.current?.start();
     } catch (err) {
       if (err?.name === "InvalidStateError") return;
