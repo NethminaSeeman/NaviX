@@ -31,7 +31,7 @@ const VoiceButton = ({
       >
         {processing ? <FiLoader className="animate-spin" /> : listening ? <FiMicOff /> : <FiMic />}
       </motion.span>
-      {processing ? "Transcribing…" : listening ? "Stop" : label}
+      {processing ? "Transcribing…" : listening ? "Listening" : label}
     </motion.button>
   );
 };
