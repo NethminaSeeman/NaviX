@@ -1,3 +1,4 @@
+/// <reference lib="webworker" />
 /**
  * /billing/* endpoints.
  *
@@ -14,6 +15,7 @@
 import { stripeRequest, verifyStripeSignature } from "../billing/stripe";
 import { requireUser } from "../auth/middleware";
 import {
+  ensureAuthSchema,
   findSubscriptionByStripeCustomerId,
   getSubscription,
   requireDb,
@@ -68,6 +70,7 @@ export async function dispatchBilling(
   request: Request,
   url: URL
 ): Promise<unknown | null> {
+  await ensureAuthSchema(env);
   const path = url.pathname;
 
   if (path === "/billing/checkout" && request.method === "POST") {

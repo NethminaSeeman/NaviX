@@ -91,12 +91,22 @@ export async function searchPlacesByName(
   query: string,
   limit = 5
 ): Promise<Place[]> {
-  const like = `%${query.replace(/[%_]/g, "")}%`;
+  const cleaned = query.replace(/[^\w\s-]/g, " ").replace(/\s+/g, " ").trim();
+  if (cleaned.length < 2) return [];
+  const needle = cleaned.slice(0, 96);
+  const safeLimit = Math.min(Math.max(1, Math.floor(limit)), 20);
+
   const { results } = await db
     .prepare(
-      `SELECT ${SELECT_COLUMNS} FROM places WHERE name LIKE ? COLLATE NOCASE LIMIT ?`
+      `
+      SELECT ${SELECT_COLUMNS}
+      FROM places
+      WHERE INSTR(LOWER(name), LOWER(?1)) > 0
+      ORDER BY CASE WHEN LOWER(name) = LOWER(?2) THEN 0 ELSE 1 END, LENGTH(name) ASC
+      LIMIT ?3
+      `
     )
-    .bind(like, limit)
+    .bind(needle, needle, safeLimit)
     .all<PlaceRow>();
   return (results ?? []).map(rowToPlace);
 }

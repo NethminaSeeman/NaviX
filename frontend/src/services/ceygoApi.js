@@ -138,28 +138,30 @@ export const ceygoApi = {
   },
 
   nearby: async ({ lat, lng, radius = 50000, limit = 500 }) => {
-    try {
-      const { data } = await retry(() =>
-        apiClient.get("/nearby", { params: { lat, lng, lon: lng, radius, limit } })
-      );
-      const payload = Array.isArray(data) ? data : data?.data;
-      if (!Array.isArray(payload)) return [];
+    const params = { lat, lng, lon: lng, radius, limit };
 
-      return payload
-        .map((place, index) => normalizePlace(place, index))
-        .filter(Boolean)
-        .map((place) => ({
-          ...place,
-          distanceKm: distanceKm({ lat, lng }, place.coordinates),
-        }))
-        .sort((a, b) => a.distanceKm - b.distanceKm);
-    } catch (_error) {
-      return featuredDestinations
-        .map((place) => ({
-          ...place,
-          distanceKm: distanceKm({ lat, lng }, place.coordinates),
-        }))
-        .sort((a, b) => a.distanceKm - b.distanceKm);
+    // Support both backend route shapes (/nearby and /api/nearby) across environments.
+    let data;
+    try {
+      ({ data } = await retry(() => apiClient.get("/nearby", { params })));
+    } catch (firstError) {
+      try {
+        ({ data } = await retry(() => apiClient.get("/api/nearby", { params })));
+      } catch {
+        throw firstError;
+      }
     }
+
+    const payload = Array.isArray(data) ? data : data?.data;
+    if (!Array.isArray(payload)) return [];
+
+    return payload
+      .map((place, index) => normalizePlace(place, index))
+      .filter(Boolean)
+      .map((place) => ({
+        ...place,
+        distanceKm: distanceKm({ lat, lng }, place.coordinates),
+      }))
+      .sort((a, b) => a.distanceKm - b.distanceKm);
   },
 };

@@ -13,6 +13,7 @@ dist/
 .env
 .env.*
 !.env.example
+!frontend/.env.example
 .dev.vars
 frontend/.env.local
 backend/.dev.vars

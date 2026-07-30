@@ -1,0 +1,50 @@
+services:
+  # ── Frontend: Vite hot-reload dev server ─────────────────────────────────
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+      target: dev
+    ports:
+      - "5173:5173"
+    volumes:
+      # Mount source for hot-reload without rebuilding the image
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
+    environment:
+      - VITE_API_BASE_URL=${VITE_API_BASE_URL:-http://localhost:8787}
+      - VITE_GOOGLE_MAPS_API_KEY=${VITE_GOOGLE_MAPS_API_KEY:-}
+      - VITE_GOOGLE_CLIENT_ID=${VITE_GOOGLE_CLIENT_ID:-}
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  # ── Backend: Cloudflare Worker via Wrangler (Miniflare local mode) ────────
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    ports:
+      - "8787:8787"
+    volumes:
+      # Mount source for live reloading by Wrangler
+      - ./backend/src:/app/src
+      - ./backend/migrations:/app/migrations
+      # Persist the local D1 SQLite state between restarts
+      - wrangler-state:/app/.wrangler
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - WEATHER_API_KEY=${WEATHER_API_KEY:-}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID:-}
+      - ADMIN_BOOTSTRAP_TOKEN=${ADMIN_BOOTSTRAP_TOKEN:-}
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY:-}
+      - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET:-}
+      - STRIPE_PRICE_MONTHLY=${STRIPE_PRICE_MONTHLY:-}
+      - STRIPE_PRICE_YEARLY=${STRIPE_PRICE_YEARLY:-}
+      - APP_BASE_URL=${APP_BASE_URL:-http://localhost:5173}
+    restart: unless-stopped
+
+volumes:
+  # Named volume keeps local D1 database state between container restarts
+  wrangler-state:

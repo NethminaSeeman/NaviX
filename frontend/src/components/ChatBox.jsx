@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FiAlertTriangle, FiSend, FiVolume2, FiX } from "react-icons/fi";
+import { FiAlertTriangle, FiSend, FiVolume2, FiVolumeX, FiX } from "react-icons/fi";
 import MessageBubble from "@/components/MessageBubble";
 import AIThinkingAnimation from "@/components/AIThinkingAnimation";
 import VoiceButton from "@/components/VoiceButton";
@@ -44,6 +44,8 @@ const ChatBox = () => {
   const speech = useSpeechRecognition();
   const tts = useSpeechSynthesis();
   const appliedPrompt = useRef(false);
+  const wasListeningRef = useRef(false);
+  const voiceAutoSendRef = useRef(false);
 
   useEffect(() => {
     const raw = searchParams.get("prompt");
@@ -55,6 +57,20 @@ const ChatBox = () => {
   useEffect(() => {
     if (speech.transcript) setInput(speech.transcript);
   }, [speech.transcript]);
+
+  useEffect(() => {
+    const wasListening = wasListeningRef.current;
+    wasListeningRef.current = speech.listening;
+    if (!wasListening || speech.listening) return;
+
+    const spoken = speech.transcript.trim();
+    if (!spoken || loading || voiceAutoSendRef.current) return;
+
+    voiceAutoSendRef.current = true;
+    Promise.resolve(handleSend(spoken)).finally(() => {
+      voiceAutoSendRef.current = false;
+    });
+  }, [speech.listening, speech.transcript, loading]);
 
   useEffect(() => {
     listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: "smooth" });
@@ -150,6 +166,7 @@ const ChatBox = () => {
           />
           <VoiceButton
             listening={speech.listening}
+            disabled={!speech.supported}
             onStart={speech.startListening}
             onStop={speech.stopListening}
           />
@@ -163,13 +180,24 @@ const ChatBox = () => {
           </button>
           <button
             type="button"
-            onClick={() => tts.speak(lastAssistantMessage?.text)}
+            onClick={() => {
+              if (tts.speaking) {
+                tts.stop();
+                return;
+              }
+              tts.speak(lastAssistantMessage?.text);
+            }}
             className="rounded-md border border-slate-300 bg-white p-3 text-slate-700 active:scale-95 dark:border-slate-700 dark:bg-slate-800 dark:text-cyan-200"
-            aria-label="Play voice response"
+            aria-label={tts.speaking ? "Stop voice response" : "Play voice response"}
           >
-            <FiVolume2 />
+            {tts.speaking ? <FiVolumeX /> : <FiVolume2 />}
           </button>
         </div>
+        {!speech.supported && (
+          <p className="mt-2 text-xs text-amber-500">
+            Voice input is not supported in this browser.
+          </p>
+        )}
         {speech.error && <p className="mt-2 text-xs text-red-500">{speech.error}</p>}
       </div>
     </div>

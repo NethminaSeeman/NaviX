@@ -6,9 +6,14 @@ export const useSpeechRecognition = () => {
   const [supported, setSupported] = useState(true);
   const [error, setError] = useState("");
   const recognitionRef = useRef(null);
-  const finalTranscriptRef = useRef("");
+  const listeningRef = useRef(false);
 
   useEffect(() => {
+    if (typeof window === "undefined") {
+      setSupported(false);
+      return;
+    }
+
     const SpeechRecognition =
       window.SpeechRecognition || window.webkitSpeechRecognition;
 
@@ -23,67 +28,74 @@ export const useSpeechRecognition = () => {
     recognition.lang = "en-US";
 
     recognition.onresult = (event) => {
-      let interim = "";
-      let final = "";
-
-      for (let i = event.resultIndex; i < event.results.length; i++) {
-        const result = event.results[i];
-        if (result.isFinal) {
-          final += result[0].transcript;
-        } else {
-          interim += result[0].transcript;
-        }
+      let text = "";
+      for (let i = event.resultIndex; i < event.results.length; i += 1) {
+        text += event.results[i][0].transcript;
       }
-
-      // Show interim text live; lock in final text when available
-      if (final) {
-        finalTranscriptRef.current = (finalTranscriptRef.current + " " + final).trim();
-        setTranscript(finalTranscriptRef.current);
-      } else {
-        setTranscript((finalTranscriptRef.current + " " + interim).trim());
-      }
+      setTranscript((prev) => `${prev} ${text}`.trim());
     };
 
     recognition.onstart = () => {
-      finalTranscriptRef.current = "";
+      listeningRef.current = true;
       setListening(true);
     };
-
     recognition.onend = () => {
-      // Commit whatever was captured
-      setTranscript(finalTranscriptRef.current || "");
+      listeningRef.current = false;
       setListening(false);
     };
-
     recognition.onerror = (event) => {
-      const msg =
-        event.error === "not-allowed"
-          ? "Microphone permission denied."
-          : event.error === "no-speech"
-          ? "No speech detected. Try again."
-          : "Could not process voice input.";
-      setError(msg);
+      listeningRef.current = false;
       setListening(false);
+
+      // "aborted" is expected when user manually stops recording.
+      if (event?.error === "aborted") return;
+
+      if (event?.error === "not-allowed" || event?.error === "service-not-allowed") {
+        setError("Microphone permission denied.");
+        return;
+      }
+      if (event?.error === "no-speech") {
+        setError("No speech detected. Please try again.");
+        return;
+      }
+      setError("Could not process voice input.");
     };
 
     recognitionRef.current = recognition;
+    return () => {
+      recognition.onresult = null;
+      recognition.onstart = null;
+      recognition.onend = null;
+      recognition.onerror = null;
+      recognition.stop();
+      recognitionRef.current = null;
+    };
   }, []);
 
   const startListening = async () => {
+    if (!recognitionRef.current || listeningRef.current) return;
     try {
-      // Trigger mic permission prompt before starting recognition
+      if (!navigator?.mediaDevices?.getUserMedia) {
+        setSupported(false);
+        setError("Voice input is not supported in this browser.");
+        return;
+      }
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       stream.getTracks().forEach((track) => track.stop());
       setError("");
       setTranscript("");
       finalTranscriptRef.current = "";
       recognitionRef.current?.start();
-    } catch (_error) {
+    } catch (err) {
+      if (err?.name === "InvalidStateError") return;
       setError("Microphone permission denied.");
     }
   };
 
-  const stopListening = () => recognitionRef.current?.stop();
+  const stopListening = () => {
+    if (!recognitionRef.current || !listeningRef.current) return;
+    recognitionRef.current.stop();
+  };
 
   return {
     transcript,

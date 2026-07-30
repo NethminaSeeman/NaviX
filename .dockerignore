@@ -1,0 +1,42 @@
+# Dependencies (installed inside the image)
+node_modules
+frontend/node_modules
+backend/node_modules
+
+# Build outputs
+frontend/dist
+.next/
+out/
+
+# Wrangler local state (mounted as a Docker volume)
+.wrangler
+backend/.wrangler
+
+# Secrets — never bake into images
+.env
+.env.local
+.env.production
+backend/.dev.vars
+frontend/.env.local
+
+# Git
+.git
+.gitignore
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyc
+
+# TypeScript build info
+*.tsbuildinfo
