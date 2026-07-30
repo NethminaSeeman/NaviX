@@ -1,33 +1,90 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo } from "react";
 import {
-  GoogleMap,
-  InfoWindow,
-  MarkerF,
-  PolylineF,
-  useJsApiLoader,
-} from "@react-google-maps/api";
-import LoadingSpinner from "@/components/LoadingSpinner";
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  Polyline,
+  useMap,
+} from "react-leaflet";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
 import { useSpeechSynthesis } from "@/hooks/useSpeechSynthesis";
 import { distanceKm } from "@/utils/geo";
-import { MAPS_API_KEY, SRI_LANKA_CENTER } from "@/utils/constants";
-import { getMarkerIcon, getPrimaryTag, getTagStyle } from "@/utils/mapConfig";
+import {
+  GEOAPIFY_API_KEY,
+  MAPS_API_KEY,
+  SRI_LANKA_CENTER,
+} from "@/utils/constants";
+import { getPrimaryTag, getTagStyle } from "@/utils/mapConfig";
 
-const mapContainerStyle = { width: "100%", height: "100%" };
-const sriLankaBounds = {
-  north: 9.95,
-  south: 5.7,
-  east: 82.1,
-  west: 79.4,
+const sriLankaBounds = L.latLngBounds(
+  [5.7, 79.4],
+  [9.95, 82.1]
+);
+
+const circleIcon = (color, label = "") =>
+  L.divIcon({
+    className: "navix-map-marker",
+    html: `<div style="
+      width:22px;height:22px;border-radius:999px;
+      background:${color};border:2px solid #0f172a;
+      box-shadow:0 1px 4px rgba(0,0,0,.35);
+      display:flex;align-items:center;justify-content:center;
+      color:#fff;font:700 9px/1 ui-monospace,monospace;
+    ">${label}</div>`,
+    iconSize: [22, 22],
+    iconAnchor: [11, 11],
+    popupAnchor: [0, -12],
+  });
+
+const FitBounds = ({ places, userLocation }) => {
+  const map = useMap();
+  useEffect(() => {
+    const pts = [];
+    if (userLocation?.lat != null && userLocation?.lng != null) {
+      pts.push([userLocation.lat, userLocation.lng]);
+    }
+    places.forEach((p) => {
+      if (p?.coordinates?.lat != null && p?.coordinates?.lng != null) {
+        pts.push([p.coordinates.lat, p.coordinates.lng]);
+      }
+    });
+    if (pts.length === 0) return;
+    if (pts.length === 1) {
+      map.setView(pts[0], 10);
+      return;
+    }
+    map.fitBounds(L.latLngBounds(pts), { padding: [40, 40], maxZoom: 11 });
+  }, [map, places, userLocation]);
+  return null;
 };
 
-const MapView = ({ userLocation, places = [], weather, selectedPlace, onPlaceSelect }) => {
-  const mapRef = useRef(null);
-  const [activePlace, setActivePlace] = useState(null);
+const FocusPlace = ({ place }) => {
+  const map = useMap();
+  useEffect(() => {
+    if (!place?.coordinates) return;
+    map.panTo([place.coordinates.lat, place.coordinates.lng]);
+    map.setZoom(Math.max(map.getZoom() || 7, 9));
+  }, [map, place]);
+  return null;
+};
+
+const MapView = ({
+  userLocation,
+  places = [],
+  weather,
+  selectedPlace,
+  onPlaceSelect,
+}) => {
   const { speak, speaking, stop: stopSpeech } = useSpeechSynthesis();
-  const { isLoaded, loadError } = useJsApiLoader({
-    id: "navix-map-script",
-    googleMapsApiKey: MAPS_API_KEY,
-  });
+  const apiKey = GEOAPIFY_API_KEY || MAPS_API_KEY;
+
+  // Always halt narration when the selected pin changes or the map unmounts.
+  useEffect(() => {
+    stopSpeech();
+    return () => stopSpeech();
+  }, [selectedPlace?.id, stopSpeech]);
 
   const nearestPlace = useMemo(() => {
     if (!userLocation || places.length === 0) return null;
@@ -39,208 +96,127 @@ const MapView = ({ userLocation, places = [], weather, selectedPlace, onPlaceSel
       .sort((a, b) => a.dist - b.dist)[0];
   }, [userLocation, places]);
 
-  useEffect(() => {
-    if (!selectedPlace) return;
-    // Stop any playing speech when switching to a new place
-    stopSpeech();
-    setActivePlace(selectedPlace);
-    if (mapRef.current && selectedPlace.coordinates) {
-      mapRef.current.panTo(selectedPlace.coordinates);
-      mapRef.current.setZoom(Math.max(mapRef.current.getZoom() || 7, 9));
-    }
-  }, [selectedPlace, stopSpeech]);
+  const tileUrl = apiKey
+    ? `https://maps.geoapify.com/v1/tile/osm-bright/{z}/{x}/{y}.png?apiKey=${apiKey}`
+    : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 
-  useEffect(() => {
-    if (!mapRef.current || places.length === 0 || !window.google?.maps?.LatLngBounds) {
+  const attribution = apiKey
+    ? 'Powered by <a href="https://www.geoapify.com/" target="_blank" rel="noreferrer">Geoapify</a> | © OpenStreetMap'
+    : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
+
+  const center = userLocation
+    ? [userLocation.lat, userLocation.lng]
+    : [SRI_LANKA_CENTER.lat, SRI_LANKA_CENTER.lng];
+
+  const handleMarkerOpen = (place) => {
+    stopSpeech();
+    onPlaceSelect?.(place);
+  };
+
+  const handleListenToggle = (place) => {
+    if (speaking) {
+      stopSpeech();
       return;
     }
-
-    const bounds = new window.google.maps.LatLngBounds();
-    places.forEach((place) => {
-      if (place.coordinates) bounds.extend(place.coordinates);
-    });
-    mapRef.current.fitBounds(bounds);
-  }, [places]);
-
-  if (!MAPS_API_KEY) {
-    return (
-      <div className="tech-panel flex h-[460px] flex-col items-center justify-center gap-4 p-8 text-center">
-        <div className="text-3xl">🗺️</div>
-        <p className="mono-label text-xs text-cyan-500">MAP_KEY_MISSING</p>
-        <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">
-          Google Maps API key not configured
-        </p>
-        <p className="max-w-xs text-xs text-slate-500 dark:text-slate-400">
-          Copy <code className="rounded bg-slate-200 px-1 dark:bg-slate-700">.env.example</code> to{" "}
-          <code className="rounded bg-slate-200 px-1 dark:bg-slate-700">.env.local</code> and add your{" "}
-          <code className="rounded bg-slate-200 px-1 dark:bg-slate-700">VITE_GOOGLE_MAPS_API_KEY</code>.
-        </p>
-      </div>
-    );
-  }
-
-  if (loadError) {
-    const isRefererError =
-      loadError.message?.toLowerCase().includes("referer") ||
-      loadError.message?.toLowerCase().includes("referrer") ||
-      loadError.message?.toLowerCase().includes("not authorized") ||
-      loadError.message?.toLowerCase().includes("api key");
-
-    return (
-      <div className="tech-panel flex h-[460px] flex-col items-center justify-center gap-4 p-8 text-center">
-        <div className="text-3xl">⚠️</div>
-        <p className="mono-label text-xs text-red-400">MAP_LOAD_ERROR</p>
-        <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">
-          {isRefererError
-            ? "API key not authorised for this domain"
-            : "Google Maps failed to load"}
-        </p>
-        <div className="max-w-sm rounded-md border border-red-400/30 bg-red-500/10 p-3 text-left text-xs text-red-400 dark:text-red-300">
-          {isRefererError ? (
-            <ol className="list-decimal space-y-1 pl-4">
-              <li>Open <strong>Google Cloud Console</strong> → APIs &amp; Services → Credentials</li>
-              <li>Find your Maps API key and click Edit</li>
-              <li>Under <strong>Application restrictions</strong>, add this domain to the allowed list</li>
-              <li>Save and wait ~5 minutes for changes to take effect</li>
-            </ol>
-          ) : (
-            <p>{loadError.message || "Unknown error — check browser console for details."}</p>
-          )}
-        </div>
-        <p className="text-xs text-slate-500 dark:text-slate-400">
-          Error detail: <code className="opacity-70">{loadError.message?.slice(0, 80)}</code>
-        </p>
-      </div>
-    );
-  }
-
-  if (!isLoaded) {
-    return (
-      <div className="glass-card flex h-[440px] items-center justify-center">
-        <LoadingSpinner text="Loading Google Map..." />
-      </div>
-    );
-  }
+    speak(place, { soft: true });
+  };
 
   return (
     <div className="tech-panel relative h-[460px] overflow-hidden md:h-[590px]">
-      <div className="mono-label absolute left-3 top-3 z-10 rounded-md border border-cyan-500/40 bg-slate-900/80 px-2 py-1 text-[10px] text-cyan-200 backdrop-blur-md">
+      <div className="mono-label absolute left-3 top-3 z-[1000] rounded-md border border-cyan-500/40 bg-slate-900/80 px-2 py-1 text-[10px] text-cyan-200 backdrop-blur-md">
         Sri Lanka Grid
       </div>
-      <GoogleMap
-        mapContainerStyle={mapContainerStyle}
-        center={userLocation || SRI_LANKA_CENTER}
+      <MapContainer
+        center={center}
         zoom={userLocation ? 10 : 7}
-        onLoad={(map) => {
-          mapRef.current = map;
-        }}
-        options={{
-          zoomControl: true,
-          fullscreenControl: true,
-          streetViewControl: false,
-          mapTypeControl: true,
-          clickableIcons: true,
-          restriction: {
-            latLngBounds: sriLankaBounds,
-            strictBounds: false,
-          },
-        }}
+        style={{ width: "100%", height: "100%" }}
+        maxBounds={sriLankaBounds.pad(0.15)}
+        maxBoundsViscosity={0.75}
+        scrollWheelZoom
       >
+        <TileLayer url={tileUrl} attribution={attribution} maxZoom={18} />
+        <FitBounds places={places} userLocation={userLocation} />
+        {selectedPlace && <FocusPlace place={selectedPlace} />}
+
         {userLocation && (
-          <MarkerF
-            position={userLocation}
-            label={{ text: "You", color: "#ffffff", fontWeight: "700" }}
-            icon={{
-              path: window.google.maps.SymbolPath.CIRCLE,
-              fillColor: "#0077B6",
-              fillOpacity: 1,
-              strokeColor: "#ffffff",
-              strokeWeight: 2,
-              scale: 8,
-            }}
-          />
-        )}
-
-        {places.map((place) => (
-          <MarkerF
-            key={place.id}
-            position={place.coordinates}
-            onClick={() => {
-              setActivePlace(place);
-              onPlaceSelect?.(place);
-            }}
-            icon={getMarkerIcon(window.google?.maps, getPrimaryTag(place))}
-            label={{
-              text: getTagStyle(getPrimaryTag(place)).shortCode,
-              color: "#ffffff",
-              fontSize: "9px",
-              fontWeight: "700",
-            }}
-          />
-        ))}
-
-        {userLocation && nearestPlace && (
-          <PolylineF
-            path={[userLocation, nearestPlace.coordinates]}
-            options={{
-              strokeColor: "#00A99D",
-              strokeOpacity: 0.85,
-              strokeWeight: 4,
-            }}
-          />
-        )}
-
-        {activePlace && (
-          <InfoWindow
-            position={activePlace.coordinates}
-            onCloseClick={() => {
-              stopSpeech();
-              setActivePlace(null);
-            }}
+          <Marker
+            position={[userLocation.lat, userLocation.lng]}
+            icon={circleIcon("#0077B6", "You")}
           >
-            <div className="max-w-72 space-y-2 text-sm">
-              <p className="font-semibold">{activePlace.name}</p>
-              <p className="mono-label text-[10px] text-slate-600">
-                {getTagStyle(getPrimaryTag(activePlace)).label}
-              </p>
-              <div className="flex flex-wrap gap-1">
-                {(activePlace.tags || []).slice(0, 6).map((tag) => {
-                  const tagStyle = getTagStyle(tag);
-                  return (
-                    <span
-                      key={tag}
-                      className={`mono-label rounded-md border px-1.5 py-0.5 text-[9px] ${tagStyle.badgeClass}`}
-                    >
-                      {tagStyle.label}
-                    </span>
-                  );
-                })}
-              </div>
-              {userLocation && (
-                <p>{distanceKm(userLocation, activePlace.coordinates)} km away</p>
-              )}
-              <p className="text-xs font-medium text-slate-700">
-                {activePlace?.deep_history?.summary}
-              </p>
-              <button
-                type="button"
-                onClick={() => speak(activePlace)}
-                className="mono-label rounded-md border border-cyan-500/40 bg-cyan-500/10 px-2 py-1 text-[10px] text-cyan-700"
-              >
-                {speaking ? "Playing..." : "Listen"}
-              </button>
-              <p className="text-xs text-slate-600">
-                {activePlace?.deep_history?.architectural_details}
-              </p>
-              {weather?.description && (
-                <p className="text-xs text-slate-500">
-                  Weather context: {weather.description}
-                </p>
-              )}
-            </div>
-          </InfoWindow>
+            <Popup>Your location</Popup>
+          </Marker>
         )}
-      </GoogleMap>
+
+        {places.map((place) => {
+          if (!place?.coordinates) return null;
+          const style = getTagStyle(getPrimaryTag(place));
+          return (
+            <Marker
+              key={place.id}
+              position={[place.coordinates.lat, place.coordinates.lng]}
+              icon={circleIcon(style.markerColor, style.shortCode)}
+              eventHandlers={{
+                click: () => handleMarkerOpen(place),
+              }}
+            >
+              <Popup
+                eventHandlers={{
+                  remove: () => stopSpeech(),
+                }}
+              >
+                <div className="max-w-72 space-y-2 text-sm text-slate-800">
+                  <p className="font-semibold">{place.name}</p>
+                  <p className="text-[10px] uppercase tracking-wide text-slate-500">
+                    {style.label}
+                  </p>
+                  <div className="flex flex-wrap gap-1">
+                    {(place.tags || []).slice(0, 6).map((tag) => {
+                      const tagStyle = getTagStyle(tag);
+                      return (
+                        <span
+                          key={tag}
+                          className={`rounded-md border px-1.5 py-0.5 text-[9px] ${tagStyle.badgeClass}`}
+                        >
+                          {tagStyle.label}
+                        </span>
+                      );
+                    })}
+                  </div>
+                  {userLocation && (
+                    <p>{distanceKm(userLocation, place.coordinates)} km away</p>
+                  )}
+                  <p className="text-xs">{place?.deep_history?.summary}</p>
+                  <button
+                    type="button"
+                    onClick={() => handleListenToggle(place)}
+                    className="rounded-md border border-cyan-500/40 bg-cyan-500/10 px-2 py-1 text-[10px] font-semibold text-cyan-700"
+                  >
+                    {speaking ? "Stop" : "Listen"}
+                  </button>
+                  <p className="text-xs text-slate-600">
+                    {place?.deep_history?.architectural_details}
+                  </p>
+                  {weather?.description && (
+                    <p className="text-xs text-slate-500">
+                      Weather context: {weather.description}
+                    </p>
+                  )}
+                </div>
+              </Popup>
+            </Marker>
+          );
+        })}
+
+        {userLocation && nearestPlace?.coordinates && (
+          <Polyline
+            positions={[
+              [userLocation.lat, userLocation.lng],
+              [nearestPlace.coordinates.lat, nearestPlace.coordinates.lng],
+            ]}
+            pathOptions={{ color: "#00A99D", weight: 4, opacity: 0.85 }}
+          />
+        )}
+      </MapContainer>
     </div>
   );
 };
