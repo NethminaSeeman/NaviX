@@ -5,7 +5,7 @@
  * works end-to-end during local dev.
  */
 
-import { Env, HttpError, WeatherResponse } from "./types";
+import { Env, WeatherResponse } from "./types";
 
 interface OwmResponse {
   main?: { temp?: number; humidity?: number };
@@ -22,39 +22,41 @@ export async function getWeather(
     return mockWeather(lat, lon);
   }
 
-  const url = new URL("https://api.openweathermap.org/data/2.5/weather");
-  url.searchParams.set("lat", String(lat));
-  url.searchParams.set("lon", String(lon));
-  url.searchParams.set("appid", env.WEATHER_API_KEY);
-  url.searchParams.set("units", "metric");
+  try {
+    const url = new URL("https://api.openweathermap.org/data/2.5/weather");
+    url.searchParams.set("lat", String(lat));
+    url.searchParams.set("lon", String(lon));
+    url.searchParams.set("appid", env.WEATHER_API_KEY.trim());
+    url.searchParams.set("units", "metric");
 
-  const res = await fetch(url.toString(), {
-    cf: { cacheTtl: 300, cacheEverything: true },
-  } as RequestInit);
-  if (!res.ok) {
-    const detail = await res.text();
-    throw new HttpError(
-      502,
-      `OpenWeatherMap error ${res.status}: ${detail.slice(0, 200)}`
-    );
+    // Avoid Cloudflare-only `cf` cache options — they can crash local wrangler.
+    const res = await fetch(url.toString());
+    if (!res.ok) {
+      // Invalid key / quota: keep the app usable with mock data.
+      return mockWeather(lat, lon);
+    }
+
+    const data = (await res.json()) as OwmResponse;
+    const temperature = Number(data.main?.temp ?? 28);
+    const humidity = Number(data.main?.humidity ?? 70);
+    const condition =
+      data.weather?.[0]?.description ?? data.weather?.[0]?.main ?? "clear";
+    const rain =
+      Boolean(
+        data.rain &&
+          Object.values(data.rain).some((v) => typeof v === "number" && v > 0)
+      ) || /rain|shower|drizzle|thunder/i.test(condition);
+
+    return {
+      temperature: round(temperature),
+      humidity: Math.round(humidity),
+      condition: capitalize(condition),
+      rain,
+      safety_hints: buildSafetyHints(temperature, humidity, rain, condition),
+    };
+  } catch {
+    return mockWeather(lat, lon);
   }
-
-  const data = (await res.json()) as OwmResponse;
-  const temperature = Number(data.main?.temp ?? 28);
-  const humidity = Number(data.main?.humidity ?? 70);
-  const condition = data.weather?.[0]?.description ?? data.weather?.[0]?.main ?? "clear";
-  const rain = Boolean(
-    data.rain &&
-      Object.values(data.rain).some((v) => typeof v === "number" && v > 0)
-  ) || /rain|shower|drizzle|thunder/i.test(condition);
-
-  return {
-    temperature: round(temperature),
-    humidity: Math.round(humidity),
-    condition: capitalize(condition),
-    rain,
-    safety_hints: buildSafetyHints(temperature, humidity, rain, condition),
-  };
 }
 
 /**
@@ -87,18 +89,17 @@ export async function getWeatherForecast(
     return mockForecast(lat, lon, target);
   }
 
-  const url = new URL("https://api.openweathermap.org/data/2.5/forecast");
-  url.searchParams.set("lat", String(lat));
-  url.searchParams.set("lon", String(lon));
-  url.searchParams.set("appid", env.WEATHER_API_KEY);
-  url.searchParams.set("units", "metric");
+  try {
+    const url = new URL("https://api.openweathermap.org/data/2.5/forecast");
+    url.searchParams.set("lat", String(lat));
+    url.searchParams.set("lon", String(lon));
+    url.searchParams.set("appid", env.WEATHER_API_KEY.trim());
+    url.searchParams.set("units", "metric");
 
-  const res = await fetch(url.toString(), {
-    cf: { cacheTtl: 600, cacheEverything: true },
-  } as RequestInit);
-  if (!res.ok) {
-    return mockForecast(lat, lon, target);
-  }
+    const res = await fetch(url.toString());
+    if (!res.ok) {
+      return mockForecast(lat, lon, target);
+    }
 
   interface ForecastEntry {
     dt: number;
@@ -143,6 +144,9 @@ export async function getWeatherForecast(
     rain,
     safety_hints: buildSafetyHints(temperature, humidity, rain, condition),
   };
+  } catch {
+    return mockForecast(lat, lon, target);
+  }
 }
 
 function mockWeather(lat: number, lon: number): WeatherResponse {
