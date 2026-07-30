@@ -1,7 +1,7 @@
 /**
- * LLM abstraction. Calls OpenAI (gpt-4o-mini) if OPENAI_API_KEY is set,
- * otherwise falls back to Google Gemini (gemini-1.5-flash). Uses raw
- * `fetch` so the Worker bundle stays small (no SDK dependencies).
+ * LLM abstraction. Prefers Google Gemini when GEMINI_API_KEY is set
+ * (NaviX default after OpenAI quota exhaustion). Falls back to OpenAI
+ * only if Gemini is missing. Uses raw `fetch` (no SDK).
  */
 
 import { Env, HttpError } from "./types";
@@ -14,41 +14,53 @@ export interface CompleteOptions {
 
 export type LlmProvider = "openai" | "gemini";
 
+const GEMINI_MODELS = [
+  "gemini-flash-latest",
+  "gemini-3.5-flash",
+  "gemini-2.5-flash",
+  "gemini-2.5-flash-lite",
+];
+
 export async function complete(
   env: Env,
   systemPrompt: string,
   userPrompt: string,
   opts: CompleteOptions = {}
 ): Promise<{ text: string; provider: LlmProvider }> {
-  let openaiError: HttpError | null = null;
+  let lastError: HttpError | null = null;
 
-  if (env.OPENAI_API_KEY) {
+  if (env.GEMINI_API_KEY?.trim()) {
     try {
-      const text = await callOpenAI(env.OPENAI_API_KEY, systemPrompt, userPrompt, opts);
-      return { text, provider: "openai" };
+      const text = await callGemini(env.GEMINI_API_KEY.trim(), systemPrompt, userPrompt, opts);
+      return { text, provider: "gemini" };
     } catch (err) {
-      openaiError = err instanceof HttpError ? err : new HttpError(502, String(err));
-      const msg = openaiError.message.toLowerCase();
-      const canFallback =
-        !!env.GEMINI_API_KEY &&
-        (msg.includes("429") ||
-          msg.includes("insufficient_quota") ||
-          msg.includes("rate") ||
-          msg.includes("500") ||
-          msg.includes("503"));
-      if (!canFallback) throw openaiError;
+      lastError = err instanceof HttpError ? err : new HttpError(502, String(err));
+      // Only fall through to OpenAI if Gemini truly failed and OpenAI exists.
+      if (!env.OPENAI_API_KEY?.trim()) throw lastError;
     }
   }
 
-  if (env.GEMINI_API_KEY) {
-    const text = await callGemini(env.GEMINI_API_KEY, systemPrompt, userPrompt, opts);
-    return { text, provider: "gemini" };
+  if (env.OPENAI_API_KEY?.trim()) {
+    try {
+      const text = await callOpenAI(
+        env.OPENAI_API_KEY.trim(),
+        systemPrompt,
+        userPrompt,
+        opts
+      );
+      return { text, provider: "openai" };
+    } catch (err) {
+      lastError = err instanceof HttpError ? err : new HttpError(502, String(err));
+      throw lastError;
+    }
   }
 
-  if (openaiError) throw openaiError;
-  throw new HttpError(
-    503,
-    "No LLM configured on the Worker. Set OPENAI_API_KEY or GEMINI_API_KEY as a Cloudflare secret."
+  throw (
+    lastError ||
+    new HttpError(
+      503,
+      "No LLM configured on the Worker. Set GEMINI_API_KEY (recommended) or OPENAI_API_KEY in backend/.dev.vars."
+    )
   );
 }
 
@@ -104,34 +116,91 @@ async function callGemini(
   userPrompt: string,
   opts: CompleteOptions
 ): Promise<string> {
-  const merged = `${systemPrompt}\n\nUser:\n${userPrompt}${
+  const userText = `${userPrompt}${
     opts.jsonMode ? "\n\nRespond with valid JSON only." : ""
   }`;
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
-  const res = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      contents: [{ role: "user", parts: [{ text: merged }] }],
-      generationConfig: {
-        temperature: opts.temperature ?? 0.3,
-        ...(opts.jsonMode ? { responseMimeType: "application/json" } : {}),
-      },
-    }),
-  });
+  let lastDetail = "";
+  for (const model of GEMINI_MODELS) {
+    const url =
+      `https://generativelanguage.googleapis.com/v1beta/models/` +
+      `${model}:generateContent`;
 
-  if (!res.ok) {
-    const detail = await res.text();
-    throw new HttpError(502, `Gemini error ${res.status}: ${truncate(detail, 300)}`);
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-goog-api-key": apiKey,
+      },
+      body: JSON.stringify({
+        systemInstruction: {
+          parts: [{ text: systemPrompt }],
+        },
+        contents: [{ role: "user", parts: [{ text: userText }] }],
+        generationConfig: {
+          temperature: opts.temperature ?? 0.3,
+          ...(opts.jsonMode ? { responseMimeType: "application/json" } : {}),
+        },
+      }),
+    });
+
+    if (!res.ok) {
+      lastDetail = await res.text();
+      // Try next model when this one is retired / not found / overloaded.
+      if (
+        res.status === 404 ||
+        res.status === 503 ||
+        res.status === 429 ||
+        /not found|NOT_FOUND|is not found|no longer available|deprecated|UNAVAILABLE|RESOURCE_EXHAUSTED/i.test(
+          lastDetail
+        )
+      ) {
+        continue;
+      }
+      throw new HttpError(
+        502,
+        `Gemini error ${res.status} (${model}): ${truncate(lastDetail, 300)}`
+      );
+    }
+
+    const data = (await res.json()) as {
+      candidates?: Array<{
+        content?: { parts?: Array<{ text?: string }> };
+        finishReason?: string;
+      }>;
+      promptFeedback?: { blockReason?: string };
+    };
+
+    if (data.promptFeedback?.blockReason) {
+      throw new HttpError(
+        502,
+        `Gemini blocked the prompt (${data.promptFeedback.blockReason}).`
+      );
+    }
+
+    const candidate = data.candidates?.[0];
+    const text = candidate?.content?.parts
+      ?.map((p) => p.text || "")
+      .join("")
+      .trim();
+
+    if (!text) {
+      const reason = candidate?.finishReason || "empty";
+      // Some models return empty on transient issues — try next.
+      if (/SAFETY|RECITATION|OTHER|MAX_TOKENS/i.test(reason)) {
+        lastDetail = `finishReason=${reason}`;
+        continue;
+      }
+      lastDetail = `empty candidate (${reason})`;
+      continue;
+    }
+    return text;
   }
 
-  const data = (await res.json()) as {
-    candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
-  };
-  const text = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
-  if (!text) throw new HttpError(502, "Gemini returned an empty response.");
-  return text;
+  throw new HttpError(
+    502,
+    `Gemini error: no supported model responded. ${truncate(lastDetail, 220)}`
+  );
 }
 
 function truncate(s: string, n: number): string {
