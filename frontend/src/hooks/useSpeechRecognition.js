@@ -1,5 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 
+/**
+ * Browser Web Speech API (Chrome). Rebuilds the transcript on every event
+ * instead of appending interim chunks (which caused "hello hello i hello…").
+ */
 export const useSpeechRecognition = () => {
   const [transcript, setTranscript] = useState("");
   const [listening, setListening] = useState(false);
@@ -23,16 +27,21 @@ export const useSpeechRecognition = () => {
     }
 
     const recognition = new SpeechRecognition();
-    recognition.continuous = false;      // Stop automatically when user pauses
-    recognition.interimResults = true;   // Show words as they come in
+    recognition.continuous = false;
+    recognition.interimResults = true;
     recognition.lang = "en-US";
+    recognition.maxAlternatives = 1;
 
     recognition.onresult = (event) => {
-      let text = "";
-      for (let i = event.resultIndex; i < event.results.length; i += 1) {
-        text += event.results[i][0].transcript;
+      let finals = "";
+      let interim = "";
+      // Rebuild from the full results list — never append interim text to prev.
+      for (let i = 0; i < event.results.length; i += 1) {
+        const piece = event.results[i][0]?.transcript || "";
+        if (event.results[i].isFinal) finals += piece;
+        else interim += piece;
       }
-      setTranscript((prev) => `${prev} ${text}`.trim());
+      setTranscript(`${finals} ${interim}`.trim());
     };
 
     recognition.onstart = () => {
@@ -47,7 +56,6 @@ export const useSpeechRecognition = () => {
       listeningRef.current = false;
       setListening(false);
 
-      // "aborted" is expected when user manually stops recording.
       if (event?.error === "aborted") return;
 
       if (event?.error === "not-allowed" || event?.error === "service-not-allowed") {
@@ -67,7 +75,11 @@ export const useSpeechRecognition = () => {
       recognition.onstart = null;
       recognition.onend = null;
       recognition.onerror = null;
-      recognition.stop();
+      try {
+        recognition.stop();
+      } catch {
+        /* ignore */
+      }
       recognitionRef.current = null;
     };
   }, []);
