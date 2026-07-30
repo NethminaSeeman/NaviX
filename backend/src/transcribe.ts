@@ -1,7 +1,6 @@
 /**
  * Speech-to-text for the chat Voice button.
- * Prefer OpenAI Whisper; fall back to Gemini multimodal if Whisper fails
- * (e.g. OpenAI quota) or only Gemini is configured.
+ * Prefers Gemini multimodal when configured; Whisper only if OPENAI_API_KEY is set.
  */
 
 import { Env, HttpError } from "./types";
@@ -22,29 +21,37 @@ export async function transcribeAudio(
   }
 
   const type = mimeType || "application/octet-stream";
-  let openaiError: HttpError | null = null;
+  let lastError: HttpError | null = null;
 
-  if (env.OPENAI_API_KEY) {
+  if (env.GEMINI_API_KEY?.trim()) {
     try {
-      const text = await whisperOpenAI(env.OPENAI_API_KEY, audio, type, filename);
-      return { text, provider: "whisper" };
+      const text = await geminiTranscribe(env.GEMINI_API_KEY.trim(), audio, type);
+      return { text, provider: "gemini" };
     } catch (err) {
-      openaiError = err instanceof HttpError ? err : new HttpError(502, String(err));
-      if (!env.GEMINI_API_KEY || !isQuotaOrTransient(openaiError)) {
-        throw openaiError;
-      }
+      lastError = err instanceof HttpError ? err : new HttpError(502, String(err));
+      if (!env.OPENAI_API_KEY?.trim()) throw lastError;
     }
   }
 
-  if (env.GEMINI_API_KEY) {
-    const text = await geminiTranscribe(env.GEMINI_API_KEY, audio, type);
-    return { text, provider: "gemini" };
+  if (env.OPENAI_API_KEY?.trim()) {
+    try {
+      const text = await whisperOpenAI(
+        env.OPENAI_API_KEY.trim(),
+        audio,
+        type,
+        filename
+      );
+      return { text, provider: "whisper" };
+    } catch (err) {
+      lastError = err instanceof HttpError ? err : new HttpError(502, String(err));
+      throw lastError;
+    }
   }
 
-  if (openaiError) throw openaiError;
+  if (lastError) throw lastError;
   throw new HttpError(
     503,
-    "No speech-to-text configured. Set OPENAI_API_KEY (Whisper) or GEMINI_API_KEY."
+    "No speech-to-text configured. Set GEMINI_API_KEY (recommended) or OPENAI_API_KEY."
   );
 }
 
@@ -81,60 +88,82 @@ async function geminiTranscribe(
   audio: ArrayBuffer,
   mimeType: string
 ): Promise<string> {
-  const url =
-    `https://generativelanguage.googleapis.com/v1beta/models/` +
-    `gemini-1.5-flash:generateContent?key=${apiKey}`;
+  const models = [
+    "gemini-flash-latest",
+    "gemini-3.5-flash",
+    "gemini-2.5-flash",
+    "gemini-2.5-flash-lite",
+  ];
+  let lastDetail = "";
 
-  const res = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      contents: [
-        {
-          role: "user",
-          parts: [
-            {
-              inline_data: {
-                mime_type: mimeType.startsWith("audio/")
-                  ? mimeType
-                  : "audio/webm",
-                data: bufferToBase64(audio),
+  for (const model of models) {
+    const url =
+      `https://generativelanguage.googleapis.com/v1beta/models/` +
+      `${model}:generateContent`;
+
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-goog-api-key": apiKey,
+      },
+      body: JSON.stringify({
+        contents: [
+          {
+            role: "user",
+            parts: [
+              {
+                inline_data: {
+                  mime_type: mimeType.startsWith("audio/")
+                    ? mimeType
+                    : "audio/webm",
+                  data: bufferToBase64(audio),
+                },
               },
-            },
-            {
-              text:
-                "Transcribe this speech exactly in the original language " +
-                "(English, Sinhala, or Tamil). Return only the transcript text, " +
-                "with no quotes, labels, or commentary.",
-            },
-          ],
-        },
-      ],
-      generationConfig: { temperature: 0 },
-    }),
-  });
+              {
+                text:
+                  "Transcribe this speech exactly in the original language " +
+                  "(English, Sinhala, or Tamil). Return only the transcript text, " +
+                  "with no quotes, labels, or commentary.",
+              },
+            ],
+          },
+        ],
+        generationConfig: { temperature: 0 },
+      }),
+    });
 
-  if (!res.ok) {
-    const detail = await res.text();
-    throw new HttpError(502, `Gemini STT error ${res.status}: ${truncate(detail, 300)}`);
+    if (!res.ok) {
+      lastDetail = await res.text();
+      if (
+        res.status === 404 ||
+        /not found|NOT_FOUND|no longer available|deprecated/i.test(lastDetail)
+      ) {
+        continue;
+      }
+      throw new HttpError(
+        502,
+        `Gemini STT error ${res.status} (${model}): ${truncate(lastDetail, 300)}`
+      );
+    }
+
+    const data = (await res.json()) as {
+      candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
+    };
+    const text = data.candidates?.[0]?.content?.parts
+      ?.map((p) => p.text || "")
+      .join("")
+      .trim();
+    if (!text) {
+      lastDetail = "empty transcript";
+      continue;
+    }
+    return text.replace(/^["']|["']$/g, "").trim();
   }
 
-  const data = (await res.json()) as {
-    candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
-  };
-  const text = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
-  if (!text) throw new HttpError(502, "Gemini returned an empty transcript.");
-  return text.replace(/^["']|["']$/g, "").trim();
-}
-
-function isQuotaOrTransient(err: HttpError): boolean {
-  const msg = err.message.toLowerCase();
-  return (
-    msg.includes("429") ||
-    msg.includes("insufficient_quota") ||
-    msg.includes("rate") ||
-    msg.includes("503") ||
-    msg.includes("500")
+  throw new HttpError(
+    502,
+    `Gemini STT error: no supported model responded. ${truncate(lastDetail, 200)}`
   );
 }
 
