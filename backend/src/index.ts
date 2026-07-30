@@ -11,6 +11,7 @@
  *
  *   GATED (require active trial or paid subscription):
  *     POST /chat                         Multi-agent answer pipeline
+ *     POST /transcribe                   Whisper (or Gemini) speech-to-text
  *     POST /voice/token                  LiveKit room JWT for voice assistant
  *     GET  /nearby?lat&lon&limit         Nearest places from D1
  *     POST /billing/checkout | portal
@@ -47,6 +48,7 @@ import {
   NearbyPlace,
   WeatherResponse,
 } from "./types";
+import { transcribeAudio } from "./transcribe";
 import { mintLiveKitToken } from "./voice/token";
 import { getWeather, getWeatherForecast } from "./weather";
 
@@ -114,6 +116,13 @@ export default {
           }
           await requireActiveAccess(env, request);
           return json(await chatHandler(env, request));
+        }
+        case "/transcribe": {
+          if (request.method !== "POST") {
+            throw new HttpError(405, "Use POST for /transcribe.");
+          }
+          await requireActiveAccess(env, request);
+          return json(await transcribeHandler(env, request));
         }
         case "/voice/token": {
           if (request.method !== "POST") {
@@ -246,6 +255,32 @@ async function nearbyHandler(env: Env, url: URL) {
   requireDb(env);
   const rows = await findNearbyLocations(env, lat, lon, radiusMeters, limit);
   return { count: rows.length, radius_meters: radiusMeters, data: rows };
+}
+
+// ───────────────────────────────────────── Handlers
+
+async function transcribeHandler(
+  env: Env,
+  request: Request
+): Promise<{ text: string; provider: string }> {
+  const contentType = request.headers.get("content-type") || "";
+  if (!contentType.includes("multipart/form-data")) {
+    throw new HttpError(400, "Send multipart/form-data with an `audio` file field.");
+  }
+
+  const form = await request.formData();
+  const file = form.get("audio");
+  if (!(file instanceof File)) {
+    throw new HttpError(400, "Missing `audio` file field.");
+  }
+
+  const buffer = await file.arrayBuffer();
+  return transcribeAudio(
+    env,
+    buffer,
+    file.type || "application/octet-stream",
+    file.name || "speech.webm"
+  );
 }
 
 async function chatHandler(env: Env, request: Request): Promise<ChatResponse> {
