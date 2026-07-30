@@ -20,14 +20,32 @@ export async function complete(
   userPrompt: string,
   opts: CompleteOptions = {}
 ): Promise<{ text: string; provider: LlmProvider }> {
+  let openaiError: HttpError | null = null;
+
   if (env.OPENAI_API_KEY) {
-    const text = await callOpenAI(env.OPENAI_API_KEY, systemPrompt, userPrompt, opts);
-    return { text, provider: "openai" };
+    try {
+      const text = await callOpenAI(env.OPENAI_API_KEY, systemPrompt, userPrompt, opts);
+      return { text, provider: "openai" };
+    } catch (err) {
+      openaiError = err instanceof HttpError ? err : new HttpError(502, String(err));
+      const msg = openaiError.message.toLowerCase();
+      const canFallback =
+        !!env.GEMINI_API_KEY &&
+        (msg.includes("429") ||
+          msg.includes("insufficient_quota") ||
+          msg.includes("rate") ||
+          msg.includes("500") ||
+          msg.includes("503"));
+      if (!canFallback) throw openaiError;
+    }
   }
+
   if (env.GEMINI_API_KEY) {
     const text = await callGemini(env.GEMINI_API_KEY, systemPrompt, userPrompt, opts);
     return { text, provider: "gemini" };
   }
+
+  if (openaiError) throw openaiError;
   throw new HttpError(
     503,
     "No LLM configured on the Worker. Set OPENAI_API_KEY or GEMINI_API_KEY as a Cloudflare secret."
