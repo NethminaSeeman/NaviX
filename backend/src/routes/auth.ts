@@ -22,10 +22,10 @@ import { createSession, deleteSession } from "../auth/session";
 import {
   attachGoogleSub,
   createUser,
+  ensureAuthSchema,
   findUserByEmail,
   findUserByGoogleSub,
   getSubscription,
-  requireDb,
   rowToUser,
 } from "../auth/users";
 import { Env, HttpError, Subscription, User } from "../types";
@@ -60,6 +60,7 @@ export async function dispatchAuth(
   request: Request,
   url: URL
 ): Promise<unknown | null> {
+  await ensureAuthSchema(env);
   const path = url.pathname;
 
   if (path === "/auth/register" && request.method === "POST") {
@@ -100,7 +101,7 @@ async function handleRegister(env: Env, request: Request) {
     );
   }
 
-  const db = requireDb(env);
+  const db = await ensureAuthSchema(env);
   const existing = await findUserByEmail(db, email);
   if (existing) {
     throw new HttpError(409, "An account with that email already exists.");
@@ -127,7 +128,7 @@ async function handleLogin(env: Env, request: Request) {
     throw new HttpError(400, "Email and password are required.");
   }
 
-  const db = requireDb(env);
+  const db = await ensureAuthSchema(env);
   const row = await findUserByEmail(db, email);
   if (!row || !row.password_hash) {
     throw new HttpError(401, "Incorrect email or password.");
@@ -145,7 +146,7 @@ async function handleGoogle(env: Env, request: Request) {
   const idToken = body.id_token ?? body.credential ?? "";
   const profile = await verifyGoogleIdToken(idToken, env.GOOGLE_CLIENT_ID ?? "");
 
-  const db = requireDb(env);
+  const db = await ensureAuthSchema(env);
   let row =
     (await findUserByGoogleSub(db, profile.sub)) ??
     (await findUserByEmail(db, profile.email));
@@ -186,7 +187,10 @@ async function handleMe(env: Env, request: Request) {
 // ─────────────────────────────────────────────────────────────────────
 
 async function buildAuthPayload(env: Env, user: User) {
-  const db = requireDb(env);
+  if (user.account_status === "suspended") {
+    throw new HttpError(403, "Account suspended.");
+  }
+  const db = await ensureAuthSchema(env);
   const subscription: Subscription | null = await getSubscription(db, user.id);
   const session = await createSession(env, user.id);
   return {

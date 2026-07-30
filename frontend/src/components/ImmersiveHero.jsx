@@ -48,7 +48,12 @@ const SLIDES = [
 
 const SLIDE_MS = 9500;
 
-const ImmersiveHero = () => {
+const ImmersiveHero = ({
+  listening,
+  voiceSupported = true,
+  onVoiceStart,
+  onVoiceStop,
+}) => {
   const reduceMotion = useReducedMotion();
   const [index, setIndex] = useState(0);
   const [para, setPara] = useState({ x: 0, y: 0 });
@@ -227,7 +232,7 @@ const ImmersiveHero = () => {
           )}
         </div>
 
-        <div className="relative z-10 flex min-h-[min(560px,80vh)] flex-col justify-center p-6 md:p-10 lg:max-w-3xl pointer-events-none">
+        <div className="relative z-10 flex min-h-[min(560px,80vh)] flex-col justify-center p-6 md:p-10 lg:max-w-3xl">
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -285,6 +290,17 @@ const ImmersiveHero = () => {
                 Explore Live Map
               </Link>
             </motion.div>
+
+            <VoiceButton
+              listening={listening}
+              disabled={!voiceSupported}
+              onStart={() => {
+                vibrateLight(8);
+                onVoiceStart?.();
+              }}
+              onStop={onVoiceStop}
+              label="Voice Search"
+            />
           </div>
         </div>
       </div>

@@ -8,6 +8,8 @@ CREATE TABLE IF NOT EXISTS users (
   name TEXT,
   password_hash TEXT,                     -- nullable for google-only accounts
   google_sub TEXT UNIQUE,                 -- google "sub" claim
+  is_admin INTEGER NOT NULL DEFAULT 0,    -- 1 = admin, 0 = regular user
+  account_status TEXT NOT NULL DEFAULT 'active', -- 'active' | 'suspended'
   trial_ends_at TEXT NOT NULL,            -- ISO timestamp; now + 7 days at signup
   created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

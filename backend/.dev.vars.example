@@ -17,6 +17,10 @@ WEATHER_API_KEY=
 # The SAME value goes into the frontend as VITE_GOOGLE_CLIENT_ID.
 GOOGLE_CLIENT_ID=
 
+# One-time bootstrap token for creating the first admin via POST /admin/bootstrap.
+# Set this to a long random string. After first admin is created, the endpoint locks.
+ADMIN_BOOTSTRAP_TOKEN=
+
 # ─── Billing: Stripe ────────────────────────────────────
 # Stripe Dashboard -> Developers -> API keys -> Secret key (sk_live_... or sk_test_...).
 STRIPE_SECRET_KEY=

@@ -34,6 +34,7 @@ import {
   searchPlacesByName,
 } from "./db";
 import { dispatchAuth } from "./routes/auth";
+import { dispatchAdmin } from "./routes/admin";
 import { dispatchBilling } from "./routes/billing";
 import {
   ChatRequest,
@@ -72,6 +73,14 @@ export default {
         return json(payload);
       }
 
+      if (url.pathname.startsWith("/admin/")) {
+        const payload = await dispatchAdmin(env, request, url);
+        if (payload === null) {
+          throw new HttpError(404, `Route not found: ${url.pathname}`);
+        }
+        return json(payload);
+      }
+
       // /billing/* — webhook returns its own Response (must not be re-wrapped),
       //               other endpoints return data we wrap with json().
       if (url.pathname.startsWith("/billing/")) {
@@ -95,10 +104,8 @@ export default {
           return json(await healthHandler(env));
         case "/weather":
           return json(await weatherHandler(env, url));
-        case "/nearby": {
-          await requireActiveAccess(env, request);
+        case "/nearby":
           return json(await nearbyHandler(env, url));
-        }
         case "/chat": {
           if (request.method !== "POST") {
             throw new HttpError(405, "Use POST for /chat.");
@@ -149,6 +156,32 @@ async function weatherHandler(env: Env, url: URL): Promise<WeatherResponse> {
   const lat = requireFloat(url.searchParams.get("lat"), "lat");
   const lon = requireFloat(url.searchParams.get("lon"), "lon");
   return getWeather(env, lat, lon);
+}
+
+function parseNearbyRadiusMeters(url: URL): number {
+  const radiusRaw = (url.searchParams.get("radius") ?? "").trim().toLowerCase();
+  const unit = (url.searchParams.get("unit") ?? "").trim().toLowerCase();
+
+  if (!radiusRaw) {
+    throw new HttpError(400, "radius is required");
+  }
+
+  const kmSuffix = radiusRaw.endsWith("km");
+  const mSuffix = radiusRaw.endsWith("m");
+  const numericPart = radiusRaw.replace(/km$|m$/g, "");
+  const numeric = Number(numericPart);
+
+  if (!Number.isFinite(numeric) || numeric <= 0) {
+    throw new HttpError(400, "radius must be a positive number");
+  }
+
+  if (kmSuffix || unit === "km") return numeric * 1000;
+  if (mSuffix || unit === "m" || unit === "meter" || unit === "meters") {
+    return numeric;
+  }
+
+  // No explicit unit: small values interpreted as km, larger as meters.
+  return numeric <= 100 ? numeric * 1000 : numeric;
 }
 
 async function nearbyHandler(env: Env, url: URL) {
@@ -297,14 +330,22 @@ async function resolveMatchedCoordinates(
   const entityNames = Object.values(intent.entities ?? {})
     .filter((v): v is string => typeof v === "string" && v.length > 1);
   for (const name of entityNames) {
-    const hit = await findPlaceByName(env.DB, name);
-    if (hit) return hit.coordinates;
+    try {
+      const hit = await findPlaceByName(env.DB, name.slice(0, 96));
+      if (hit) return hit.coordinates;
+    } catch {
+      // Ignore lookup errors and continue with safer fallbacks.
+    }
   }
 
   const cleaned = query.replace(/[^\w\s]/g, " ").trim();
   if (cleaned.length >= 3) {
-    const matches = await searchPlacesByName(env.DB, cleaned, 1);
-    if (matches.length > 0) return matches[0].coordinates;
+    try {
+      const matches = await searchPlacesByName(env.DB, cleaned, 1);
+      if (matches.length > 0) return matches[0].coordinates;
+    } catch {
+      // Ignore search errors and use nearby fallback below.
+    }
   }
 
   return nearby[0]?.coordinates ?? null;

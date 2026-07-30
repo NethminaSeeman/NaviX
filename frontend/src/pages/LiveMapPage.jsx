@@ -7,7 +7,6 @@ import { useWeather } from "@/context/WeatherContext";
 import { ceygoApi } from "@/services/ceygoApi";
 import { getTagStyle } from "@/utils/mapConfig";
 import {
-  getProvinceFromCoordinates,
   resolveProvince,
   resolveDistrict,
   SRI_LANKA_PROVINCES,
@@ -25,17 +24,32 @@ const LiveMapPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedProvince, setSelectedProvince] = useState("All Provinces");
   const [selectedPlace, setSelectedPlace] = useState(null);
-  const [provinceAutoSet, setProvinceAutoSet] = useState(false);
+  const TARGET_LOCATION_COUNT = 206;
 
-  // Auto-detect user's province from GPS and pre-select it (only once)
-  useEffect(() => {
-    if (!location || provinceAutoSet) return;
-    const detected = getProvinceFromCoordinates(location);
-    if (detected && detected !== "Unknown Province") {
-      setSelectedProvince(detected);
-      setProvinceAutoSet(true);
-    }
-  }, [location, provinceAutoSet]);
+  const toFrontendPlace = (place, index) => {
+    const lon = Number(place?.coordinates?.coordinates?.[0]);
+    const lat = Number(place?.coordinates?.coordinates?.[1]);
+    if (!Number.isFinite(lat) || !Number.isFinite(lon)) return null;
+
+    return {
+      id: place.location_id || `${place.name || "place"}-${index}`,
+      name: place.name || "Unknown attraction",
+      province: null,
+      district: "Sri Lanka",
+      tags: Array.isArray(place.tags) ? place.tags : [],
+      deep_history: {
+        summary: place?.deep_history?.summary || "No summary available.",
+        architectural_details:
+          place?.deep_history?.architectural_details ||
+          "Architectural details unavailable.",
+      },
+      tts_hints: {
+        key_facts_short: place?.tts_hints?.key_facts_short || "",
+        pronunciation_guide: place?.tts_hints?.pronunciation_guide || "",
+      },
+      coordinates: { lat, lng: lon },
+    };
+  };
 
   // Load all Sri Lanka locations once on mount
   useEffect(() => {
@@ -44,13 +58,46 @@ const LiveMapPage = () => {
       setLoading(true);
       setFetchError("");
       try {
-        const places = await ceygoApi.nearby({
-          lat: SRI_LANKA_CENTER.lat,
-          lng: SRI_LANKA_CENTER.lng,
-          radius: 1000000,
-          limit: 500,
-        });
-        if (alive) setAllPlaces(places);
+        let places = [];
+        try {
+          places = await ceygoApi.nearby({
+            lat: SRI_LANKA_CENTER.lat,
+            lng: SRI_LANKA_CENTER.lng,
+            radius: 1000000,
+            limit: 500,
+          });
+        } catch {
+          // Continue to static fallback instead of failing the whole page.
+          places = [];
+        }
+        // Hard fallback: if backend returns an incomplete subset, load bundled 206 dataset.
+        if (!Array.isArray(places) || places.length < 150) {
+          const fallbackRes = await window.fetch("/production_srilanka_db.json", {
+            cache: "no-store",
+          });
+          if (!fallbackRes.ok) {
+            throw new Error("Fallback dataset unavailable.");
+          }
+          const fallbackJson = await fallbackRes.json();
+          const mapped = Array.isArray(fallbackJson)
+            ? fallbackJson
+                .map((place, index) => toFrontendPlace(place, index))
+                .filter(Boolean)
+            : [];
+          if (mapped.length > 0) {
+            places = mapped;
+          }
+        }
+        const byId = new Map();
+        for (const place of places) {
+          if (!place?.id) continue;
+          if (!byId.has(place.id)) byId.set(place.id, place);
+        }
+        const canonicalPlaces = Array.from(byId.values()).slice(
+          0,
+          TARGET_LOCATION_COUNT
+        );
+        if (alive) setAllPlaces(canonicalPlaces);
       } catch {
         if (alive) setFetchError("Failed to load locations. Please refresh.");
       } finally {
@@ -116,32 +163,23 @@ const LiveMapPage = () => {
         <div>
           <h1 className="section-title">Live Map Explorer</h1>
           <p className="text-sm text-slate-600 dark:text-slate-300">
-            {selectedProvince !== "All Provinces"
-              ? `Showing locations in ${selectedProvince}`
-              : "All Sri Lanka heritage & tourism locations, grouped by province."}
+            All Sri Lanka heritage & tourism locations, grouped by province.
           </p>
-          {selectedProvince !== "All Provinces" && (
-            <button
-              type="button"
-              onClick={() => { setSelectedProvince("All Provinces"); setSearchQuery(""); }}
-              className="mt-1 text-xs text-cyan-600 underline hover:text-cyan-500 dark:text-cyan-400"
-            >
-              Show all provinces
-            </button>
-          )}
         </div>
         <button type="button" onClick={getCurrentLocation} className="tech-button">
           Refresh My Location
         </button>
       </div>
 
-      {permissionState === "denied" && (
+      {permissionState === "denied" && allPlaces.length === 0 && (
         <p className="rounded-xl bg-amber-100 px-3 py-2 text-sm text-amber-800 dark:bg-amber-500/10 dark:text-amber-200">
           GPS permission denied. Location-aware features are disabled.
         </p>
       )}
-      {locating && <LoadingSpinner text="Detecting your location..." />}
-      {error && <p className="text-sm text-red-500">{error}</p>}
+      {locating && allPlaces.length === 0 && (
+        <LoadingSpinner text="Detecting your location..." />
+      )}
+      {error && allPlaces.length === 0 && <p className="text-sm text-red-500">{error}</p>}
       {fetchError && <p className="text-sm text-red-500">{fetchError}</p>}
 
       {/* Map — shows filtered locations as pins */}

@@ -70,11 +70,13 @@ async def _safe_weather(
         return None
 
 
-def _safe_nearby(lat: Optional[float], lon: Optional[float]) -> list[NearbyPlace]:
+def _safe_nearby(
+    lat: Optional[float], lon: Optional[float], limit: int = 5
+) -> list[NearbyPlace]:
     if lat is None or lon is None:
         return []
     try:
-        return nearby_agent.run(lat, lon)
+        return nearby_agent.run(lat, lon, limit=limit)
     except Exception as exc:
         logger.warning("Nearby lookup failed: %s", exc)
         return []
@@ -203,9 +205,17 @@ async def weather(lat: float = Query(...), lon: float = Query(...)):
 
 
 @router.get("/nearby")
-async def nearby(lat: float = Query(...), lon: float = Query(...)):
+async def nearby(
+    lat: float = Query(...),
+    lon: float = Query(...),
+    limit: int = Query(500, ge=1, le=500),
+    radius: Optional[float] = Query(
+        None, ge=1, description="Radius in meters; optional."
+    ),
+):
     try:
-        places = nearby_agent.run(lat, lon)
+        radius_km = (radius / 1000) if radius is not None else None
+        places = nearby_agent.run(lat, lon, limit=limit, radius_km=radius_km)
         return [
             {
                 **place.model_dump(),

@@ -1,6 +1,6 @@
 # NaviX
 
-Voice-guided travel companion for exploring Sri Lanka — interactive maps, live weather, and AI-powered historical context powered by Google Gemini.
+Voice-guided travel companion for exploring Sri Lanka — interactive maps, live weather, and AI-powered historical context powered by OpenAI with Gemini fallback.
 
 ## Features
 
@@ -15,13 +15,15 @@ Voice-guided travel companion for exploring Sri Lanka — interactive maps, live
 
 | Layer | Technology |
 |-------|------------|
-| Frontend | Vite, React 18, React Router, Tailwind CSS, Framer Motion |
-| Backend | Cloudflare Workers, TypeScript |
-| AI | Google Gemini 1.5 Flash (structured JSON) |
+| Frontend | React 18, Vite, React Router, Tailwind CSS, Framer Motion, Axios |
+| Backend | Cloudflare Workers, TypeScript, Wrangler |
+| AI | OpenAI (primary) + Google Gemini 1.5 Flash (fallback) |
 | Database | Cloudflare D1 (SQLite) |
-| Maps | Google Maps JavaScript API |
+| Auth | Google OAuth 2.0 (Sign-In) + Worker session auth |
+| Billing | Stripe Checkout, Customer Portal, Webhooks |
+| Maps | Google Maps JavaScript API (`@react-google-maps/api`) |
 | Weather | OpenWeatherMap |
-| Hosting | Cloudflare Pages (frontend) + Workers (API) |
+| Hosting | Cloudflare Pages (frontend) + Cloudflare Workers (API) |
 | CI/CD | GitHub Actions |
 
 ## Project structure
@@ -52,13 +54,101 @@ NaviX/
 
 ## Prerequisites
 
-- [Node.js](https://nodejs.org/) 20+
+- [Node.js](https://nodejs.org/) 22+ (Wrangler 4 requires v22)
 - [Cloudflare account](https://dash.cloudflare.com/) (Pages + Workers)
 - [Google AI Studio](https://aistudio.google.com/) API key (Gemini)
 - [Google Cloud](https://console.cloud.google.com/) Maps API key
 - [OpenWeather](https://openweathermap.org/api) API key (optional)
 
-## Quick start (local)
+---
+
+## Docker (recommended for local dev)
+
+The fastest way to run the full stack locally with no manual setup.
+
+### Prerequisites
+
+- [Docker](https://docs.docker.com/get-docker/) 24+
+- [Docker Compose](https://docs.docker.com/compose/) v2 (bundled with Docker Desktop)
+
+### 1. Configure environment
+
+```bash
+cp .env.example .env
+# Open .env and fill in at minimum:
+#   GEMINI_API_KEY or OPENAI_API_KEY
+#   VITE_GOOGLE_MAPS_API_KEY
+#   VITE_GOOGLE_CLIENT_ID + GOOGLE_CLIENT_ID (same value)
+#   ADMIN_BOOTSTRAP_TOKEN (any long random string)
+```
+
+### 2. Start dev stack
+
+```bash
+docker compose up --build
+```
+
+| Service | URL |
+|---------|-----|
+| Frontend (Vite HMR) | http://localhost:5173 |
+| Backend (Wrangler) | http://localhost:8787 |
+
+The backend container automatically:
+- Generates `backend/.dev.vars` from your `.env` variables
+- Applies D1 SQLite migrations (local Miniflare mode)
+- Starts Wrangler with live-reload on source changes
+
+Hot-reload is enabled — changes to `frontend/src/` and `backend/src/` reflect immediately without rebuilding the image.
+
+### 3. Stop
+
+```bash
+docker compose down
+```
+
+To also wipe the local D1 database volume:
+
+```bash
+docker compose down -v
+```
+
+### Production build (Docker)
+
+Builds the React app as optimised static files served via nginx. The backend continues to run on Cloudflare Workers.
+
+```bash
+# Set your real Cloudflare Worker URL in .env first:
+# VITE_API_BASE_URL=https://navix-api.<subdomain>.workers.dev
+
+docker compose -f docker-compose.prod.yml up --build -d
+```
+
+Frontend is served at **http://localhost:80**.
+
+### Docker architecture
+
+```
+docker-compose.yml          ← local dev
+  frontend (Vite HMR)       port 5173
+  backend  (Wrangler dev)   port 8787   ← Miniflare, local D1
+
+docker-compose.prod.yml     ← production frontend only
+  frontend (nginx)          port 80     ← serves built /dist
+  backend  ──────────────────────────── runs on Cloudflare Workers
+```
+
+| File | Purpose |
+|------|---------|
+| `Dockerfile.frontend` | Multi-stage: `dev` (Vite) + `production` (nginx) |
+| `Dockerfile.backend` | Wrangler local dev server |
+| `docker-entrypoint.sh` | Injects secrets → runs migrations → starts Wrangler |
+| `nginx.conf` | SPA-aware nginx config with asset caching |
+| `.dockerignore` | Excludes `node_modules`, secrets, build artefacts |
+| `.env.example` | Template for Docker Compose env vars |
+
+---
+
+## Quick start (without Docker)
 
 From the repo root:
 
@@ -105,6 +195,12 @@ App runs at **http://localhost:5173**
 |----------|-------------|
 | `VITE_API_BASE_URL` | Backend URL (`http://localhost:8787` locally) |
 | `VITE_GOOGLE_MAPS_API_KEY` | Google Maps JavaScript API key |
+| `VITE_FIREBASE_API_KEY` | Firebase web app API key |
+| `VITE_FIREBASE_AUTH_DOMAIN` | Firebase auth domain (`<project>.firebaseapp.com`) |
+| `VITE_FIREBASE_PROJECT_ID` | Firebase project ID |
+| `VITE_FIREBASE_APP_ID` | Firebase web app ID |
+| `VITE_FIREBASE_MESSAGING_SENDER_ID` | Firebase sender ID |
+| `VITE_GOOGLE_CLIENT_ID` | Google OAuth Web Client ID (must match Worker `GOOGLE_CLIENT_ID`) |
 
 ### Backend (`backend/.dev.vars`)
 
@@ -112,10 +208,34 @@ App runs at **http://localhost:5173**
 |----------|----------|-------------|
 | `GEMINI_API_KEY` | Yes | Google Gemini API key |
 | `WEATHER_API_KEY` | No | OpenWeather API key (mock weather if omitted) |
+| `ADMIN_BOOTSTRAP_TOKEN` | For first admin only | One-time token used by `POST /admin/bootstrap` to securely create the initial super-admin |
+
+## Admin bootstrap (one-time)
+
+The admin panel route is `GET /admin/users` and requires a user with `is_admin=1`.
+
+1. Set `ADMIN_BOOTSTRAP_TOKEN`:
+   - Local dev: add it in `backend/.dev.vars`
+   - Remote Worker: run `cd backend && npx wrangler secret put ADMIN_BOOTSTRAP_TOKEN`
+2. Start backend (`cd backend && npm run dev`) so `POST /admin/bootstrap` is reachable.
+3. Run this PowerShell command once to create your first admin credentials:
+
+```powershell
+$body = @{
+  token = "your-bootstrap-token"
+  email = "admin@yourdomain.com"
+  password = "UseAVeryStrongPassword123!"
+  name = "Super Admin"
+} | ConvertTo-Json
+
+Invoke-RestMethod -Method Post -Uri "http://localhost:8787/admin/bootstrap" -ContentType "application/json" -Body $body
+```
+
+After the first admin is created, bootstrap is automatically disabled and returns `409` on future calls.
 
 ## API reference
 
-Base URL: `https://navix-api.<your-subdomain>.workers.dev` (production) or `http://localhost:8787` (local).
+Base URL: `https://navix-api.nethminamalshan5.workers.dev` (production) or `http://localhost:8787` (local).
 
 | Method | Path | Description |
 |--------|------|-------------|
@@ -192,8 +312,8 @@ npm run deploy:frontend
 
 Production URLs:
 
-- API: `https://navix-api.<your-subdomain>.workers.dev`
-- Pages: URL shown in Cloudflare Dashboard after first deploy
+- App: `https://navix-frontend.pages.dev`
+- API: `https://navix-api.nethminamalshan5.workers.dev`
 
 ## CI/CD (GitHub Actions)
 
@@ -212,7 +332,7 @@ Pushes to **`main`** or **`developer`** trigger:
 
 ### GitHub variables
 
-- `VITE_API_BASE_URL` — e.g. `https://navix-api.<subdomain>.workers.dev`
+- `VITE_API_BASE_URL` — e.g. `https://navix-api.nethminamalshan5.workers.dev`
 
 Also add Worker secrets in the Cloudflare Dashboard (same keys as `.dev.vars`).
 
