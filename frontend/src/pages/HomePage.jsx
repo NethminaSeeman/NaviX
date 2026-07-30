@@ -3,12 +3,14 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { FiGrid, FiMap } from "react-icons/fi";
 import ImmersiveHero from "@/components/ImmersiveHero";
+import SearchBar from "@/components/SearchBar";
 import DestinationCard from "@/components/DestinationCard";
 import JourneyMapExplorer from "@/components/JourneyMapExplorer";
 import WeatherCard from "@/components/WeatherCard";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { featuredDestinations } from "@/utils/mockData";
 import { useWeather } from "@/context/WeatherContext";
+import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
 import { ceygoApi } from "@/services/ceygoApi";
 import { vibrateLight } from "@/utils/haptics";
 
@@ -146,12 +148,16 @@ const HomePage = () => {
           <LoadingSpinner text="Loading destination highlights..." />
         ) : viewMode === "cards" ? (
           <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-            {destinations.map((destination) => (
+            {filteredDestinations.map((destination) => (
               <DestinationCard key={destination.id} destination={destination} />
             ))}
           </div>
+        ) : filteredDestinations.length > 0 ? (
+          <JourneyMapExplorer destinations={filteredDestinations} />
         ) : (
-          <JourneyMapExplorer destinations={destinations} />
+          <p className="rounded-xl border border-dashed border-slate-300 p-6 text-center text-sm text-slate-500 dark:border-cyan-500/20 dark:text-slate-400">
+            No destinations match your search — clear the filter to see results.
+          </p>
         )}
       </section>
 
