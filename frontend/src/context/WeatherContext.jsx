@@ -36,7 +36,6 @@ export const WeatherProvider = ({ children }) => {
           recommendation: result.recommendation || weatherTravelAdvice(result),
         });
       } catch (err) {
-        console.warn("Weather fetch failed, using defaults:", err.message);
         setError(err.message);
       } finally {
         setLoading(false);
