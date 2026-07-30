@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const stringifyFacts = (value) => {
   if (Array.isArray(value)) return value.filter(Boolean).join(". ");
@@ -27,43 +27,21 @@ const buildSpeechScript = (payload) => {
 
 export const useSpeechSynthesis = () => {
   const [speaking, setSpeaking] = useState(false);
-  const supported = "speechSynthesis" in window;
+  const supported = typeof window !== "undefined" && "speechSynthesis" in window;
   const utteranceRef = useRef(null);
 
-  useEffect(() => {
-    if (!supported) return undefined;
-    return () => {
-      window.speechSynthesis.cancel();
-      setSpeaking(false);
-    };
-  }, [supported]);
-
-  const speak = (payload) => {
-    const text = buildSpeechScript(payload);
-    if (!supported || !text) return;
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = 1;
-    utterance.pitch = 1;
-    utterance.onstart = () => setSpeaking(true);
-    utterance.onend = () => setSpeaking(false);
-    utterance.onerror = () => setSpeaking(false);
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(utterance);
-  };
-
-  const stop = () => {
+  const stop = useCallback(() => {
     if (!supported) return;
     window.speechSynthesis.cancel();
     utteranceRef.current = null;
     setSpeaking(false);
-  }, []);
+  }, [supported]);
 
   const speak = useCallback(
     (payload) => {
       const text = buildSpeechScript(payload);
       if (!supported || !text) return;
 
-      // Cancel any currently playing speech first
       window.speechSynthesis.cancel();
 
       const utterance = new SpeechSynthesisUtterance(text);
@@ -85,12 +63,13 @@ export const useSpeechSynthesis = () => {
     [supported]
   );
 
-  // Cleanup: stop speech when the component using this hook unmounts
   useEffect(() => {
+    if (!supported) return undefined;
     return () => {
       window.speechSynthesis.cancel();
+      utteranceRef.current = null;
     };
-  }, []);
+  }, [supported]);
 
   return { supported, speaking, speak, stop };
 };
