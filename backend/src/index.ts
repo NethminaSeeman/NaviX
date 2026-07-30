@@ -11,6 +11,7 @@
  *
  *   GATED (require active trial or paid subscription):
  *     POST /chat                         Multi-agent answer pipeline
+ *     POST /voice/token                  LiveKit room JWT for voice assistant
  *     GET  /nearby?lat&lon&limit         Nearest places from D1
  *     POST /billing/checkout | portal
  *     GET  /billing/status
@@ -46,6 +47,7 @@ import {
   NearbyPlace,
   WeatherResponse,
 } from "./types";
+import { mintLiveKitToken } from "./voice/token";
 import { getWeather, getWeatherForecast } from "./weather";
 
 const CORS_HEADERS: Record<string, string> = {
@@ -113,6 +115,12 @@ export default {
           await requireActiveAccess(env, request);
           return json(await chatHandler(env, request));
         }
+        case "/voice/token": {
+          if (request.method !== "POST") {
+            throw new HttpError(405, "Use POST for /voice/token.");
+          }
+          return json(await voiceTokenHandler(env, request));
+        }
         default:
           throw new HttpError(404, `Route not found: ${url.pathname}`);
       }
@@ -148,6 +156,9 @@ async function healthHandler(env: Env): Promise<Record<string, unknown>> {
       google_auth: env.GOOGLE_CLIENT_ID ? "configured" : "missing",
       stripe: env.STRIPE_SECRET_KEY ? "configured" : "missing",
       stripe_webhook: env.STRIPE_WEBHOOK_SECRET ? "configured" : "missing",
+      livekit: env.LIVEKIT_API_KEY && env.LIVEKIT_API_SECRET && env.LIVEKIT_URL
+        ? "configured"
+        : "missing",
     },
   };
 }
@@ -156,6 +167,36 @@ async function weatherHandler(env: Env, url: URL): Promise<WeatherResponse> {
   const lat = requireFloat(url.searchParams.get("lat"), "lat");
   const lon = requireFloat(url.searchParams.get("lon"), "lon");
   return getWeather(env, lat, lon);
+}
+
+async function voiceTokenHandler(env: Env, request: Request) {
+  const session = await requireActiveAccess(env, request);
+  const body = (await safeJson(request)) as {
+    lat?: unknown;
+    lon?: unknown;
+    lng?: unknown;
+  };
+
+  const lat = parseOptionalFloat(body.lat);
+  const lon = parseOptionalFloat(body.lon ?? body.lng);
+  const authHeader = request.headers.get("Authorization") || "";
+  const navixToken = authHeader.toLowerCase().startsWith("bearer ")
+    ? authHeader.slice(7).trim()
+    : "";
+
+  const roomName = `navix-${session.user.id}-${crypto.randomUUID().slice(0, 8)}`;
+  const identity = `user-${session.user.id}`;
+
+  return mintLiveKitToken(env, {
+    identity,
+    name: session.user.name || session.user.email,
+    roomName,
+    metadata: {
+      navixToken: navixToken || undefined,
+      lat,
+      lon,
+    },
+  });
 }
 
 function parseNearbyRadiusMeters(url: URL): number {

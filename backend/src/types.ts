@@ -23,6 +23,11 @@ export interface Env {
 
   // Used to build Stripe success/cancel redirect URLs back to the frontend
   APP_BASE_URL?: string;
+
+  // LiveKit Cloud (voice assistant rooms + agent dispatch)
+  LIVEKIT_URL?: string;
+  LIVEKIT_API_KEY?: string;
+  LIVEKIT_API_SECRET?: string;
 }
 
 // ─────────────────────────────────────────────────────────────────────

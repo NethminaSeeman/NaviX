@@ -185,3 +185,21 @@ Bearer …`** for gated routes (`/chat`, `/nearby`, billing). See
   Pages build was redeployed after the env var change.
 - **Mixed-content warning** — frontend must use the `https` Worker URL, not
   `http://localhost:8787`.
+
+## 7. Voice assistant (LiveKit)
+
+The Assistant **Voice talk** mode joins a LiveKit room. The Worker mints JWTs at
+`POST /voice/token`. The Python agent lives in [`../voice-agent/`](../voice-agent/).
+
+Add to `.dev.vars` (same LiveKit project keys as `voice-agent/.env.local`):
+
+```
+LIVEKIT_URL=wss://….livekit.cloud
+LIVEKIT_API_KEY=
+LIVEKIT_API_SECRET=
+```
+
+Then `npm run cf:secrets` and redeploy. See [`voice-agent/README.md`](../voice-agent/README.md)
+for agent local run and LiveKit Cloud free-tier deploy.
+
+`/health` reports `livekit: configured` when all three secrets are set.
