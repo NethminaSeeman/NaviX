@@ -180,4 +180,21 @@ export const ceygoApi = {
       identity: data.identity,
     };
   },
+
+  transcribe: async (audioBlob) => {
+    const form = new FormData();
+    const type = audioBlob.type || "audio/webm";
+    const ext = type.includes("mp4")
+      ? "m4a"
+      : type.includes("ogg")
+        ? "ogg"
+        : type.includes("wav")
+          ? "wav"
+          : "webm";
+    form.append("audio", audioBlob, `speech.${ext}`);
+    const { data } = await apiClient.post("/transcribe", form, { timeout: 60000 });
+    const text = (data?.text || "").trim();
+    if (!text) throw new Error(data?.error || "Empty transcript.");
+    return { text, provider: data?.provider || "whisper" };
+  },
 };
