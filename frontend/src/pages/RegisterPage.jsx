@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FiAlertTriangle, FiCheckCircle, FiUserPlus } from "react-icons/fi";
@@ -24,9 +24,11 @@ const RegisterPage = () => {
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
 
-  if (!loading && isAuthenticated) {
-    navigate(next, { replace: true });
-  }
+  useEffect(() => {
+    if (!loading && isAuthenticated) {
+      navigate(next, { replace: true });
+    }
+  }, [loading, isAuthenticated, navigate, next]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
