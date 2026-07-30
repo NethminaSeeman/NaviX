@@ -6,7 +6,7 @@ import MessageBubble from "@/components/MessageBubble";
 import AIThinkingAnimation from "@/components/AIThinkingAnimation";
 import VoiceButton from "@/components/VoiceButton";
 import { useChat } from "@/context/ChatContext";
-import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
+import { useVoiceTranscription } from "@/hooks/useVoiceTranscription";
 import { useSpeechSynthesis } from "@/hooks/useSpeechSynthesis";
 import { API_BASE_URL, SUGGESTED_PROMPTS } from "@/utils/constants";
 
@@ -22,6 +22,12 @@ const classifyError = (message = "") => {
     return {
       title: "OpenAI key missing on the backend",
       hint: "Add OPENAI_API_KEY to backend/.env and restart the server.",
+    };
+  }
+  if (lower.includes("quota") || lower.includes("429") || lower.includes("insufficient_quota")) {
+    return {
+      title: "OpenAI quota exceeded",
+      hint: "Add billing credit at platform.openai.com, or set GEMINI_API_KEY on the Worker as a free fallback.",
     };
   }
   if (lower.includes("openai call failed") || lower.includes("rate")) {
@@ -41,10 +47,10 @@ const ChatBox = () => {
   const [searchParams] = useSearchParams();
   const [input, setInput] = useState("");
   const listRef = useRef(null);
-  const speech = useSpeechRecognition();
+  const speech = useVoiceTranscription();
   const tts = useSpeechSynthesis();
   const appliedPrompt = useRef(false);
-  const wasListeningRef = useRef(false);
+  const wasBusyRef = useRef(false);
   const voiceAutoSendRef = useRef(false);
 
   useEffect(() => {
@@ -59,9 +65,11 @@ const ChatBox = () => {
   }, [speech.transcript]);
 
   useEffect(() => {
-    const wasListening = wasListeningRef.current;
-    wasListeningRef.current = speech.listening;
-    if (!wasListening || speech.listening) return;
+    const busy = speech.listening || speech.processing;
+    const wasBusy = wasBusyRef.current;
+    wasBusyRef.current = busy;
+    // Wait until recording + Whisper finish, then auto-send once.
+    if (!wasBusy || busy) return;
 
     const spoken = speech.transcript.trim();
     if (!spoken || loading || voiceAutoSendRef.current) return;
@@ -70,7 +78,7 @@ const ChatBox = () => {
     Promise.resolve(handleSend(spoken)).finally(() => {
       voiceAutoSendRef.current = false;
     });
-  }, [speech.listening, speech.transcript, loading]);
+  }, [speech.listening, speech.processing, speech.transcript, loading]);
 
   useEffect(() => {
     listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: "smooth" });
@@ -166,7 +174,8 @@ const ChatBox = () => {
           />
           <VoiceButton
             listening={speech.listening}
-            disabled={!speech.supported}
+            processing={speech.processing}
+            disabled={!speech.supported || speech.processing}
             onStart={speech.startListening}
             onStop={speech.stopListening}
           />
