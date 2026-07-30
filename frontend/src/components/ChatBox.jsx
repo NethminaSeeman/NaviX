@@ -18,22 +18,43 @@ const classifyError = (message = "") => {
       hint: `Backend is unreachable at ${API_BASE_URL}. For local FastAPI: cd backend && uvicorn main:app --reload. For deployed app, set VITE_API_BASE_URL in Pages environment variables.`,
     };
   }
+  if (lower.includes("gemini")) {
+    return {
+      title: "Gemini could not answer that",
+      hint: "Check GEMINI_API_KEY in backend/.dev.vars and restart the Worker (npm run dev).",
+    };
+  }
+  if (lower.includes("no llm configured")) {
+    return {
+      title: "No AI key configured",
+      hint: "Add GEMINI_API_KEY to backend/.dev.vars (and backend/.env), then restart wrangler.",
+    };
+  }
   if (lower.includes("openai_api_key") || lower.includes("api key")) {
     return {
-      title: "OpenAI key missing on the backend",
-      hint: "Add OPENAI_API_KEY to backend/.env and restart the server.",
+      title: "AI key missing on the backend",
+      hint: "Add GEMINI_API_KEY to backend/.dev.vars and restart the server.",
     };
   }
-  if (lower.includes("quota") || lower.includes("429") || lower.includes("insufficient_quota") || lower.includes("whisper error")) {
+  if (
+    lower.includes("quota") ||
+    lower.includes("429") ||
+    lower.includes("insufficient_quota") ||
+    lower.includes("whisper error")
+  ) {
     return {
-      title: "OpenAI quota exceeded",
-      hint: "Voice still works via the browser mic. For chat answers, add OpenAI billing or rely on GEMINI_API_KEY on the Worker.",
+      title: "AI quota exceeded",
+      hint: "OpenAI is out of credit. Chat should use Gemini — confirm GEMINI_API_KEY is set and the Worker was restarted.",
     };
   }
-  if (lower.includes("openai call failed") || lower.includes("rate")) {
+  if (
+    lower.includes("openai call failed") ||
+    lower.includes("openai error") ||
+    lower.includes("rate")
+  ) {
     return {
-      title: "OpenAI service rejected the request",
-      hint: "Check the key validity, billing status, and rate limits in the OpenAI dashboard.",
+      title: "OpenAI rejected the request",
+      hint: "NaviX prefers Gemini now. Clear OPENAI_API_KEY from .dev.vars or add billing — Gemini should answer without OpenAI.",
     };
   }
   return {
@@ -50,8 +71,6 @@ const ChatBox = () => {
   const speech = useVoiceTranscription();
   const tts = useSpeechSynthesis();
   const appliedPrompt = useRef(false);
-  const wasBusyRef = useRef(false);
-  const voiceAutoSendRef = useRef(false);
 
   useEffect(() => {
     const raw = searchParams.get("prompt");
@@ -60,41 +79,44 @@ const ChatBox = () => {
     setInput((prev) => (prev ? prev : raw));
   }, [searchParams]);
 
+  // Live-type dictation into the input — never auto-send.
   useEffect(() => {
-    if (speech.transcript) setInput(speech.transcript);
-  }, [speech.transcript]);
+    if (speech.listening && speech.transcript) {
+      setInput(speech.transcript);
+    }
+  }, [speech.transcript, speech.listening]);
+
+  // Hard-stop mic while a reply is generating.
+  useEffect(() => {
+    if (loading) speech.cancelListening();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading]);
 
   useEffect(() => {
-    const busy = speech.listening || speech.processing;
-    const wasBusy = wasBusyRef.current;
-    wasBusyRef.current = busy;
-    // Wait until recording + Whisper finish, then auto-send once.
-    if (!wasBusy || busy) return;
-
-    const spoken = speech.transcript.trim();
-    if (!spoken || loading || voiceAutoSendRef.current) return;
-
-    voiceAutoSendRef.current = true;
-    Promise.resolve(handleSend(spoken)).finally(() => {
-      voiceAutoSendRef.current = false;
+    listRef.current?.scrollTo({
+      top: listRef.current.scrollHeight,
+      behavior: "smooth",
     });
-  }, [speech.listening, speech.processing, speech.transcript, loading]);
-
-  useEffect(() => {
-    listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, loading]);
 
-  // Stop TTS playback when the chat component unmounts (e.g. page navigation)
   useEffect(() => {
-    return () => tts.stop();
+    return () => {
+      speech.cancelListening();
+      tts.stop();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSend = async (message = input) => {
-    if (!message.trim()) return;
-    await sendMessage(message);
-    setInput("");
+    const text = (message || "").trim();
+    if (!text || loading) return;
+
+    // Stop recording before chat — mic must not stay open during the reply.
+    speech.cancelListening();
     speech.setTranscript("");
+
+    setInput("");
+    await sendMessage(text);
   };
 
   const lastAssistantMessage = [...messages]
@@ -134,9 +156,7 @@ const ChatBox = () => {
             <p className="mono-label text-[10px] text-red-600 dark:text-red-300">
               CHAT_ERROR
             </p>
-            <p className="text-sm font-semibold">
-              {classifyError(error).title}
-            </p>
+            <p className="text-sm font-semibold">{classifyError(error).title}</p>
             <p className="text-[11px] leading-relaxed opacity-90">
               {classifyError(error).hint}
             </p>
@@ -159,7 +179,8 @@ const ChatBox = () => {
               key={prompt}
               type="button"
               onClick={() => handleSend(prompt)}
-              className="mono-label rounded-md border border-slate-300 bg-white px-3 py-1 text-[10px] tracking-[0.06em] text-slate-600 hover:border-cyan-500/50 hover:text-cyan-700 active:scale-95 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:border-cyan-500/50 dark:hover:text-cyan-200"
+              disabled={loading}
+              className="mono-label rounded-md border border-slate-300 bg-white px-3 py-1 text-[10px] tracking-[0.06em] text-slate-600 hover:border-cyan-500/50 hover:text-cyan-700 active:scale-95 disabled:opacity-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:border-cyan-500/50 dark:hover:text-cyan-200"
             >
               {prompt}
             </button>
@@ -169,20 +190,32 @@ const ChatBox = () => {
           <input
             value={input}
             onChange={(event) => setInput(event.target.value)}
-            placeholder="Ask NaviX about destinations, culture, weather, or routes..."
-            className="flex-1 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 dark:border-slate-700 dark:bg-slate-900"
+            onKeyDown={(event) => {
+              if (event.key === "Enter" && !event.shiftKey) {
+                event.preventDefault();
+                void handleSend();
+              }
+            }}
+            placeholder={
+              speech.listening
+                ? "Listening… speak, then press Send"
+                : "Ask NaviX about destinations, culture, weather, or routes..."
+            }
+            disabled={loading}
+            className="flex-1 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 disabled:opacity-60 dark:border-slate-700 dark:bg-slate-900"
           />
           <VoiceButton
             listening={speech.listening}
-            processing={speech.processing}
-            disabled={!speech.supported || speech.processing}
+            disabled={!speech.supported || loading}
             onStart={speech.startListening}
             onStop={speech.stopListening}
+            label="Voice"
           />
           <button
             type="button"
-            onClick={() => handleSend()}
-            className="rounded-md bg-gradient-to-r from-cyan-500 to-teal-500 p-3 text-slate-950 shadow-[0_6px_16px_rgba(45,212,191,0.35)] active:scale-95"
+            onClick={() => void handleSend()}
+            disabled={loading || !input.trim()}
+            className="rounded-md bg-gradient-to-r from-cyan-500 to-teal-500 p-3 text-slate-950 shadow-[0_6px_16px_rgba(45,212,191,0.35)] active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
             aria-label="Send message"
           >
             <FiSend />
@@ -197,17 +230,26 @@ const ChatBox = () => {
               tts.speak(lastAssistantMessage?.text);
             }}
             className="rounded-md border border-slate-300 bg-white p-3 text-slate-700 active:scale-95 dark:border-slate-700 dark:bg-slate-800 dark:text-cyan-200"
-            aria-label={tts.speaking ? "Stop voice response" : "Play voice response"}
+            aria-label={
+              tts.speaking ? "Stop voice response" : "Play voice response"
+            }
           >
             {tts.speaking ? <FiVolumeX /> : <FiVolume2 />}
           </button>
         </div>
+        <p className="mt-2 text-[11px] text-slate-500 dark:text-slate-400">
+          {speech.listening
+            ? "Recording — words appear in the box. Press Send to ask NaviX (mic turns off)."
+            : "Press Voice to dictate, then Send. Press Voice again for the next question."}
+        </p>
         {!speech.supported && (
-          <p className="mt-2 text-xs text-amber-500">
+          <p className="mt-1 text-xs text-amber-500">
             Voice input is not supported in this browser.
           </p>
         )}
-        {speech.error && <p className="mt-2 text-xs text-red-500">{speech.error}</p>}
+        {speech.error && (
+          <p className="mt-1 text-xs text-red-500">{speech.error}</p>
+        )}
       </div>
     </div>
   );
