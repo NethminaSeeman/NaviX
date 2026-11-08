@@ -89,10 +89,9 @@ async function geminiTranscribe(
   mimeType: string
 ): Promise<string> {
   const models = [
-    "gemini-flash-latest",
     "gemini-3.5-flash",
+    "gemini-3.8-flash",
     "gemini-2.5-flash",
-    "gemini-2.5-flash-lite",
   ];
   let lastDetail = "";
 
@@ -101,42 +100,50 @@ async function geminiTranscribe(
       `https://generativelanguage.googleapis.com/v1beta/models/` +
       `${model}:generateContent`;
 
-    const res = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-goog-api-key": apiKey,
-      },
-      body: JSON.stringify({
-        contents: [
-          {
-            role: "user",
-            parts: [
-              {
-                inline_data: {
-                  mime_type: mimeType.startsWith("audio/")
-                    ? mimeType
-                    : "audio/webm",
-                  data: bufferToBase64(audio),
+    let res: Response;
+    try {
+      res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-goog-api-key": apiKey,
+        },
+        signal: AbortSignal.timeout(15000),
+        body: JSON.stringify({
+          contents: [
+            {
+              role: "user",
+              parts: [
+                {
+                  inline_data: {
+                    mime_type: mimeType.startsWith("audio/")
+                      ? mimeType
+                      : "audio/webm",
+                    data: bufferToBase64(audio),
+                  },
                 },
-              },
-              {
-                text:
-                  "Transcribe this speech exactly in the original language " +
-                  "(English, Sinhala, or Tamil). Return only the transcript text, " +
-                  "with no quotes, labels, or commentary.",
-              },
-            ],
-          },
-        ],
-        generationConfig: { temperature: 0 },
-      }),
-    });
+                {
+                  text:
+                    "Transcribe this speech exactly in the original language " +
+                    "(English, Sinhala, or Tamil). Return only the transcript text, " +
+                    "with no quotes, labels, or commentary.",
+                },
+              ],
+            },
+          ],
+          generationConfig: { temperature: 0 },
+        }),
+      });
+    } catch (fetchErr) {
+      lastDetail = String(fetchErr);
+      continue;
+    }
 
     if (!res.ok) {
       lastDetail = await res.text();
       if (
         res.status === 404 ||
+        res.status >= 500 ||
         /not found|NOT_FOUND|no longer available|deprecated/i.test(lastDetail)
       ) {
         continue;

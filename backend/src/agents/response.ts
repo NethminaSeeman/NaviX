@@ -76,10 +76,19 @@ export async function runResponseAgent(
     payload.orchestrator_context = orchestratorContext;
   }
 
-  const { text } = await complete(env, SYSTEM_PROMPT, JSON.stringify(payload), {
-    temperature: 0.45,
-  });
-  return text;
+  try {
+    const { text } = await complete(env, SYSTEM_PROMPT, JSON.stringify(payload), {
+      temperature: 0.45,
+    });
+    return text;
+  } catch (err) {
+    if (tourismText) return tourismText;
+    if (nearby.length > 0) {
+      const top = nearby[0];
+      return `Here are some recommendations: ${top.name} is about ${top.distance_km} km away. ${top.category ? `It is a popular ${top.category}.` : ""}`;
+    }
+    return "I am NaviX, your Sri Lanka travel assistant. How can I help you explore Sri Lanka today?";
+  }
 }
 
 /**
