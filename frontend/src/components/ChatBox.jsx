@@ -81,10 +81,10 @@ const ChatBox = () => {
 
   // Live-type dictation into the input — never auto-send.
   useEffect(() => {
-    if (speech.listening && speech.transcript) {
+    if (speech.transcript) {
       setInput(speech.transcript);
     }
-  }, [speech.transcript, speech.listening]);
+  }, [speech.transcript]);
 
   // Hard-stop mic while a reply is generating.
   useEffect(() => {
@@ -206,6 +206,7 @@ const ChatBox = () => {
           />
           <VoiceButton
             listening={speech.listening}
+            processing={speech.processing}
             disabled={!speech.supported || loading}
             onStart={speech.startListening}
             onStop={speech.stopListening}

@@ -298,7 +298,19 @@ const VoiceTalkPanel = () => {
         else setAgentCaption(text);
       });
 
-      await room.connect(url, token);
+      const connectPromise = room.connect(url, token);
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(
+          () =>
+            reject(
+              new Error(
+                "Connection to voice server timed out. Please check your internet connection."
+              )
+            ),
+          30000
+        )
+      );
+      await Promise.race([connectPromise, timeoutPromise]);
       await room.localParticipant.setMicrophoneEnabled(true);
 
       const micPub = room.localParticipant.getTrackPublication(
@@ -439,11 +451,11 @@ const VoiceTalkPanel = () => {
           ) : phase === "connecting" ? (
             <button
               type="button"
-              disabled
-              className="inline-flex items-center gap-2 rounded-md bg-gradient-to-r from-cyan-500 to-teal-500 px-5 py-3 text-sm font-semibold text-slate-950 opacity-60"
+              onClick={() => void disconnectRoom()}
+              className="inline-flex items-center gap-2 rounded-md border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
             >
-              <FiPhone />
-              Connecting…
+              <FiPhoneOff />
+              Cancel
             </button>
           ) : (
             <>

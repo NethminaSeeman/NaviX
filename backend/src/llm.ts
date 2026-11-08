@@ -15,10 +15,8 @@ export interface CompleteOptions {
 export type LlmProvider = "openai" | "gemini";
 
 const GEMINI_MODELS = [
-  "gemini-flash-latest",
   "gemini-3.5-flash",
-  "gemini-2.5-flash",
-  "gemini-2.5-flash-lite",
+  "gemini-3.8-flash",
 ];
 
 export async function complete(
@@ -132,6 +130,7 @@ async function callGemini(
         "Content-Type": "application/json",
         "x-goog-api-key": apiKey,
       },
+      signal: AbortSignal.timeout(15000),
       body: JSON.stringify({
         systemInstruction: {
           parts: [{ text: systemPrompt }],
@@ -146,12 +145,12 @@ async function callGemini(
 
     if (!res.ok) {
       lastDetail = await res.text();
-      // Try next model when this one is retired / not found / overloaded.
+      // Try next model when this one is retired / not found / overloaded / error.
       if (
+        res.status >= 500 ||
         res.status === 404 ||
-        res.status === 503 ||
         res.status === 429 ||
-        /not found|NOT_FOUND|is not found|no longer available|deprecated|UNAVAILABLE|RESOURCE_EXHAUSTED/i.test(
+        /not found|NOT_FOUND|is not found|no longer available|deprecated|UNAVAILABLE|RESOURCE_EXHAUSTED|internal error/i.test(
           lastDetail
         )
       ) {

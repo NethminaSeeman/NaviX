@@ -21,7 +21,7 @@ import navix_api
 
 # Gemini Live API — speech in, speech out (no separate STT/TTS).
 # See https://docs.livekit.io/agents/models/realtime/plugins/gemini/
-GEMINI_LIVE_MODEL = "gemini-3.1-flash-live-preview"
+GEMINI_LIVE_MODEL = os.getenv("GEMINI_LIVE_MODEL", "gemini-2.5-flash-native-audio-preview-12-2025")
 
 logger = logging.getLogger("agent")
 
@@ -159,9 +159,9 @@ def build_session() -> AgentSession:
     return AgentSession(
         llm=google.realtime.RealtimeModel(
             model=GEMINI_LIVE_MODEL,
+            api_version="v1alpha",
             voice="Puck",
         ),
-        turn_handling=TurnHandlingOptions(turn_detection=None),
     )
 
 
@@ -209,14 +209,13 @@ async def navix_guide(ctx: JobContext):
         ),
     )
 
-    # Warm the conversation so the tourist hears a reply without waiting forever.
-    # Gemini Live 3.1 may ignore mid-session instruction updates; a short spoken
-    # opener still helps confirm audio is working.
+    # Warm the conversation with a spoken opening greeting.
     try:
-        await session.say(
-            "Hi, I am NaviX, your Sri Lanka travel guide. "
-            "Ask me about places, weather, or routes.",
-            allow_interruptions=True,
+        session.generate_reply(
+            instructions=(
+                "Greet the traveler in one friendly sentence: 'Ayubowan! I am NaviX, "
+                "your Sri Lanka travel guide. How can I help you today?'"
+            )
         )
     except Exception as exc:  # noqa: BLE001
         logger.warning("Could not play opening greeting: %s", exc)

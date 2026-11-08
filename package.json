@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "npm --prefix frontend run dev",
+    "dev": "concurrently \"npm --prefix backend run dev\" \"npm --prefix frontend run dev\"",
     "build": "npm --prefix frontend run build",
     "lint": "npm --prefix frontend run lint",
     "preview": "npm --prefix frontend run preview",
@@ -23,5 +23,8 @@
   "dependencies": {
     "mongodb": "^7.2.0",
     "openai": "^6.38.0"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.4"
   }
 }

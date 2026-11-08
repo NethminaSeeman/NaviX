@@ -294,9 +294,9 @@ async function transcribeHandler(
   }
 
   const form = await request.formData();
-  const file = form.get("audio");
+  const file = form.get("audio") || form.get("file");
   if (!(file instanceof File)) {
-    throw new HttpError(400, "Missing `audio` file field.");
+    throw new HttpError(400, "Missing `audio` (or `file`) audio file field.");
   }
 
   const buffer = await file.arrayBuffer();
